@@ -1467,8 +1467,728 @@ This shows that as compression factors go up, CPU time does as well (i.e., produ
 
 ## 9 - User environment
 
-### Acounts, Users and Groups
+### Acounts
+
+Linux is a multi-user operating system, meaning more than one user can log on at the same time.
+
+- To identify the current user, type whoami.
+- To list the currently logged-on users, type who.
+
+Giving who the -a option will give more detailed information
+
+![Who](images/who.png)
+
+In Linux, the command shell program (generally bash) uses one or more startup files to configure the user environment. Files in the /etc directory define global settings for all users, while initialization files in the user's home directory can include and/or override the global settings.
+
+The startup files can do anything the user would like to do in every command shell, such as:
+
+- Customizing the prompt
+- Defining command line shortcuts and aliases
+- Setting the default text editor
+- Setting the path for where to find executable programs
+
+The standard prescription is that when you first login to Linux, /etc/profile is read and evaluated, after which the following files are searched (if they exist) in the listed order:
+
+- ~/.bash_profile
+- ~/.bash_login
+- ~/.profile
+
+where ~/ denotes the user's home directory. The Linux login shell evaluates whatever startup file that it comes across first and ignores the rest. This means that if it finds ~/.bash_profile, it ignores ~/.bash_login and ~/.profile. Different distributions may use different startup files.
+
+However, every time you create a new shell, or terminal window, etc., you do not perform a full system login; only a file named ~/.bashrc file is read and evaluated. Although this file is not read and evaluated along with the login shell, most distributions and/or users include the ~/.bashrc file from within one of the three user-owned startup files.
+
+Most commonly, users only fiddle with ~/.bashrc, as it is invoked every time a new command line shell initiates, or another program is launched from a terminal window, while the other files are read and executed only when the user first logs onto the system.
+
+Recent distributions sometimes do not even have .bash_profile and/or .bash_login, and some just do little more than include .bashrc.
+
+![Bashrc](images/bashrc.png)
+
+You can create customized commands or modify the behavior of already existing ones by creating aliases. Most often, these aliases are placed in your ~/.bashrc file so they are available to any command shells you create. unalias removes an alias.
+
+Typing alias with no arguments will list currently defined aliases.
+
+Please note there should not be any spaces on either side of the equal sign and the alias definition needs to be placed within either single or double quotes if it contains any spaces.
+
+![Alias](images/alias.png)
+
+### Users and Groups
+
+All Linux users are assigned a unique user ID (uid), which is just an integer; normal users start with a uid of 1000 or greater.
+
+Linux uses groups for organizing users. Groups are collections of accounts with certain shared permissions; they are used to establish a set of users who have common interests for the purposes of access rights, privileges, and security considerations. Access rights to files (and devices) are granted on the basis of the user and the group they belong to.
+
+Control of group membership is administered through the /etc/group file, which shows the list of groups and their members. By default, every user belongs to a default (primary) group. When a user logs in, the group membership is set for their primary group, and all the members enjoy the same level of access and privilege. Permissions on various files and directories can be modified at the group level.
+
+Users also have one or more group IDs (gid), including a default one that is the same as the user ID. These numbers are associated with names through the files /etc/passwd and /etc/group.
+
+For example, /etc/passwd might contain john:x:1002:1002:John Garfield:/home/john:/bin/bash, and /etc/group might contain john:x:1002.
+
+![Groups](images/etc-group-passwd.png)
+
+Distributions have straightforward graphical interfaces for creating and removing users and groups and manipulating group membership. However, it is often useful to do it from the command line or from within shell scripts. Only the root user can add and remove users and groups.
+
+Adding a new user is done with useradd and removing an existing user is done with userdel. In the simplest form, an account for the new user bjmoose would be done with:
+
+```bash
+sudo useradd bjmoose
+```
+
+which, by default, sets the home directory to /home/bjmoose, populates it with some basic files (copied from /etc/skel) and adds a line to /etc/passwd such as:
+
+```bash
+bjmoose:x:1001:1001::/home/bjmoose:/bin/bash
+```
+
+and sets the default shell to /bin/bash. Removing a user account is as easy as typing userdel bjmoose. However, this will leave the /home/bjmoose directory intact. This might be useful if it is a temporary inactivation. To remove the home directory while removing the account one needs to use the -r option to userdel.
+
+Typing id with no argument gives information about the current user, as in:
+
+```bash
+$ id
+uid=1000(john) gid=1000(john) groups=1000(john),4(adm),24(cdrom),27(sudo),30(dip),46(plugdev),113(lpadmin),128(sambashare)
+```
+
+If given the name of another user as an argument, id will report information about that other user.
+
+![useradd](images/useradd.png)
+
+Adding a new group is done with groupadd and removing an existing group is done with groupdel. In the simplest form, a group named newgroup would be created with:
+
+```bash
+sudo groupadd newgroup
+```
+
+Adding a user to a group is done with usermod. For example, you would first look at what groups the user already belongs to:
+
+```bash
+groups bjmoose
+```
+
+and then add the user to the newgroup with:
+
+```bash
+sudo usermod -a -G newgroup bjmoose
+```
+
+These utilities update /etc/group as necessary. Make sure to use the -a option, for append, so as to avoid removing already existing groups. groupmod can be used to change group properties, such as the Group ID (gid) with the -g option or its name with then -n option.
+
+Removing a user from the group is somewhat trickier. The -G option to usermod must give a complete list of groups. Thus, if you do:
+
+```bash
+sudo usermod -G group1,group2,group3 bjmoose
+```
+
+you will remove bjmoose from all groups except group1, group2, and group3. If you want to remove bjmoose from group2, you must list all the groups except group2. This is a common source of errors.
+
+![Groupadd](images/newgroupsuse.png)
+
+The root account is very powerful and has full access to the system. Other operating systems often call this the administrator account; in Linux, it is often called the superuser account. You must be extremely cautious before granting full root access to a user; it is rarely, if ever, justified. External attacks often consist of tricks used to elevate to the root account.  
+
+However, you can use sudo to assign more limited privileges to user accounts:
+
+- Only on a temporary basis
+- Only for a specific subset of commands.
+
+![Sudo](images/sudo.jpg)
+
+When assigning elevated privileges, you can use the command su (switch or substitute user) to launch a new shell running as another user (you must type the password of the user you are becoming). Most often, this other user is root, and the new shell allows the use of elevated privileges until it is exited. It is almost always a bad (dangerous for both security and stability) practice to use su to become root. Resulting errors can include deletion of vital files from the system and security breaches.
+
+Granting privileges using sudo is less dangerous and is preferred. By default, sudo must be enabled on a per-user basis. However, some distributions (such as Ubuntu) enable it by default for at least one main user, or give this as an installation option.
+
+To temporarily become the superuser for a series of commands, you can type su and then be prompted for the root password.
+
+To execute just one command with root privilege type `sudo command`. When the command is complete, you will return to being a normal unprivileged user.
+
+sudo configuration files are stored in the /etc/sudoers file and in the /etc/sudoers.d/ directory. By default, the sudoers.d directory is empty.
 
 ### Environment Variables
 
+Environment variables are quantities that have specific values which may be utilized by the command shell, such as bash, or other utilities and applications. Some environment variables are given preset values by the system (which can usually be overridden), while others are set directly by the user, either at the command line or within startup and other scripts.
+
+An environment variable is actually just a character string that contains information used by one or more applications. There are a number of ways to view the values of currently set environment variables; one can type set, env, or export. Depending on the state of your system, set may print out many more lines than the other two methods.
+
+![Environment Variables](images/env.png)
+
+By default, variables created within a script are only available to the current shell; child processes (sub-shells) will not have access to values that have been set or modified. Allowing child processes to see the values requires use of the export command.
+
+|Task | Command |
+|-----|---------|
+| Show the value of a variable | echo $VARIABLE |
+| Set a variable | export VARIABLE=value (or VARIABLE=value; export VARIABLE) |
+| Unset a variable | unset VARIABLE |
+| Add a variable permanently | Add the export command to the ~/.bashrc file |
+
+You can also set environment variables to be fed as a one shot to a command as in:
+
+```bash
+SDIRS="s_0*" KROOT=/lib/modules/$(uname -r)/build make modules_install
+```
+
+This will set the SDIRS and KROOT variables for the make command only.
+
+HOME is an environment variable that represents the home (or login) directory of the user. cd without arguments will change the current working directory to the value of HOME. Note the tilde character (~) is often used as an abbreviation for $HOME. Thus, cd $HOME and cd ~ are completely equivalent statements.
+
+|Command | Explanation |
+|--------|-------------|
+| echo $HOME | Displays the value of the HOME variable |
+| cd $HOME | Changes the current working directory to the home directory |
+| cd ~ | Changes the current working directory to the home directory |
+| pwd | Shows the current working directory |
+
+![Home](images/homeubuntu.png)
+
+PATH is an ordered list of directories (the path) which is scanned when a command is given to find the appropriate program or script to run. Each directory in the path is separated by colons (:). A null (empty) directory name (or ./) indicates the current directory at any given time.
+
+- :path1:path2
+- path1::path2
+
+In the example :path1:path2, there is a null directory before the first colon (:). Similarly, for path1::path2 there is a null directory between path1 and path2.
+
+To prefix a private bin directory to your path:
+  
+```bash
+export PATH=$HOME/bin:$PATH
+```
+
+![Path](images/setpath.png)
+
+The environment variable SHELL points to the user's default command shell (the program that is handling whatever you type in a command window, usually bash) and contains the full pathname to the shell:
+
+```bash
+echo $SHELL
+```
+
+Prompt Statement (PS) is used to customize your prompt string in your terminal windows to display the information you want.
+
+PS1 is the primary prompt variable which controls what your command line prompt looks like. The following special characters can be included in PS1:
+
+- \u - User name
+- \h - Host name
+- \w - Current working directory
+- \! - History number of this command
+- \d - Date
+
+They must be surrounded in single quotes when they are used, as in the following example:
+
+```bash
+export PS1='\u@\h:\w\$ '
+```
+
+This will set the prompt to look like:
+
+```bash
+john@myhost:/home/john$
+```
+
+![PS1](images/ps1.png)
+
+bash keeps track of previously entered commands and statements in a history buffer. You can recall previously used commands simply by using the Up and Down cursor keys. To view the list of previously executed commands, you can just type history at the command line.
+
+The list of commands is displayed with the most recent command appearing last in the list. This information is stored in ~/.bash_history. If you have multiple terminals open, the commands typed in each session are not saved until the session terminates.
+
+![History](images/debianhistory.png)
+
+Several associated environment variables can be used to get information about the history file.
+
+- HISTFILE - The location of the history file.
+- HISTFILESIZE - The maximum number of lines in the history file (default 500).
+- HISTSIZE - The maximum number of commands in the history file.
+- HISTCONTROL - How commands are stored.
+- HISTIGNORE - Which command lines can be unsaved.
+
+For a complete description of the use of these environment variables, see man bash.
+
+|Key | Usage |
+|----|-------|
+| Ctrl + r | Search backward in history |
+| Ctrl + s | Search forward in history |
+| Ctrl + p | Previous command |
+| !! | Repeat the last command |
+| !n | Repeat the nth command in history |
+| !$ | Last argument of the previous command |
+| !string | Repeat the last command starting with string |
+| !?string | Repeat the last command containing string |
+
+If you want to recall a command in the history list, but do not want to press the arrow key repeatedly, you can press CTRL-R to do a reverse intelligent search.
+
+As you start typing, the search goes back in reverse order to the first command that matches the letters you have typed. By typing more successive letters, you make the match more and more specific.
+
+The following is an example of how you can use the CTRL-R command to search through the command history:
+  
+You can use keyboard shortcuts to perform different tasks quickly. The table lists some of these keyboard shortcuts and their uses. Note the case of the "hotkey" does not matter, e.g. doing CTRL-a is the same as doing CTRL-A .
+
+|Key | Usage |
+|----|-------|
+| Ctrl + a | Move to the beginning of the line |
+| Ctrl + e | Move to the end of the line |
+| Ctrl + u | Delete from the cursor to the beginning of the line |
+| Ctrl + k | Delete from the cursor to the end of the line |
+| Ctrl + w | Delete the word before the cursor |
+| Ctrl + y | Paste the last deleted text |
+| Ctrl + l | Clear the screen |
+| Ctrl + c | Kill the current process |
+| Ctrl + z | Suspend the current process |
+| Ctrl + d | Log out of the current session |
+| Ctrl + t | Swap the last two characters before the cursor |
+
 ### File permissions
+
+In Linux and other UNIX-based operating systems, every file is associated with a user who is the owner. Every file is also associated with a group (a subset of all users) which has an interest in the file and certain rights, or permissions: read, write, and execute.
+
+The following utility programs involve user and group ownership and permission setting.
+
+|Command | Usage |
+|--------|-------|
+| chown | Change the owner of a file |
+| chgrp | Change the group of a file |
+| chmod | Change the permissions of a file |
+
+Files have three kinds of permissions: read (r), write (w), execute (x). These are generally represented as in rwx. These permissions affect three groups of owners: user/owner (u), group (g), and others (o).
+
+There are a number of different ways to use chmod. For instance, to give the owner and others execute permission and remove the group write permission:
+
+```bash
+chmod u+x,o+x,g-w file
+```
+
+where u stands for user (owner), o stands for other (world), and g stands for group.
+
+This kind of syntax can be difficult to type and remember, so one often uses a shorthand which lets you set all the permissions in one step. This is done with a simple algorithm, and a single digit suffices to specify all three permission bits for each entity. This digit is the sum of:
+
+- 4 if read permission is desired
+- 2 if write permission is desired
+- 1 if execute permission is desired
+
+Thus, 7 means read/write/execute, 6 means read/write, and 5 means read/execute.
+
+When you apply this to the chmod command, you have to give three digits for each degree of freedom, such as in:
+
+```bash
+chmod 755 file
+```
+
+![Chmod](images/chmod.png)
+
+Let's see an example of changing file ownership using chown, as shown in the screenshot to the right. First, we create two empty files using touch.
+
+Notice it requires sudo to change the owner of file2 to root. The second chown command changes both owner and group at the same time!
+
+Finally, only the superuser can remove the files.
+
+![Chown](images/chown.png)
+
+Now, let’s see an example of changing the group ownership using chgrp:
+
+![Chgrp](images/chgrp.png)
+
+## 10 - Manipulating text
+
+### Text display
+
+Irrespective of the role you play with Linux (system administrator, developer, or user), you often need to browse through and parse text files and/or extract data from them. Thus, it is essential for Linux users functioning in any of these capacities to become adept at performing these file manipulation operations. Most of the time, such file manipulation is done at the command line, which allows users to perform tasks more efficiently than while using a GUI. Furthermore, the command line is more suitable for automating often-executed tasks.
+
+Indeed, experienced system administrators write customized scripts to accomplish such repetitive tasks, standardized for each particular environment. We will discuss such scripting in detail in a later section.
+
+Here, we will concentrate on command line utilities employed to perform file and text manipulation.
+
+The cat command is short for concatenate and is one of the most frequently used Linux command line utilities. It is often used to read and print files, as well as for simply viewing file contents. To view a file, use the following command:
+
+```bash
+cat filename
+```
+
+For example, cat readme.txt will display the contents of readme.txt on the terminal. However, the main purpose of cat is often to combine (concatenate) multiple files together. You can perform the actions listed in the table using cat.
+
+The tac command (cat spelled backwards) prints the lines of a file in reverse order. Each line remains the same, but the order of lines is inverted. The syntax of tac is exactly the same as for cat, as in:
+
+```bash
+tac filename
+```
+
+|Command | Usage |
+|--------|-------|
+| cat file1 file2 | Concatenates file1 and file2 and displays the output |
+| cat file1 file2 > file3 | Concatenates file1 and file2 and saves the output to file3 |
+| cat file1 file2 >> file3 | Concatenates file1 and file2 and appends the output to file3 |
+| cat > file | Creates a new file and allows you to enter text |
+| cat >> file | Appends text to an existing file |
+| cat file \| command | Pipes the output of cat to a command |
+
+cat can be used to read from standard input (such as the terminal window) if no files are specified. You can use the > operator to create and add lines into a new file, and the >> operator to append lines (or files) to an existing file. We mentioned this when talking about how to create files without an editor.
+
+To create a new file, at the command prompt type cat > [filename] and press the Enter key.
+
+This command creates a new file and waits for the user to edit/enter the text. After you finish typing the required text, press CTRL-D at the beginning of the next line to save and exit the editing.
+
+Another way to create a file at the terminal is cat > [filename] << EOF. A new file is created and you can type the required input. To exit, enter EOF at the beginning of a line.
+
+Note that EOF is case sensitive. One can also use another word, such as STOP.
+
+![Cat](images/cateoffedora.png)
+
+echo simply displays (echoes) text. It is used simply, as in:
+
+```bash
+echo "Hello, World!"
+```
+
+echo can be used to display a string on standard output (i.e. the terminal) or to place in a new file (using the > operator) or append to an already existing file (using the >> operator).
+
+The –e option, along with the following switches, is used to enable special character sequences, such as the newline character or horizontal tab:
+
+- \n represents newline
+- \t represents horizontal tab.
+
+echo is particularly useful for viewing the values of environment variables (built-in shell variables). For example, echo $USERNAME will print the name of the user who has logged into the current terminal.
+
+The following table lists echo commands and their usage.
+
+|Command | Usage |
+|--------|-------|
+| echo string > file | Writes string to file |
+| echo string >> file | Appends string to file |
+| echo -e "string1\nstring2" | Prints string1 and string2 on separate lines |
+| echo $variable | Prints the value of the variable |
+
+System administrators need to work with configuration files, text files, documentation files, and log files. Some of these files may be large or become quite large as they accumulate data with time. These files will require both viewing and administrative updating. In this section, you will learn how to work with such large files.
+
+For example, a system might maintain one simple large log file to record details of all system warnings and errors. (Modern systems tend to have more fine-grained logging facilities but still may have some large logging files.) Due to a security attack or a malfunction, the administrator might be forced to check for some data by navigating within the file. In such cases, directly opening the file in an editor will probably be inefficient (due to high memory utilization) because most text editors usually try to read the whole file into memory first. Instead, one can use less to view the contents of such a large file, scrolling up and down page by page, without the system having to place the entire file in memory before starting. This is much faster than using a text editor.
+
+Viewing somefile can be done by typing either of the two following commands:
+
+```bash
+less somefile
+cat somefile | less
+```
+
+By default, man pages are sent through the less command. You may have encountered the older, more utility, which has the same basic function but fewer capabilities: i.e., less is more!
+
+head reads the first few lines of each named file (10 by default) and displays it on standard output. You can give a different number of lines in an option.
+
+For example, if you want to print the first 5 lines from /etc/default/grub, use the following command:
+
+```bash
+head -5 /etc/default/grub
+```
+
+![Head](images/head.png)
+
+tail prints the last few lines of each named file and displays it on standard output. By default, it displays the last 10 lines. You can give a different number of lines as an option. tail is especially useful when you are troubleshooting any issue using log files, as you probably want to see the most recent lines of output.
+
+For example, to display the last 15 lines of somefile.log, use the following command:
+
+```bash
+tail -15 somefile.log
+```
+
+To continually monitor new output in a growing log file:
+
+```bash
+tail -f somefile.log
+```
+
+This command will continuously display any new lines of output in somefile.log as soon as they appear. Thus, it enables you to monitor any current activity that is being reported and recorded.
+
+![Tail](images/tailubuntu.png)
+
+When working with compressed files, many standard commands cannot be used directly. For many commonly-used file and text manipulation programs, there is also a version especially designed to work directly with compressed files. These associated utilities often have the letter "z" prefixed to their name. For example, we have utility programs such as zcat, zless, zdiff and zgrep.
+
+Here is a table listing some z family commands.
+
+|Command | Usage |
+|--------|-------|
+| zcat file.gz | Displays the contents of a compressed file |
+| zless file.gz | Displays the contents of a compressed file one screen at a time |
+| zgrep pattern file.gz | Searches for a pattern in a compressed file |
+| zdiff file1.gz file2.gz | Compares two compressed files |
+| zmore file.gz | Displays the contents of a compressed file one screen at a time |
+
+Note that if you run zless on an uncompressed file, it will still work and ignore the decompression stage. There are also equivalent utility programs for other compression methods besides gzip (e.g., xz or bzip2); we have xzcat, xzless, and xzdiff associated with xz and bzcat, bzless and bzdiff associated with bzip2.
+
+### Text editing
+
+It is very common to create and then repeatedly edit and/or extract contents from a file. Let’s learn how to use sed and awk to easily perform such operations.
+
+Note that many Linux users and administrators will write scripts using comprehensive scripting languages such as Python and perl, rather than use sed and awk (and some other utilities we will discuss later). Using such utilities is certainly fine in most circumstances; one should always feel free to use the tools one is experienced with. However, the utilities that are described here are much lighter; i.e. they use fewer system resources, and execute faster. There are situations (such as during booting the system) where a lot of time would be wasted using the more complicated tools, and the system may not even be able to run them. So, the simpler tools will always be needed.
+
+sed is a powerful text processing tool and is one of the oldest, earliest and most popular UNIX utilities. It is used to modify the contents of a file or input stream, usually placing the contents into a new file or output stream. Its name is an abbreviation for stream editor.
+
+![Sed](images/sed.png)
+
+sed can filter text, as well as perform substitutions in data streams.
+
+Data from an input source/file (or stream) is taken and moved to a working space. The entire list of operations/modifications is applied over the data in the working space and the final contents are moved to the standard output space (or stream).
+
+You can invoke sed using commands like those listed in the accompanying table.
+
+|Command | Usage |
+|--------|-------|
+| sed 's/old/new/' file | Replaces the first occurrence of old with new in file |
+| sed 's/old/new/g' file | Replaces all occurrences of old with new in file |
+| sed -e command file | Applies multiple sed commands to a file |
+| sed -f scriptfile file | Applies sed commands from a file to another file |
+
+The -e option allows you to specify multiple editing commands simultaneously at the command line. It is unnecessary if you only have one operation invoked.
+
+![Sed2](images/fedorased.png)
+
+Now that you know that you can perform multiple editing and filtering operations with sed, let’s explain some of them in more detail. The table explains some basic operations, where pattern is the current string and replace_string is the new string.
+
+|Command | Explanation |
+|--------|-------------|
+| sed s/pattern/replace_string/ file | Replaces the first occurrence of pattern with replace_string in file |
+| sed s/pattern/replace_string/g file | Replaces all occurrences of pattern with replace_string in file |
+| sed s/pattern/replace_string/ file > newfile | Replaces the first occurrence of pattern with replace_string in file and saves the output to newfile |
+| sed s/pattern/replace_string/g file > newfile | Replaces all occurrences of pattern with replace_string in file and saves the output to newfile |
+| sed -i s/pattern/replace_string/ file | Replaces the first occurrence of pattern with replace_string in file and saves the changes to file |
+
+You must use the -i option with care, because the action is not reversible. It is always safer to use sed without the –i option and then replace the file yourself, as shown in the following example:
+
+```bash
+sed s/pattern/replace_string/ file > newfile
+mv newfile file
+```
+
+The above command will replace all occurrences of pattern with replace_string in file1 and move the contents to file2. The contents of file2 can be viewed with cat file2. If you approve, you can then overwrite the original file with mv file2 file1.
+
+awk is used to extract and then print specific contents of a file and is often used to construct reports. It was created at Bell Labs in the 1970s and derived its name from the last names of its authors: Alfred Aho, Peter Weinberger, and Brian Kernighan.
+
+awk has the following features:
+
+- It is a powerful utility and interpreted programming language.
+- It is used to manipulate data files, and for retrieving and processing text.
+- It works well with fields (containing a single piece of data, essentially a column) and records (a - collection of fields, essentially a line in a file).
+
+awk is invoked as shown in the following:
+
+![Awk](images/awkpasswd.png)
+
+As with sed, short awk commands can be specified directly at the command line, but a more complex script can be saved in a file that you can specify using the -f option.
+
+The table explains the basic tasks that can be performed using awk. The input file is read one line at a time, and, for each line, awk matches the given pattern in the given order and performs the requested action. The -F option allows you to specify a particular field separator character. For example, the /etc/passwd file uses ":" to separate the fields, so the -F: option is used with the /etc/passwd file.
+
+The command/action in awk needs to be surrounded with apostrophes (or single-quote (')). awk can be used as follows:
+
+|Command | Usage |
+|--------|-------|
+| awk '{print $1}' /etc/passwd | Prints the first field of each line in /etc/passwd |
+| awk -f scriptfile file | Applies awk commands from a file to another file |
+
+### File manipulation
+
+In managing your files, you may need to perform tasks such as sorting data and copying data from one location to another. Linux provides numerous file manipulation utilities that you can use while working with text files. In this section, you will learn about the following file manipulation programs:
+
+- sort
+- uniq
+- paste
+- join
+- split.
+
+sort is used to rearrange the lines of a text file, in either ascending or descending order according to a sort key. You can apply the key t to sort according to a particular field (column) in a file. The default sort key is the order of the ASCII characters (i.e. essentially alphabetically).
+
+|Command | Usage |
+|--------|-------|
+| sort file | Sorts the contents of file |
+| sort -r file | Sorts the contents of file in reverse order |
+| sort -n file | Sorts the contents of file numerically |
+| sort -k 2 file | Sorts the contents of file according to the second field |
+
+When used with the -u option, sort checks for unique values after sorting the records (lines). It is equivalent to running uniq (which we shall discuss) on the output of sort.
+
+![Sort](images/sortgrub.png)
+
+uniq removes duplicate consecutive lines in a text file and is useful for simplifying the text display.
+
+Because uniq requires that the duplicate entries must be consecutive, one often runs sort first and then pipes the output into uniq; if sort is used with the -u option, it can do all this in one step.
+
+To remove duplicate entries from multiple files at once, use the following command:
+
+```bash
+sort file1 file2 | uniq
+```
+
+To count the number of duplicate entries, use the following command:
+
+```bash
+sort file1 file2 | uniq -c
+```
+
+![Uniq](images/suseuniq.png)
+
+Suppose you have a file that contains the full name of all employees and another file that lists their phone numbers and Employee IDs. You want to create a new file that contains all the data listed in three columns: name, employee ID, and phone number. How can you do this effectively without investing too much time?
+
+paste can be used to create a single file containing all three columns. The different columns are identified based on delimiters (spacing used to separate two fields). For example, delimiters can be a blank space, a tab, or an Enter. In the image provided, a single space is used as the delimiter in all files.
+
+paste accepts the following options:
+
+- -d delimiters, which specify a list of delimiters to be used instead of tabs for separating consecutive values on a single line. Each delimiter is used in turn; when the list has been exhausted, paste begins again at the first delimiter.
+- -s, which causes paste to append the data in series rather than in parallel; that is, in a horizontal rather than vertical fashion.
+
+![Paste](images/paste.png)
+
+paste can be used to combine fields (such as name or phone number) from different files, as well as combine lines from multiple files. For example, line one from file1 can be combined with line one of file2, line two from file1 can be combined with line two of file2, and so on.
+
+To paste contents from two files one can do:
+
+```bash
+paste file1 file2
+```
+
+The syntax to use a different delimiter is as follows:
+
+```bash
+paste -d: file1 file2
+```
+
+Common delimiters are a space, a tab, and a colon.
+
+![Paste2](images/paste2.png)
+
+Suppose you have two files with some similar columns. You have saved employees’ phone numbers in two files, one with their first name and the other with their last name. You want to combine the files without repeating the data of common columns. How do you achieve this?
+
+The above task can be achieved using join, which is essentially an enhanced version of paste. It first checks whether the files share common fields, such as names or phone numbers, and then joins the lines in two files based on a common field.
+
+![Join](images/join.png)
+
+To combine two files on a common field, at the command prompt type join file1 file2 and press the Enter key.
+
+For example, the common field (i.e. it contains the same values) among the phonebook and cities files is the phone number, and the result of joining these two files is shown in the screen capture.
+
+![Join2](images/join2.png)
+
+split is used to break up (or split) a file into equal-sized segments for easier viewing and manipulation, and is generally used only on relatively large files. By default, split breaks up a file into 1000-line segments. The original file remains unchanged, and a set of new files with the same name plus an added prefix is created. By default, the x prefix is added. To split a file into segments, use the command split infile.
+
+To split a file into segments using a different prefix, use the command split infile [prefix].
+
+![Split](images/split.png)
+
+We will apply split to a dictionary file of almost 500,000 lines:
+
+```bash
+wc -l /usr/share/dict/words
+```
+
+where we have used wc (word count, soon to be discussed) to report on the number of lines in the file. Then, typing:
+
+```bash
+split -l 100000 /usr/share/dict/words
+```
+
+![Split2](images/split2.png)
+
+grep is extensively used as a primary text searching tool. It scans files for specified patterns and can be used with regular expressions, as well as simple strings, as shown in the table:
+
+|Command | Usage |
+|--------|-------|
+| grep pattern file | Searches for a pattern in a file |
+| grep -i pattern file | Searches for a pattern in a file (case-insensitive) |
+| grep -r pattern directory | Searches for a pattern in a directory and its subdirectories |
+| grep -v pattern file | Displays lines that do not contain the pattern |
+| grep -c pattern file | Displays the number of lines that contain the pattern |
+| grep [0-9] file | Searches for lines containing any digit in a file |
+| grep -e pattern1 -e pattern2 file | Searches for multiple patterns in a file |
+
+strings is used to extract all printable character strings found in the file or files given as arguments. It is useful in locating human-readable content embedded in binary files; for text files one can just use grep.
+
+For example, to search for the string my_string in a spreadsheet
+
+```bash
+strings spreadsheet | grep my_string
+```
+
+The screenshot shows a search of a number of programs to see which ones have GPL licenses of various versions.
+
+![Strings](images/strings.png)
+
+### Regular expressions
+
+Regular expressions are text strings used for matching a specific pattern, or to search for a specific location, such as the start or end of a line or a word. Regular expressions can contain both normal characters or so-called meta-characters, such as * and $.
+
+Many text editors and utilities such as vi, sed, awk, find and grep work extensively with regular expressions. Some of the popular computer languages that use regular expressions include Perl, Python and Ruby. It can get rather complicated and there are whole books written about regular expressions. Thus, we will do no more than skim the surface here.
+
+These regular expressions are different from the wildcards (or meta-characters) used in filename matching in command shells such as bash (which were covered in the Command-Line Operations chapter). The table lists search patterns and their usage.
+
+|Pattern | Explanation |
+|--------|-------------|
+| . | Matches any single character |
+| ^ | Matches the beginning of a line |
+| $ | Matches the end of a line |
+| * | Matches zero or more occurrences of the previous character |
+| [ ] | Matches any one of the enclosed characters |
+| a\|b | Matches either a or b |
+
+For example, consider the following sentence: the quick brown fox jumped over the lazy dog.
+
+Some of the patterns that can be applied to this sentence are as follows:
+
+|Command | Usage |
+|--------|-------|
+| a.. | Matches azy |
+| b.\|j. | Matches both br and ju |
+| ..$ | Matches og |
+| l.* | Matches lazy dog |
+| l.*y | Matches lazy |
+| the.* | Matches the entire sentence |
+
+### Text utilities
+
+In this section, you will learn about some additional text utilities that you can use for performing various actions on your Linux files, such as changing the case of letters or determining the count of words, lines, and characters in a file.
+
+![tr](images/tr.png)
+
+The tr utility is used to translate specified characters into other characters or to delete them. The general syntax is as follows:
+
+```bash
+tr [options] set1 [set2]
+```
+
+The items in the square brackets are optional. tr requires at least one argument and accepts a maximum of two. The first, designated set1 in the example, lists the characters in the text to be replaced or removed. The second, set2, lists the characters that are to be substituted for the characters listed in the first argument. Sometimes these sets need to be surrounded by apostrophes (or single-quotes (')) in order to have the shell ignore that they mean something special to the shell. It is usually safe (and may be required) to use the single-quotes around each of the sets as you will see in the examples below.
+
+For example, suppose you have a file named city containing several lines of text in mixed case. To translate all lower case characters to upper case, at the command prompt type cat city | tr a-z A-Z and press the Enter key.
+
+| Command | Usage |
+|---------|-------|
+| tr a-z A-Z < file | Translates all lower case characters to upper case |
+| tr -d 0-9 < file | Deletes all digits from the file |
+| tr -d [:space:] < file | Deletes all spaces from the file |
+| tr -d [:punct:] < file | Deletes all punctuation marks from the file |
+| tr '{}' '()' < file | Translates all curly braces to parentheses |
+| echo "Hello" \| tr -d 'l' | Deletes all occurrences of the letter l from the word Hello |
+| tr -cd '[:print:]' < file | Deletes all non-printable characters from the file |
+| tr -s ' ' < file | Squeezes multiple spaces into one space |
+
+tee takes the output from any command, and, while sending it to standard output, it also saves it to a file. In other words, it tees the output stream from the command: one stream is displayed on the standard output and the other is saved to a file.
+
+For example, to list the contents of a directory on the screen and save the output to a file, at the command prompt type ls -l | tee newfile and press the Enter key.
+
+Typing cat newfile will then display the output of ls –l.
+
+![Tee](images/tee.png)
+
+wc (word count) counts the number of lines, words, and characters in a file or list of files. Options are given in the table below.
+
+| Option | Explanation |
+|--------|-------------|
+| -l | Counts the number of lines |
+| -w | Counts the number of words |
+| -c | Counts the number of characters |
+
+By default, all three of these options are active.
+
+For example, to print only the number of lines contained in a file, type wc -l filename and press the Enter key
+
+![Wc](images/wc.png)
+
+cut is used for manipulating column-based files and is designed to extract specific columns. The default column separator is the TAB character. A different delimiter can be given as a command option.
+
+For example, to display the third column delimited by a blank space, at the command prompt type ls -l | cut -d" " -f3 and press the Enter key.
+
+![Cut](images/cut.png)
+
+## 11 - Network operations
+
+### Network basics and DNS
+
+### Netowrking configuration and tools
+
+### Transfering files

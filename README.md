@@ -2391,6 +2391,450 @@ You will receive a prompt for the remote password. You can also configure scp so
 
 ### Introduction
 
+Suppose you want to look up a filename, check if the associated file exists, and then respond accordingly, displaying a message confirming or not confirming the file's existence. If you only need to do it once, you can just type a sequence of commands at a terminal. However, if you need to do this multiple times, automation is the way to go. In order to automate sets of commands, you will need to learn how to write shell scripts. Most commonly in Linux, these scripts are developed to be run under the bash command shell interpreter. The graphic illustrates several of the benefits of deploying scripts.
+
+![Shell scripting](images/shell-scripts.png)
+
+The command interpreter is tasked with executing statements that follow it in the script. Commonly used interpreters include: /usr/bin/perl, /bin/bash, /bin/csh, /usr/bin/python and /bin/sh.
+
+Typing a long sequence of commands at a terminal window can be complicated, time consuming, and error prone. By deploying shell scripts, using the command line becomes an efficient and quick way to launch complex sequences of steps. The fact that shell scripts are saved in a file also makes it easy to use them to create new script variations and share standard procedures with several users.
+
+Linux provides a wide choice of shells; exactly what is available on the system is listed in /etc/shells. Typical choices are:
+
+- /bin/sh
+- /bin/bash
+- /bin/tcsh
+- /bin/csh
+- /bin/ksh
+- /bin/zsh
+
+Most Linux users use the default bash shell, but those with long UNIX backgrounds with other shells may want to override the default.
+
+![Shells](images/shells.png)
+
+A shell is simply a command line interpreter which provides the user interface for terminal windows. A command shell can also be used to run scripts, even in non-interactive sessions without a terminal window, as if the commands were being directly typed in. For example, typing find . -name "*.c" -ls at the command line accomplishes the same thing as executing a script file containing the lines:
+
+```bash
+#!/bin/bash
+find . -name "*.c" -ls
+```
+
+The first line of the script, which starts with #!, contains the full path of the command interpreter (in this case /bin/bash) that is to be used on the file. You have quite a few choices for the scripting language you can use, such as /usr/bin/perl, /bin/csh, /usr/bin/python, etc. The special two-character sequence, #!, is often called a shebang, and avoids the usual rule that the pound sign, #, delineates the following text as a comment.
+
+![hellosuse](images/hellosuse.png)
+
+Now, let's see how to create a more interactive example using a bash script. The user will be prompted to enter a value, which is then displayed on the screen. The value is stored in a temporary variable, name. We can reference the value of a shell variable by using a $ in front of the variable name, such as $name. To create this script, you need to create a file named getname.sh in your favorite editor with the following content:
+
+```bash
+#!/bin/bash
+echo "Enter your name: "
+read name
+echo "Hello $name, welcome to Linux Academy!"
+```
+
+The hash-tag/pound-sign/number-sign (#) is used to start comments in the script and can be placed anywhere in the line (the rest of the line is considered a comment). However, note the special magic combination of #! (shebang) used on the first line, is a unique exception to this rule.
+
+All shell scripts generate a return value upon finishing execution, which can be explicitly set with the exit statement. Return values permit a process to monitor the exit state of another process, often in a parent-child relationship. Knowing how the process terminates enables taking any appropriate steps which are necessary or contingent on success or failure.
+
+![return](images/return.png)
+
+As a script executes, one can check for a specific value or condition and return success or failure as the result. By convention, success is returned as zero (0), and failure is returned as any non-zero value. An easy way to demonstrate success and failure completion is to execute the ls program on a file that exists as well as one that does not. The return value is stored in the environment variable represented by $?:
+
+```bash
+ls /etc/passwd
+echo $?
+```
+
+When run on a non-existing file, it returns 2. Applications often translate these return values into meaningful messages easily understood by the user. Usually, the specific values that can be returned and their meanings are explained in the man page for the program as in:
+
+![manls](images/manls.png)
+
 ### Syntax
 
+Scripts require you to follow a standard language syntax. Rules delineate how to define variables and how to construct and format allowed statements, etc. The table lists some special character usages within bash scripts:
+
+| Character | Description |
+|-----------|-------------|
+| # | Used to start a comment |
+| $ | Used to reference a variable |
+| ; | Used to separate commands |
+| \| | Used to pipe the output of one command to another |
+| & | Used to run a command in the background |
+| && | Used to run a command only if the previous command was successful |
+| > | Used to redirect output to a file |
+| < | Used to redirect input from a file |
+| >> | Used to append output to a file |
+
+There are other special characters and character combinations and constructs that scripts understand, such as (..), {..}, [..], &&, ||, ', ", $((...)), some of which we will discuss later.
+
+Sometimes, commands are too long to either easily type on one line, or to grasp and understand (even though there is no real practical limit to the length of a command line).  
+
+In this case, the concatenation operator (\), the backslash character, is used to continue long commands over several lines.
+
+Here is an example of a command installing a long list of packages on a system using Debian package management:
+
+```bash
+sudo apt install autoconf automake bison build-essential \
+    chrpath curl diffstat emacs flex gcc-multilib g++-multilib \ 
+    libsdl1.2-dev libtool lzop make mc patch \
+    screen socat sudo tar texinfo tofrodos u-boot-tools unzip \
+    vim wget xterm zip
+```
+
+The command is divided into multiple lines to make it look readable and easier to understand. The \ operator at the end of each line causes the shell to combine (concatenate) multiple lines and execute them as one single command.
+
+![continue](images/continue.png)
+
+Users sometimes need to combine several commands and statements and even conditionally execute them based on the behavior of operators used in between them. This method is called chaining of commands.
+
+There are several different ways to do this, depending on what you want to do. The ; (semicolon) character is used to separate these commands and execute them sequentially, as if they had been typed on separate lines. Each ensuing command is executed whether or not the preceding one succeeded.
+
+Thus, the three commands in the following example will all execute, even if the ones preceding them fail:
+
+```bash
+ls /etc/passwd; ls /etc/shadow; ls /etc/group
+```
+
+However, you may want to abort subsequent commands when an earlier one fails. You can do this using the && (and) operator as in:
+
+```bash
+ls /etc/passwd && ls /etc/shadow && ls /etc/group
+```
+
+If the first command fails, the second one will never be executed. A final refinement is to use the || (or) operator, as in:
+
+```bash
+ls /etc/passwd || ls /etc/shadow || ls /etc/group
+```
+
+In this case, you proceed until something succeeds and then you stop executing any further steps.
+
+Chaining commands is not the same as piping them; in the later case succeeding commands begin operating on data streams produced by earlier ones before they complete, while in chaining each step exits before the next one starts.
+
+Most operating systems accept input from the keyboard and display the output on the terminal. However, with shell commands and scripts you can send the output to a file. The process of diverting the output to a file is called output redirection. We have already used this facility in our earlier sections on how to use the command line.
+
+The > character is used to write output to a file. For example, the following command sends the output of free to /tmp/free.out:
+
+```bash
+free > /tmp/free.out
+```
+
+To check the contents of /tmp/free.out, at the command prompt type cat /tmp/free.out.
+
+Two > characters (>>) will append output to a file if it exists, and act just like > if the file does not already exist.
+
+![Redirection](images/grubd.png)
+
+Just as the output can be redirected to a file, the input of a command can be read from a file. The process of reading input from a file is called input redirection and uses the < character.
+
+The following three commands (using wc to count the number of lines, words and characters in a file) are entirely equivalent and involve input redirection, and a command operating on the contents of a file:
+
+```bash
+wc < /etc/passwd
+wc /etc/passwd
+cat /etc/passwd | wc
+```
+
+Shell scripts execute sequences of commands and other types of statements. These commands can be:
+
+- Compiled applications
+- Built-in bash commands
+- Shell scripts or scripts from other interpreted languages, such as perl and Python.
+
+Compiled applications are binary executable files, usually residing on the filesystem in well-known directories such as /usr/bin. Shell scripts always have access to applications in the default path, such as rm, ls, df, vi, and gzip, which are programs compiled from lower-level programming languages such as C.
+
+In addition, bash has many built-in commands, which can only be used to display the output within a terminal shell or shell script. Sometimes, these commands have the same name as executable programs on the system, which can lead to subtle problems. These built-in commands include cd, pwd, echo, read, logout, printf, let, time, and ulimit. Thus, slightly different behavior can be expected from the built-in version of a command such as echo as compared to /bin/echo.
+
+A complete list of bash built-in commands can be found in the bash man page, or by simply typing help, as we review on the next page.
+
+![Commands](images/commands.png)
+
+We already enumerated which commands have versions internal to bash in our earlier discussion of how to get help on Linux systems. Once again, here is a screenshot listing exactly which commands are available.
+
+![Help](images/help.png)
+
+Users often need to pass parameter values to a script, such as a filename, date, etc. Scripts will take different paths or arrive at different results according to the parameters (command arguments) that are passed to them. These values can be text or numbers as in:
+
+```bash
+./myscript.sh arg1 arg2 arg3
+```
+
+Within a script, the parameter or an argument is represented with a $ and a number or special character. The table lists some of these parameters.
+
+| Parameter | Description |
+|-----------|-------------|
+| $0 | The name of the script |
+| $1 | The first argument passed to the script |
+| $2, $3, ... | The second, third, etc. arguments passed to the script |
+| $# | The total number of arguments passed to the script |
+| $* | All the arguments passed to the script |
+
+At times, you may need to substitute the result of a command as a portion of another command. It can be done in two ways:
+
+By enclosing the inner command in $( )
+By enclosing the inner command with backticks (`)
+The second form using backticks is deprecated, and its use should be avoided in new scripts and commands. No matter which method is used, the specified command will be executed in a newly launched shell environment, and the standard output of the shell will be inserted where the command substitution is done.
+
+Virtually any command can be executed this way. While both of these methods enable command substitution, the $( ) method allows command nesting, while the use of backticks does not because the right and left delimiters are identical. New scripts should always use this more modern method. For example:
+
+```bash
+ls /lib/modules/$(uname -r)/
+```
+
+In the above example, the output of the command uname –r (which will be something like 6.2.4) is inserted into the argument for the ls command.
+
+![Substitution](images/unamer.png)
+
+### Environment variables
+
+Most scripts use variables containing a value, which can be used anywhere in the script. These variables can either be user or system-defined. Many applications use such environment variables (already covered in some detail in the User Environment chapter) for supplying inputs, validation, and controlling behavior.
+
+As we discussed earlier, some examples of standard environment variables are HOME, PATH, and HOST. When referenced, environment variables must be prefixed with the $ symbol, as in $HOME. You can view and set the value of environment variables. For example, the following command displays the value stored in the PATH variable:
+
+```bash
+echo $PATH
+```
+
+However, no prefix is required when setting or modifying the variable value. For example, the following command sets the value of the MYCOLOR variable to blue
+
+```bash
+MYCOLOR=blue
+```
+
+You can get a list of environment variables with the env, set, or printenv commands.
+
+![Environment](images/envubuntu.png)
+
+While we discussed the export of environment variables in the section on the "User Environment", it is worth reviewing this topic in the context of writing bash scripts.
+
+By default, the variables created within a script are available only to the subsequent steps of that script. Any child processes (sub-shells) do not have automatic access to the values of these variables. To make them available to child processes, they must be promoted to environment variables using the export statement, as in:
+
+```bash
+export MYCOLOR
+```
+
+While child processes are allowed to modify the value of exported variables, the parent will not see any changes; exported variables are not shared, they are only copied and inherited.
+
+Typing export with no arguments will give a list of all currently exported environment variables.
+
+![Export](images/exportubuntu.png)
+
+### Functions
+
+A function is a code block that implements a set of operations. Functions are useful for executing procedures multiple times, perhaps with varying input variables. Functions are also often called subroutines. Using functions in scripts requires two steps:
+
+- Declaring a function
+- Calling a function
+
+The function declaration requires a name which is used to invoke it. The proper syntax is:
+
+`
+function_name () {
+   command...
+}
+`
+
+For example, the following function is named display:
+
+```bash
+display () {
+   echo "This is a sample function that just displays a string"
+}
+```
+
+The function can be as long as desired and have many statements. Once defined, the function can be called later as many times as necessary. In the full example shown in the figure, we are also showing an often-used refinement: how to pass an argument to the function. The first argument can be referred to as $1, the second as $2, etc.
+
+![Function](images/bashfunubuntu.png)
+
 ### Constructs
+
+Conditional decision making, using an if statement, is a basic construct that any useful programming or scripting language must have.
+
+When an if statement is used, the ensuing actions depend on the evaluation of specified conditions, such as:
+
+- Numerical or string comparisons
+- Return value of a command (0 for success)
+- File existence or permissions
+
+In compact form, the syntax of an if statement is:
+
+```bash
+if [ condition ]
+then
+   command...
+fi
+```
+
+![If](images/If-Then-Else-diagram.png)
+
+In the following example, an if statement checks to see if a certain file exists, and if the file is found, it displays a message indicating success or failure:
+
+```bash
+if [ -f "$1" ]
+then
+   echo "File $1 exists."
+else
+   echo "File $1 does not exist."
+fi
+```
+
+We really should also check first that there is an argument passed to the script ($1) and abort if not.
+
+Notice the use of the square brackets ([]) to delineate the test condition. There are many other kinds of tests you can perform, such as checking whether two numbers are equal to, greater than, or less than each other and make a decision accordingly; we will discuss these other tests.
+
+In modern scripts, you may see doubled brackets as in `[[ -f /etc/passwd ]]`. This is not an error. It is never wrong to do so and it avoids some subtle problems, such as referring to an empty environment variable without surrounding it in double quotes; we will not talk about this here.
+
+You can use the elif statement to perform more complicated tests, and take action appropriate actions. The basic syntax is:
+
+```bash
+if [ condition ]
+then
+   command...
+elif [ condition ]
+then
+   command...
+else
+   command...
+fi
+```
+
+In the example shown we use strings tests which we will explain shortly, and show how to pull in an environment variable with the read statement.
+
+![Elif](images/elif.png)
+
+bash provides a set of file conditionals, that can be used with the if statement, including those in the table.
+
+You can use the if statement to test for file attributes, such as:
+
+- File or directory existence
+- Read or write permission
+- Executable permission.
+
+For example, in the following example:
+
+```bash
+if [ -x /etc/passwd ] ; then
+  echo "File /etc/passwd is executable."
+else
+  echo "File /etc/passwd is not executable."
+fi
+```
+
+the if statement checks if the file /etc/passwd is executable, which it is not.
+
+| Condition | Meaning |
+|-----------|---------|
+| -e file | True if file exists |
+| -f file | True if file is a regular file |
+| -d file | True if file is a directory |
+| -r file | True if file is readable |
+| -w file | True if file is writable |
+| -x file | True if file is executable |
+| -s file | True if file has a size greater than zero |
+| -g file | True if file has the set-group-id bit set |
+| -u file | True if file has the set-user-id bit set |
+
+Boolean expressions evaluate to either TRUE or FALSE, and results are obtained using the various Boolean operators listed in the table.
+
+| Operator | Operation | Description |
+|----------|-----------|-------------|
+| ! | NOT | Reverses the result of the condition |
+| && | AND | Returns TRUE if both conditions are TRUE |
+| \|\| | OR | Returns TRUE if either condition is TRUE |
+
+Note that if you have multiple conditions strung together with the && operator, processing stops as soon as a condition evaluates to false. For example, if you have A && B && C and A is true but B is false, C will never be executed.
+
+Likewise, if you are using the || operator, processing stops as soon as anything is true. For example, if you have A || B || C and A is false and B is true, you will also never execute C.
+
+Boolean expressions return either TRUE or FALSE. We can use such expressions when working with multiple data types, including strings or numbers, as well as with files. For example, to check if a file exists, use the following conditional test:
+
+```bash
+if [ -e /etc/passwd ]
+then
+   echo "File /etc/passwd exists."
+fi
+```
+
+Similarly, to check if the value of number1 is greater than the value of number2, use the following conditional test:
+
+```bash
+if [ $number1 -gt $number2 ]
+then
+   echo "$number1 is greater than $number2."
+fi
+```
+
+You can use the if statement to compare strings using the operator == (two equal signs). The syntax is as follows:
+
+```bash
+if [ string1 == string2 ]
+then
+   command...
+fi
+```
+
+Note that using one = sign will also work, but some consider it deprecated usage. Let’s now consider an example of testing strings.
+
+In the example illustrated here, the if statement is used to compare the input provided by the user and accordingly display the result.
+
+![String](images/ifstringubuntu.png)
+
+You can use specially defined operators with the if statement to compare numbers. The various operators that are available are listed in the table:
+
+| Operator | Meaning |
+|----------|---------|
+| -eq | Equal to |
+| -ne | Not equal to |
+| -gt | Greater than |
+| -lt | Less than |
+| -ge | Greater than or equal to |
+| -le | Less than or equal to |
+
+![Number](images/mathtestubuntu.png)
+
+Arithmetic expressions can be evaluated in the following three ways (spaces are important!):
+
+- Using the `expr` utility. For example, `echo $(expr 2 + 2)` will output 4.
+- Using the `let` built-in command. For example, `let "a=2+2"` will set the variable a to 4.
+- Using the double parentheses (( )) construct. For example, `a=$((2 + 2))` will set the variable a to 4.
+
+![Arithmetic](images/mathevalrhel7.png)
+
+### String manipulation
+
+Let’s go deeper and find out how to work with strings in scripts.
+
+A string variable contains a sequence of text characters. It can include letters, numbers, symbols and punctuation marks. Some examples include: abcde, 123, abcde 123, abcde-123, &acbde=%123.
+
+String operators include those that do comparison, sorting, and finding the length. The following table demonstrates the use of some basic string operators:
+
+| Operator | Meaning |
+|----------|---------|
+| [[ string1 == string2 ]] | True if the strings are equal |
+| [[ string1 != string2 ]] | True if the strings are not equal |
+| [[ string1 < string2 ]] | True if string1 sorts before string2 |
+| [[ string1 > string2 ]] | True if string1 sorts after string2 |
+| [[ myLen1=${#string1} ]] | Stores the length of string1 in myLen1 |
+
+Remember, in most cases, we can use single square brackets ( [ ] ) instead of double ([[ ]]) in comparisons and logical tests, but the more modern doubled form helps avoid some errors, such as those that can arise when doing a comparison with empty strings and environment variables.
+
+In the first example, we compare two strings and display an appropriate message using the if statement. In the results shown, note the third test where there is an error if we use single brackets and do not put the variable name in quotes.
+
+![String](images/string-comparison.png)
+
+In the second example, we pass in a file name and see if that file exists or not.
+
+![File](images/file-exists.png)
+
+At times, you may not need to compare or use an entire string. To extract the first n characters of a string, we can specify: ${string:0:n}. Here, 0 is the offset in the string (i.e., which character to begin from) where the extraction needs to start, and n is the number of characters to be extracted.
+
+To extract all characters in a string after a dot (.), use the following expression: ${string#*.}.
+
+![Substring](images/substring.png)
+
+### Case statement
+
+
+### Loops
+
+### Debugging

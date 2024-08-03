@@ -1044,7 +1044,7 @@ sleep and at are quite different; sleep delays execution for a specific period, 
 
 You can see if the job is queued up by using the atq command. If you want to remove a job from the queue, you can use the atrm command.
 
-### Summary
+Here is a summary of the commands and utilities discussed in this section:
 
 - Processes are used to perform various tasks on the system.
 - Processes can be single-threaded or multi-threaded.
@@ -2834,7 +2834,646 @@ To extract all characters in a string after a dot (.), use the following express
 
 ### Case statement
 
+he case statement is used in scenarios where the actual value of a variable can lead to different execution paths. case statements are often used to handle command-line options.
+
+Below are some of the advantages of using the case statement:
+
+- It is easier to read and write and is a good alternative to nested, multi-level if-then-else-fi code blocks.
+- It enables you to compare a variable against several values at once.
+- It reduces the complexity of a program.
+
+![Case](images/case.png)
+
+The case statement is used to match a value against a list of patterns. The syntax is as follows:
+
+```bash
+case expression in
+   pattern1 )
+      command...
+      ;;
+   pattern2 )
+      command...
+      ;;
+   ...
+esac
+```
+
+Note that as soon as the expression matches a pattern successfully, the execution path exits; i.e., the further tests are neither executed nor evaluated. If none of the tests return success, the final choice will execute, which can be to do nothing.
+
+![Case](images/case-example.png)
 
 ### Loops
 
+By using looping constructs, you can execute one or more lines of code repetitively, usually on a selection of values of data such as individual files. Usually, you do this until a conditional test returns either true or false, as is required.
+
+Three frequently used types of loops are often used in bash and in many programming languages:
+
+- The for loop
+- The while loop
+- The until loop
+
+All these loops are easily used for repeatedly executing one or more statements until the exit condition is true.  Each has an easily understood structural form.
+
+The for loop operates on each element of a list of items. The syntax for the for loop is:
+
+```bash
+for variable in list
+do
+   command...
+done
+```
+
+In this case, the variable is assigned the value of each element in the list, and the command is executed for each value.
+
+![For](images/testfor.png)
+
+The while loop repeats a set of statements as long as the control command returns true. The syntax is:
+
+```bash
+while [ condition ]
+do
+   command...
+done
+```
+
+The set of commands that need to be repeated should be enclosed between do and done. You can use any command or operator as the condition. Often, it is enclosed within square brackets ([]).
+
+![While](images/factorial-while.png)
+
+The until loop repeats a set of statements as long as the control command is false. Thus, it is essentially the opposite of the while loop. The syntax is:
+
+```bash
+until [ condition ]
+do
+   command...
+done
+```
+
+Similar to the while loop, the set of commands that need to be repeated should be enclosed between do and done. You can use any command or operator as the condition.
+
+![Until](images/factorial-until.png)
+
 ### Debugging
+
+While working with scripts and commands, you are likely to incur errors. These may be due to an error in the script, such as incorrect syntax, or other ingredients, such as a missing file or insufficient permission to do an operation. These errors may be reported with a specific error code but often yield incorrect or confusing output. So, how do you go about identifying and fixing an error?
+
+Debugging helps troubleshoot and resolve such errors and is one of the most important tasks a system administrator performs.
+
+Before fixing an error (or bug), it is vital to locate the source.
+
+You can run a bash script in debug mode either by doing bash –x ./script_file, or bracketing parts of the script with set -x and set +x. The debug mode helps identify the error because:
+
+- It traces and prefixes each command with the + character.
+- It displays each command before executing it.
+- It can debug only selected parts of a script (if desired) with:
+
+```bash
+set -x
+command...
+set +x
+```
+
+In UNIX/Linux, all programs that run are given three open file streams when they are started as listed in the table:
+
+| File Stream | Description | File Descriptor |
+|-------------|-------------|-----------------|
+| stdin | Standard input, by default the keyboard | 0 |
+| stdout | Standard output, by default the terminal | 1 |
+| stderr | Standard error, by default the terminal | 2 |
+
+By using redirection, we can save the standard output and error streams to one file or two separate files for later analysis after a program or command is executed.
+
+![Redirection](images/testbasherr.png)
+
+### Useful techniques
+
+Consider a situation where you want to retrieve 100 lines from a file with 10,000 lines. You will need a place to store the extracted information, perhaps in a temporary file, while you do further processing on it.
+
+Temporary files (and directories) are meant to store data for a short time. Usually, one arranges it so that these files disappear when the program using them terminates. While you can also use touch to create a temporary file, in some circumstances, this may make it easy for hackers to gain access to your data. This is particularly true if the name and the file location of the temporary file are predictable.
+
+The best practice is to create random and unpredictable filenames for temporary storage. One way to do this is with the mktemp utility, as in the following examples.
+
+The XXXXXXXX is replaced by mktemp with random characters to ensure the name of the temporary file cannot be easily predicted and is only known within your program. You have to have at least 3 Xs in the supplied template, and the number of random characters will be equal to the number of Xs given.
+
+| Command | Usage |
+|---------|-------|
+| TEMP=$(mktemp /tmp/tempfile.XXXXXX) | Creates a temporary file in /tmp |
+| TEMPDIR=$(mktemp -d /tmp/tempdir.XXXXXX) | Creates a temporary directory in /tmp |
+
+Sloppiness in creation of temporary files can lead to real damage, either by accident or if there is a malicious actor. For example, if someone were to create a symbolic link from a known temporary file used by root to the /etc/passwd file, like this:
+
+```bash
+ln -s /etc/passwd /tmp/tempfile
+```
+
+There could be a big problem if a script run by root has a line in it like this:
+
+```bash
+echo $VAR > /tmp/tempfile
+```
+
+The password file will be overwritten by the temporary file contents.
+
+To prevent such a situation, make sure you randomize your temporary file names by replacing the above line with the following lines:
+
+```bash
+TEMP=$(mktemp /tmp/tempfile.XXXXXX)
+echo $VAR > $TEMP
+```
+
+![Tempfile](images/tempfiles.png)
+
+Certain commands (such as find) are quite capable of spewing voluminous and overwhelming amounts of output. To avoid this, we can redirect the large output to a special file (a device node) called /dev/null. This pseudofile is also called the bit bucket or black hole.
+
+All data written to /dev/null is discarded.  Furthermore, write operations never return failure conditions. Using the proper redirection operators, it can make the uninteresting output disappear from commands that would normally generate output to stdout and/or stderr:
+
+```bash
+ls -lR /tmp > /dev/null
+```
+
+In the above command, the entire standard output stream is ignored, but any errors will still appear on the console. However, if one does:
+
+```bash
+ls -lR /tmp >& /dev/null
+```
+
+Both the standard output and standard error streams are ignored.
+
+![Devnull](images/devnullrhel.png)
+
+It is often useful to generate random numbers and other random data when performing tasks such as:
+
+- Performing security-related tasks
+- Reinitializing storage devices
+- Erasing and/or obscuring existing data
+- Generating meaningless data to be used for tests
+
+Such random numbers can be generated by using the $RANDOM environment variable, which is derived from the Linux kernel’s built-in random number generator, or by the OpenSSL library function, which uses the FIPS140 (Federal Information Processing Standard) algorithm to generate random numbers for encryption.
+
+![Random](images/random.png)
+
+Some servers have hardware random number generators that take as input different types of noise signals, such as thermal noise and photoelectric effect. A transducer converts this noise into an electric signal, which is again converted into a digital number by an A-D converter. This number is considered random. However, most common computers do not contain such specialized hardware and, instead, rely on events created during booting to create the raw data needed.
+
+Regardless of which of these two sources is used, the system maintains a so-called entropy pool of these digital numbers/random bits. Random numbers are created from this entropy pool.
+
+The Linux kernel offers the /dev/random and /dev/urandom device nodes, which draw on the entropy pool to provide random numbers which are drawn from the estimated number of bits of noise in the entropy pool.
+
+/dev/random is used where very high-quality randomness is required, such as a one-time pad or key generation, but it is relatively slow to provide values. /dev/urandom is faster and suitable (good enough) for most cryptographic purposes.
+
+Furthermore, when the entropy pool is empty, /dev/random is blocked and does not generate any number until additional environmental noise (network traffic, mouse movement, etc.) is gathered, whereas /dev/urandom reuses the internal pool to produce more pseudo-random bits.
+
+![Random](images/devrandom.png)
+
+## 13 - Printing
+
+### Configuration
+
+To manage printers and print either directly from a local computer or across a networked environment, you need to know how to configure and install a printer. Printing itself requires software that converts information from the application you are using to a language your printer can understand. The Linux standard for printing software is the Common UNIX Printing System (CUPS).
+
+Modern Linux desktop systems make installing and administering printers simple and intuitive. Nevertheless, it is instructive to understand the underpinnings of how it is done in Linux.
+
+CUPS is the underlying software Linux systems use to print from applications, including any web browser such as Thunderbird or google-chrome, office suite such as LibreOffice, or pdf document viewer such as evince. It interprets page descriptions produced by your application (put a paragraph here, draw a line there, and so forth) and then sends the information to the printer. It acts as a print server for both local and network printers.
+
+Printers manufactured by different companies may use their own particular print languages and formats. CUPS uses a modular printing system that accommodates a wide variety of printers and also processes various data formats. This makes the printing process simpler; you can concentrate more on printing and less on how to print.
+
+Generally, the only time you should need to configure your printer is when you use it for the first time. In fact, CUPS often figures things out on its own by detecting and configuring any printers it locates.
+
+CUPS carries out the printing process with the help of its various components:
+
+- Configuration files
+- Scheduler
+- Job files
+- Log files
+- Filter
+- Printer drivers
+- Backend
+
+![CUPS](images/cups.png)
+
+CUPS is designed around a print scheduler that manages print jobs, handles administrative commands, allows users to query the printer status, and manages the flow of data through all CUPS components.
+
+The print scheduler reads server settings from several configuration files, the two most important of which are cupsd.conf and printers.conf. These and all other CUPS-related configuration files are stored under the /etc/cups/ directory.
+
+cupsd.conf is where most system-wide settings are located; it does not contain any printer-specific details. Most of the settings available in this file relate to network security, i.e., which systems can access CUPS network capabilities, how printers are advertised on the local network, what management features are offered, and so on.
+
+printers.conf is where you will find the printer-specific settings. For every printer connected to the system, a corresponding section describes the printer’s status and capabilities. This file is generated or modified only after adding a printer to the system and should not be modified by hand.
+
+You can view the full list of configuration files by typing ls -lF /etc/cups.
+
+![CUPS](images/etccupsubuntu.png)
+
+CUPS stores print requests as files under the /var/spool/cups directory (these can actually be accessed before a document is sent to a printer). Data files are prefixed with the letter d, while control files are prefixed with the letter c.
+
+![Spool](images/varspoolcups.png)
+
+After a printer successfully handles a job, data files are automatically removed. These data files belong to what is commonly known as the print queue.
+
+![Queue](images/print-queue.png)
+
+Log files are placed in /var/log/cups and are used by the scheduler to record activities that have taken place. These files include access, error, and page records.
+
+To view what log files exist, type:
+
+```bash
+ls -l /var/log/cups
+```
+
+Note on some distributions permissions are set such that you do not need to use sudo. You can view the log files with the usual tools.
+
+CUPS uses filters to convert job file formats to printable formats. Printer drivers contain descriptions for currently connected and configured printers, and are usually stored under /etc/cups/ppd/. The print data is then sent to the printer through a filter, and via a backend that helps to locate devices connected to the system.
+
+So, in short, when you execute a print command, the scheduler validates the command and processes the print job, creating job files according to the settings specified in the configuration files. Simultaneously, the scheduler records activities in the log files. Job files are processed with the help of the filter, printer driver, and backend, and then sent to the printer.
+
+Assuming CUPS has been installed you'll need to start and manage the CUPS daemon so that CUPS is ready for configuring a printer. Managing the CUPS daemon is simple; all management features can be done with the systemctl utility:
+
+```bash
+sudo systemctl status cups
+sudo systemctl enable cups
+sudo systemctl start cups
+```
+
+Each Linux distribution has a graphical configuration application that lets you add, remove, and configure local or remote printers. If you make sure the device is currently turned on and connected to the system; if so it should show up in the printer selection menu. If the printer is not visible, you may want to troubleshoot using tools that will determine if the printer is connected. For common USB printers, for example, the lsusb utility will show a line for the printer. Some printer manufacturers also require some extra software to be installed in order to make the printer visible to CUPS, however, due to the standardization these days, this is rarely required.
+
+![Printer](images/printer.png)
+
+Many users do not know CUPS comes with its own web server, which makes a configuration interface available via a set of CGI scripts.
+
+This web interface allows you to:
+
+Add and remove local/remote printers
+Configure printers:
+
+- Local/remote printers
+- Share a printer as a CUPS server
+Control print jobs:
+- Monitor jobs
+- Show completed or pending jobs
+- Cancel or move jobs
+
+The CUPS web interface is available on your browser at: [http://localhost:631/].
+
+Some pages require a username and password to perform certain actions, for example to add a printer. For most Linux distributions, you must use the root password to add, modify, or delete printers or classes.
+
+![CUPS](images/cups-web.png)
+
+### Printing operations
+
+Many graphical applications allow users to access printing features using the CTRL-P shortcut. To print a file, you first need to specify the printer (or a file name and location if you are printing to a file instead) you want to use; and then select the page setup, quality, and color options. After selecting the required options, you can submit the document for printing. The document is then submitted to CUPS. You can use your browser to access the CUPS web interface at [http://localhost:631/] to monitor the status of the printing job. Now that you have configured the printer, you can print using either the Graphical or Command Line interfaces.
+
+CUPS provides two command-line interfaces, descended from the System V and BSD flavors of UNIX. This means that you can use either lp (System V) or lpr (BSD) to print. You can use these commands to print text, PostScript, PDF, and image files.
+
+These commands are useful in cases where printing operations must be automated (from shell scripts, for instance, which contain multiple commands in one file).
+
+lp is just a command line front-end to the lpr utility that passes input to lpr. Thus, we will discuss only lp in detail. In the example shown here, the task is to print $HOME/.emacs.
+
+![Lp](images/lprhel7.png)
+
+lp and lpr accept command line options that help you perform all operations that the GUI can accomplish. lp is typically used with a file name as an argument.
+
+Some lp commands and other printing utilities you can use are listed in the table:
+
+| Command | Description |
+|---------|-------------|
+| lp filename | Print a file |
+| lp -d printername filename | Print a file to a specific printer |
+| lp -n number filename | Print multiple copies of a file |
+| lp -o option filename | Print a file with specific options |
+| lp -q priority filename | Print a file with a specific priority |
+| program \| lp | Print a file from a program |
+| lpoptions -d printername | Set the default printer |
+| lpq -a | Show all print jobs |
+| lpadmin | Configure printer queues |
+
+lpoptions can be used to set printer options and defaults. Each printer has a set of tags associated with it, such as the default number of copies and authentication requirements. You can type lpoptions help to obtain a list of supported options. lpoptions can also be used to set system-wide values, such as the default printer.
+
+You send a file to the shared printer. But when you go there to collect the printout, you discover another user has just started a 200 page job that is not time sensitive. Your file cannot be printed until this print job is complete. What do you do now?
+
+In Linux, command line print job management commands allow you to monitor the job state as well as managing the listing of all printers and checking their status, and canceling or moving print jobs to another printer.
+
+Some of these commands are listed in the table.
+
+| Command | Usage |
+|---------|-------|
+| lpstat -p -d | Show all printers and the default printer |
+| lpstat -o | Show all print jobs |
+| lpstat -W completed -o | Show all completed print jobs |
+| lpstat -a | Show all available printers |
+| lprm jobnumber | Remove a print job |
+| lpmove jobnumber printername | Move a print job to another printer |
+
+### Manipulating postscript and PDF files
+
+PostScript is a standard page description language. It effectively manages scaling of fonts and vector graphics to provide quality printouts. It is purely a text format that contains the data fed to a PostScript interpreter. The format itself is a language that Adobe developed in the early 1980s to enable the transfer of data to printers.
+
+![Postscript](images/postscript.png)
+
+Features of PostScript are:
+
+- It can be used on any printer that is PostScript-compatible, i.e., any modern printer.
+- Any program that understands the PostScript specification can print to it.
+- Information about page appearance, etc., is embedded in the page.
+
+Postscript has been, for the most part, superseded by the PDF format (Portable Document Format), which produces far smaller files in a compressed format for which support has been integrated into many applications. However, one still has to deal with postscript documents, often as an intermediate format, on the way to producing final documents.
+
+enscript is a tool that is used to convert a text file to PostScript and other formats. It also supports Rich Text Format (RTF) and HyperText Markup Language (HTML). For example, you can convert a text file to two columns (-2) formatted PostScript using the command:
+
+```bash
+enscript -2 -r -p output.ps input.txt
+```
+
+This command will also rotate (-r) the output to print so the width of the paper is greater than the height (aka landscape mode) thereby reducing the number of pages required for printing.
+
+The commands that can be used with enscript are listed in the table below (for a file called textfile.txt).
+
+| Command | Usage |
+|---------|-------|
+| enscript -p output.ps textfile.txt | Convert a text file to PostScript |
+| enscript -n -p output.ps textfile.txt | Convert a text file to PostScript with line numbers |
+| enscript textfile.txt | Convert a text file to PostScript with default settings |
+
+Most users today are far more accustomed to working with files in PDF format, viewing them easily either on the Internet through their browser or locally on their machine. The PostScript format is still important for various technical reasons that the general user will rarely have to deal with.
+
+From time to time, you may need to convert files from one format to the other, and there are very simple utilities for accomplishing that task. ps2pdf and pdf2ps are part of the ghostscript package installed on or available on all Linux distributions. As an alternative, there are pstopdf and pdftops which are usually part of the poppler package, which may need to be added through your package manager. Unless you are doing a lot of conversions or need some of the fancier options (which you can read about in the man pages for these utilities), it really does not matter which ones you use.
+
+Another possibility is to use the very powerful convert program, which is part of the ImageMagick package. Some newer distributions have replaced this with Graphics Magick, and the command to use is gm convert.
+
+Some usage examples:
+
+| Command | Usage |
+|---------|-------|
+| ps2pdf input.ps output.pdf | Convert a PostScript file to PDF |
+| pdf2ps input.pdf output.ps | Convert a PDF file to PostScript |
+| convert input.ps output.pdf | Convert a PostScript file to PDF |
+| convert input.pdf output.ps | Convert a PDF file to PostScript |
+| pdftops input.pdf output.ps | Convert a PDF file to PostScript |
+| pstopdf input.ps output.pdf | Convert a PostScript file to PDF |
+
+Linux has many standard programs that can read PDF files, as well as many applications that can easily create them, including all available office suites, such as LibreOffice.
+
+The most common Linux PDF readers are:
+
+- evince is available on virtually all distributions and is the most widely used program.
+- okular is based on the older kpdf and is available on any distribution that provides the KDE environment.
+
+These open source PDF readers support and can read files following the PostScript standard. The proprietary Adobe Acrobat Reader, which was once widely used on Linux systems, is fortunately no longer available, as it did defective rendering and was unstable and poorly maintained. Even if you are using Windows, it is broken badly, so we advise not to use it.
+
+At times, you may want to merge, split, or rotate PDF files; not all of these operations can be achieved while using a PDF viewer. Some of these operations include:
+
+- Merging/splitting/rotating PDF documents
+- Repairing corrupted PDF pages
+- Pulling single pages from a file
+- Encrypting and decrypting PDF files
+- Adding, updating, and exporting a PDF’s metadata
+- Exporting bookmarks to a text file
+- Filling out PDF forms.
+
+In order to accomplish these tasks, there are several programs available:
+
+- qpdf
+- pdftk
+- ghostscript.
+
+qpdf is widely available on Linux distributions and is very full-featured. pdftk was once very popular but depended on an obsolete unmaintained package (libgcj), and a number of distributions dropped it.  However, it has now been reimplemented in Java and is available again on most distributions under the name pdftk-java. Ghostscript (often invoked using gs) is widely available and well-maintained. However, its usage is a little complex.
+
+You can accomplish a wide variety of tasks using qpdf including:
+
+| Command | Usage |
+|---------|-------|
+| qpdf --empty --pages file1.pdf file2.pdf -- file3.pdf | Merge two PDF files into a third file |
+| qpdf --empty --pages file1.pdf 1-3 -- file2.pdf | Extract pages 1-3 from file1.pdf into file2.pdf |
+| qpdf --rotate=+90:1 file1.pdf file2.pdf | Rotate page 1 of file1.pdf by 90 degrees and save it as file2.pdf |
+| qpdf --encrypt userpass ownerpass 256 -- file1.pdf file2.pdf | Encrypt file1.pdf with user password userpass and owner password ownerpass and save it as file2.pdf |
+| qpdf --decrypt --password=userpass file1.pdf file2.pdf | Decrypt file1.pdf with password userpass and save it as file2.pdf |
+
+As mentioned earlier, Marc Vinyals has developed and maintained a port to Java for pdftk which can be found on GitLab, together with instructions for installation. Some distributions, such as Ubuntu, may install this version only.
+
+You can accomplish a wide variety of tasks using pdftk.
+
+| Command | Usage |
+|---------|-------|
+| pdftk file1.pdf file2.pdf cat output file3.pdf | Merge two PDF files into a third file |
+| pdftk file1.pdf cat 1-3 output file2.pdf | Extract pages 1-3 from file1.pdf into file2.pdf |
+| pdftk file1.pdf cat 1-endwest output file2.pdf | Rotate all pages in file1.pdf by 90 degrees and save it as file2.pdf |
+
+If you’re working with PDF files that contain confidential information and you want to ensure that only certain people can view the PDF file, you can apply a password to it using the user_pw option. One can do this by issuing a command such as:
+
+```bash
+pdftk file1.pdf output file2.pdf user_pw PROMPT
+```
+
+When you run this command, you will receive a prompt asking you to enter a password. This password will be used to encrypt the PDF file.
+
+Ghostscript is widely available as an interpreter for the Postscript and PDF languages. The executable program associated with it is abbreviated to gs.  
+
+This utility can do most of the operations qpdf and pdftk can, as well as many others; see man gs for details. Use is somewhat complicated by the rather long nature of the options. For example:
+
+```bash
+# Merge two PDF files into a third file
+gs -sDEVICE=pdfwrite -dCompatibilityLevel=1.4 -dPDFSETTINGS=/ebook -dNOPAUSE -dQUIET -dBATCH -sOutputFile=output.pdf input.pdf
+```
+
+```bash
+# Extract pages 1-3 from file1.pdf into file2.pdf
+gs -sDEVICE=pdfwrite -dCompatibilityLevel=1.4 -dPDFSETTINGS=/ebook -dNOPAUSE -dQUIET -dBATCH -sOutputFile=output.pdf input.pdf
+```
+
+You can use other tools to work with PDF files, such as:
+
+- pdfinfo - It can extract information about PDF files, especially when the files are very large or when a graphical interface is not available.
+- flpsed - It can add data to a PostScript document. This tool is specifically useful for filling in forms or adding short comments into the document.
+- pdfmod - It is a simple application that provides a graphical interface for modifying PDF documents. Using this tool, you can reorder, rotate, and remove pages; export images from a document; edit the title, subject, and author; add keywords; and combine documents using drag-and-drop action.
+
+For example, to collect the details of a document, you can use the following command:
+
+```bash
+pdfinfo file.pdf
+```
+
+![PDF tools](images/pdf-manipulation.png)
+
+## 14 - Local Security
+
+### Linux security
+
+The Linux kernel allows properly authenticated users to access files and applications. While each user is identified by a unique integer (the user id or UID), a separate database associates a username with each UID. Upon account creation, new user information is added to the user database and the user's home directory must be created and populated with some essential files. Command line programs such as useradd and userdel as well as GUI tools are used for creating and removing accounts.
+
+For each user, the following seven fields are maintained in the /etc/passwd file:
+
+| Field | Details | Remarks |
+|-------|---------|---------|
+| Username | The name of the user | Should be between 1 and 32 characters long |
+| Password | The user's password | Encrypted and stored in /etc/shadow |
+| UID | The user's unique identification number | Should be between 1000 and 60000 |
+| GID | The user's primary group identification number | Should be between 1000 and 60000 |
+| GECOS | The user's full name | Can be any string |
+| Home directory | The user's home directory | Should be /home/username |
+| Shell | The user's default shell | Should be /bin/bash |
+
+By default, Linux distinguishes between several account types in order to isolate processes and workloads. Linux has four types of accounts:
+
+- root
+- System
+- Normal
+- Network
+
+For a safe working environment, it is advised to grant the minimum privileges possible and necessary to accounts, and remove inactive accounts. The last utility, which shows the last time each user logged into the system, can be used to help identify potentially inactive accounts which are candidates for system removal.
+
+Keep in mind that practices you use on multi-user business systems are more strict than practices you can use on personal desktop systems that only affect the casual user. This is especially true with security. We hope to show you practices applicable to enterprise servers that you can use on all systems, but understand that you may choose to relax these rules on your own personal system.
+
+### Root privileges
+
+root is the most privileged account on a Linux/UNIX system. This account has the ability to carry out all facets of system administration, including adding accounts, changing user passwords, examining log files, installing software, etc. Utmost care must be taken when using this account. It has no security restrictions imposed upon it.
+
+When you are signed in as, or acting as root, the shell prompt displays '#' (if you are using bash and you have not customized the prompt, as we have discussed previously). This convention is intended to serve as a warning to you of the absolute power of this account.
+
+root privileges are required to perform operations such as:
+
+- Creating, removing and managing user accounts
+- Managing software packages
+- Removing or modifying system files
+- Restarting system services.
+
+Regular account users of Linux distributions might be allowed to install software packages, update some settings, use some peripheral devices, and apply various kinds of changes to the system. However, root privilege is required for performing administration tasks such as restarting most services, manually installing packages and managing parts of the filesystem that are outside the normal user’s directories.
+
+![Root](images/root-privileges.png)
+
+A regular account user can perform some operations requiring special permissions; however, the system configuration must allow such abilities to be exercised.
+
+SUID (Set owner User ID upon execution - similar to the Windows "run as" feature) is a special kind of file permission given to a file. Use of SUID provides temporary permissions to a user to run a program with the permissions of the file owner (which may be root) instead of the permissions held by the user.
+
+The table provides examples of operations which do not require root privileges:
+
+| Operation | Example |
+|-----------|---------|
+| Running a network service | A user can run a web server on port 8080 |
+| Using devices such as printers | A user can print a document |
+| Operations on files that the user owns | A user can modify a file in their home directory |
+| Running a program that has the SUID bit set | A user can run a program that has the SUID bit set |
+
+### Process isolation
+
+In Linux you can use either su or sudo to temporarily grant root access to a normal user. However, these methods are actually quite different. Listed below are the differences between the two commands.
+
+| SU | SUDO |
+|----|------|
+| When elevating privilege, you need to enter the root password. Giving the root password to a normal user should never, ever be done. | When elevating privilege, you need to enter the user’s password and not the root password.|
+| Once a user elevates to the root account using su, the user can do anything that the root user can do for as long as the user wants, without being asked again for a password.| Offers more features and is considered more secure and more configurable. Exactly what the user is allowed to do can be precisely controlled and limited. By default the user will either always have to keep giving their password to do further operations with sudo, or can avoid doing so for a configurable time interval. |
+| The command has limited logging features. | The command has detailed logging features. |
+
+sudo has the ability to keep track of unsuccessful attempts at gaining root access. Users' authorization for using sudo is based on configuration information stored in the /etc/sudoers file and in the /etc/sudoers.d directory.
+
+A message such as the following would appear in a system log file (usually /var/log/secure) when trying to execute sudo for badperson without successfully authenticating the user:
+
+```bash
+sudo: badperson : 1 incorrect password attempt ; TTY=pts/0 ; PWD=/home/badperson ; USER=root ; COMMAND=/bin/bash
+```
+
+![Sudo](images/sudo.png)
+
+Whenever sudo is invoked, a trigger will look at /etc/sudoers and the files in /etc/sudoers.d to determine if the user has the right to use sudo and what the scope of their privilege is. Unknown user requests and requests to do operations not allowed to the user even with sudo are reported. The basic structure of entries in these files is:
+
+```bash
+who where = (as_whom) what
+```
+
+/etc/sudoers contains a lot of documentation in it about how to customize. Most Linux distributions now prefer you add a file in the directory /etc/sudoers.d with a name the same as the user. This file contains the individual user's sudo configuration, and one should leave the main configuration file untouched except for changes that affect all users.
+
+You should edit any of these configuration files by using visudo, which ensures that only one person is editing the file at a time, has the proper permissions, and refuses to write out the file and exit if there are syntax errors in the changes made. The editing can be accomplished by doing a command such as the following ones:
+
+```bash
+sudo visudo /etc/sudoers
+sudo visudo /etc/sudoers.d/username
+```
+
+The actual specific editor invoked will depend on the setting of your EDITOR environment variable.
+
+By default, sudo commands and any failures are logged in /var/log/auth.log under the Debian distribution family, and in /var/log/messages and/or /var/log/secure on other systems. This is an important safeguard to allow for tracking and accountability of sudo use. A typical entry of the message contains:
+
+- Calling username
+- Terminal info
+- Working directory
+- User account invoked
+- Command with arguments
+
+![Sudo log](images/securelog.png)
+![Sudo log](images/authlog.png)
+
+Linux is considered to be more secure than many other operating systems because processes are naturally isolated from each other. One process normally cannot access the resources of another process, even when that process is running with the same user privileges. Linux thus makes it difficult (though certainly not impossible) for viruses and security exploits to access and attack random resources on a system.
+
+More recent additional security mechanisms that limit risks even further include:
+
+- Control Groups (cgroups). Allows system administrators to group processes and associate finite resources to each cgroup.
+- Containers. Makes it possible to run multiple isolated Linux systems (containers) on a single system by relying on cgroups.
+- Virtualization. Hardware is emulated in such a way that not only can processes be isolated, but entire systems are run simultaneously as isolated and insulated guests (virtual machines) on one physical host.
+
+![Process isolation](images/process-isolation.png)
+
+Linux limits user access to non-networking hardware devices in a manner that is extremely similar to regular file access. Applications interact by engaging the filesystem layer (which is independent of the actual device or hardware the file resides on). This layer will then open a device special file (often called a device node) under the /dev directory that corresponds to the device being accessed. Each device special file has standard owner, group and world permission fields. Security is naturally enforced just as it is when standard files are accessed.
+
+Hard disks, for example, are represented as /dev/sd*. While a root user can read and write to the disk in a raw fashion, for example, by doing something like:
+
+```bash
+dd if=/dev/sda of=/dev/sdb
+```
+
+The standard permissions, as shown in the figure, make it impossible for regular users to do so. Writing to a device in this fashion can easily obliterate the filesystem stored on it in a way that cannot be repaired without great effort, if at all. The normal reading and writing of files on the hard disk by applications is done at a higher level through the filesystem and never through direct access to the device node.
+
+![Device permissions](images/devsda.png)
+
+When security problems in either the Linux kernel or applications and libraries are discovered, Linux distributions have a good record of reacting quickly and pushing out fixes to all systems by updating their software repositories and sending notifications to update immediately. The same thing is true with bug fixes and performance improvements that are not security related.
+
+However, it is well known that many systems do not get updated frequently enough and problems which have already been cured are allowed to remain on computers for a long time; this is particularly true with proprietary operating systems where users are either uninformed or distrustful of the vendor's patching policy as sometimes updates can cause new problems and break existing operations. Many of the most successful attack vectors come from exploiting security holes for which fixes are already known but not universally deployed.
+
+So the best practice is to take advantage of your Linux distribution's mechanism for automatic updates and never postpone them. It is extremely rare that such an update will cause new problems.
+
+### Passwords
+
+The system verifies authenticity and identity using user credentials.
+
+Originally, encrypted passwords were stored in the /etc/passwd file, which was readable by everyone. This made it rather easy for passwords to be cracked.
+
+On modern systems, passwords are actually stored in an encrypted format in a secondary file named /etc/shadow. Only those with root access can read or modify this file.
+
+![Password](images/passwords.png)
+
+Protecting passwords has become a crucial element of security. Most Linux distributions rely on a modern password encryption algorithm called SHA-512 (Secure Hashing Algorithm 512 bits), developed by the U.S. National Security Agency (NSA) to encrypt passwords.
+
+The SHA-512 algorithm is widely used for security applications and protocols. These security applications and protocols include TLS, SSL, PHP, SSH, S/MIME and IPSec. SHA-512 is one of the most tested hashing algorithms.
+
+For example, if you wish to experiment with SHA-512 encoding, the word "test" can be encoded using the program sha512sum to produce the SHA-512 form (see graphic):
+
+![SHA-512](images/sha512rhel7.png)
+
+IT professionals follow several good practices for securing the data and the password of every user.
+
+- Password aging is a method to ensure that users get prompts that remind them to create a new password after a specific period. This can ensure that passwords, if cracked, will only be usable for a limited amount of time. This feature is implemented using chage, which configures the password expiry information for a user.
+- Another method is to force users to set strong passwords using Pluggable Authentication Modules (PAM). PAM can be configured to automatically verify that a password created or modified using the passwd utility is sufficiently strong. PAM configuration is implemented using a library called pam_cracklib.so, which can also be replaced by pam_passwdqc.so to take advantage of more options.
+- One can also install password cracking programs, such as John The Ripper, to secure the password file and detect weak password entries. It is recommended that written authorization be obtained before installing such tools on any system that you do not own.
+
+You can secure the boot process with a secure password to prevent someone from bypassing the user authentication step. This can work in conjunction with password protection for the BIOS. Note that while using a bootloader password alone will stop a user from editing the bootloader configuration during the boot process, it will not prevent a user from booting from an alternative boot media such as optical disks or pen drives. Thus, it should be used with a BIOS password for full protection.
+
+For the older GRUB 1 boot method, it was relatively easy to set a password for grub. However, for the GRUB 2 version, things became more complicated. However, you have more flexibility, and can take advantage of more advanced features, such as user-specific passwords (which can be their normal login ones).
+
+Furthermore, you never edit grub.cfg directly; instead, you can modify the configuration files in /etc/grub.d and /etc/defaults/grub, and then run update-grub, or grub2-mkconfig and save the new configuration file.
+
+When hardware is physically accessible, security can be compromised by:
+
+- Key logging. Recording the real-time activity of a computer user, including the keys they press. The captured data can either be stored locally or transmitted to remote machines.
+- Network sniffing. Capturing and viewing the network packet level data on your network.
+- Booting with a live or rescue disk
+- Remounting and modifying disk content.
+
+Your IT security policy should start with requirements on how to properly secure physical access to servers and workstations. Physical access to a system makes it possible for attackers to easily leverage several attack vectors in a way that makes all operating system level recommendations irrelevant.
+
+The guidelines of security are:
+
+- Lock down workstations and servers.
+- Protect your network links such that it cannot be accessed by people you do not trust.
+- Protect your keyboards where passwords are entered to ensure the keyboards cannot be tampered with.
+- Ensure a password protects the BIOS in such a way that the system cannot be booted with a live or rescue DVD or USB key.
+
+For single-user computers and those in a home environment, some of the above features (like preventing booting from removable media) can be excessive, and you can avoid implementing them. However, if sensitive information is on your system that requires careful protection, either it shouldn't be there, or it should be better protected by following the above guidelines.
+
+![Hardware vulnerability](images/hardware-vulnerability.png)
+
+Like all software, hackers occasionally find weaknesses in the Linux ecosystem. The strength of Linux (and open source community in general) is the speed with which such vulnerabilities are exposed and remediated. Specific coverage of vulnerabilities is beyond the scope of this course, but the Discussion Board can be used to carry out further discussion.

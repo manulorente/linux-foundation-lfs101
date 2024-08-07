@@ -6,16 +6,14 @@
 
 The Linux Foundation is a non-profit consortium that promotes, protects, and advances Linux and collaborative development. It provides a neutral forum for collaboration and education by hosting collaborative projects, organizing events, and providing training and certification programs.
 
-![Linux Foundation](images/linux.jpeg)
-
 ### Linux Distribution Families
 
 A Linux distribution is a collection of software that includes the Linux kernel and additional software such as system libraries, tools, and applications. There are many different Linux distributions, each with its own unique features and characteristics. Some of the most popular Linux distribution families include:
 
-- Debian: Known for its stability and package management system (Ubuntu, Linux Mint)
-- Red Hat: Known for its enterprise features and support (Fedora, CentOS)
-- Arch: Known for its simplicity and customization options (Arch Linux, Manjaro)
-- SUSE: Known for its focus on enterprise and open-source software (openSUSE, SUSE Linux Enterprise)
+- Debian. Known for its stability and package management system (Ubuntu, Linux Mint)
+- Red Hat. Known for its enterprise features and support (Fedora, CentOS)
+- Arch. Known for its simplicity and customization options (Arch Linux, Manjaro)
+- SUSE. Known for its focus on enterprise and open-source software (openSUSE, SUSE Linux Enterprise)
 
 ![Linux Distribution Families](images/linux-distros.png)
 
@@ -64,7 +62,7 @@ Some key facts about the Debian family are listed below:
 
 - The Debian family is upstream for Ubuntu, and Ubuntu is upstream for Linux Mint and others.
 - Kernel version 5.19 is used in Ubuntu 22.04 LTS.
-- It uses the DPKG-based APT package manager (using apt, apt-get, apt-cache, etc., which we cover in detail later) to install, update, and remove packages in the system.
+- It uses the DPKG-based APT package manager (using `apt`, `apt-get`, `apt-cache`, etc., which we cover in detail later) to install, update, and remove packages in the system.
 - Ubuntu has been widely used for cloud deployments.
 - While Ubuntu is built on top of Debian and is GNOME-based under the hood, it differs visually from the interface on standard Debian, as well as other distributions.
 
@@ -73,8 +71,6 @@ Some key facts about the Debian family are listed below:
 ### Linux History
 
 Linux is an open source computer operating system, initially developed on and for Intel x86-based personal computers. It has been subsequently ported to an astoundingly long list of other hardware platforms, from tiny embedded appliances to the world's largest supercomputers.
-
-In this section, we follow the surprising history of how Linux evolved from a project of one Finnish college student, into a massive effort with an enormous impact on today's world.
 
 Linus Torvalds was a student in Helsinki, Finland, in 1991, when he started a project: writing his own operating system kernel. He also collected together and/or developed the other essential ingredients required to construct an entire operating system with his kernel at the center. It wasn't long before this became known as the Linux kernel.
 
@@ -94,7 +90,7 @@ Linux is constantly enhanced and maintained by a network of developers from all 
 
 Linux borrows heavily from the well-established family of UNIX operating systems. It was written to be a free and open source alternative; at the time, UNIX was designed for computers much more powerful than PCs, and furthermore, it was quite expensive.
 
-Files are stored in a hierarchical filesystem, with the top node of the system being the root or simply "/". Whenever possible, Linux makes its components available via files or objects that look like files. Processes, devices, and network sockets are all represented by file-like objects and can often be worked with using the same utilities used for regular files. Linux is a fully multitasking (i.e., multiple threads of execution are performed simultaneously), multiuser operating system with built-in networking and service processes known as daemons in the UNIX world.
+Files are stored in a hierarchical filesystem, with the top node of the system being the root or simply `/`. Whenever possible, Linux makes its components available via files or objects that look like files. Processes, devices, and network sockets are all represented by file-like objects and can often be worked with using the same utilities used for regular files. Linux is a fully multitasking (i.e., multiple threads of execution are performed simultaneously), multiuser operating system with built-in networking and service processes known as daemons in the UNIX world.
 
 ### Linux Community
 
@@ -117,8 +113,6 @@ The Linux community is a far-reaching ecosystem consisting of developers, system
 A portal to one of the most powerful online user communities can be found at linux.com. This site is hosted by The Linux Foundation and serves over one million unique visitors every month.
 
 ### Linux Distributions
-
-So, what is a Linux distribution, and how does it relate to the Linux kernel?
 
 The Linux kernel is the core of the operating system. A full Linux distribution consists of the kernel plus a number of other software tools for file-related operations, user management, and software package management. Each of these tools provides a part of the complete system. Each tool is often its own separate project, with its own developers working to perfect that piece of the system.
 
@@ -166,21 +160,21 @@ A number of boot loaders exist for Linux; the most common ones are GRUB (for GRa
 
 ![Boot Loader](images/mbr.png)
 
-#### Boot Loader in Action
+#### Boot Loader in action
 
 The boot loader has two distinct stages:
 
 For systems using the BIOS/MBR method, the boot loader resides at the first sector of the hard disk, also known as the Master Boot Record (MBR). The size of the MBR is just 512 bytes. In this stage, the boot loader examines the partition table and finds a bootable partition. Once it finds a bootable partition, it then searches for the second stage boot loader, for example GRUB, and loads it into RAM (Random Access Memory). For systems using the EFI/UEFI method, UEFI firmware reads its Boot Manager data to determine which UEFI application is to be launched and from where (i.e., from which disk and partition the EFI partition can be found). The firmware then launches the UEFI application, for example GRUB, as defined in the boot entry in the firmware's boot manager. This procedure is more complicated but more versatile than the older MBR methods.
 
-The second stage boot loader resides under /boot. A splash screen is displayed, which allows us to choose which operating system (OS) and/or kernel to boot. After the OS and kernel are selected, the boot loader loads the kernel of the operating system into RAM and passes control to it. Kernels are almost always compressed, so the first job they have is to uncompress themself. After this, it will check and analyze the system hardware and initialize any hardware device drivers built into the kernel.
+The second stage boot loader resides under `/boot`. A splash screen is displayed, which allows us to choose which operating system (OS) and/or kernel to boot. After the OS and kernel are selected, the boot loader loads the kernel of the operating system into RAM and passes control to it. Kernels are almost always compressed, so the first job they have is to uncompress themself. After this, it will check and analyze the system hardware and initialize any hardware device drivers built into the kernel.
 
 #### The initial RAM disk (initrd) or initial RAM filesystem (initramfs)
 
-The initramfs filesystem image contains programs and binary files that perform all actions needed to mount the proper root filesystem, including providing the kernel functionality required for the specific filesystem that will be used, and loading the device drivers for mass storage controllers, by taking advantage of the udev system (for user device), which is responsible for figuring out which devices are present, locating the device drivers they need to operate properly, and loading them. After the root filesystem has been found, it is checked for errors and mounted.
+The `initramfs` filesystem image contains programs and binary files that perform all actions needed to mount the proper root filesystem, including providing the kernel functionality required for the specific filesystem that will be used, and loading the device drivers for mass storage controllers, by taking advantage of the `udev` system (for user device), which is responsible for figuring out which devices are present, locating the device drivers they need to operate properly, and loading them. After the root filesystem has been found, it is checked for errors and mounted.
 
-The mount program instructs the operating system that a filesystem is ready for use and associates it with a particular point in the overall hierarchy of the filesystem (the mount point). If this is successful, the initramfs is cleared from RAM, and the init program on the root filesystem (/sbin/init) is executed.
+The `mount` program instructs the operating system that a filesystem is ready for use and associates it with a particular point in the overall hierarchy of the filesystem (the mount point). If this is successful, the `initramfs` is cleared from RAM, and the init program on the root filesystem (`/sbin/init`) is executed.
 
-init handles the mounting and pivoting over to the final real root filesystem. If special hardware drivers are needed before the mass storage can be accessed, they must be in the initramfs image.
+`init` handles the mounting and pivoting over to the final real root filesystem. If special hardware drivers are needed before the mass storage can be accessed, they must be in the `initramfs` image.
 
 ![initramfs](images/initramfs.png)
 
@@ -190,7 +184,7 @@ Near the end of the boot process, init starts a number of text-mode login prompt
 
 The terminals which run the command shells can be accessed using the ALT key plus a function key. Most distributions start six text terminals and one graphics terminal starting with F1 or F2. Within a graphical environment, switching to a text console requires pressing CTRL-ALT + the appropriate function key (with F7 or F1 leading to the GUI).
 
-Usually, the default command shell is bash (the GNU Bourne Again Shell), but there are a number of other advanced command shells available. The shell prints a text prompt, indicating it is ready to accept commands; after the user types the command and presses Enter, the command is executed, and another prompt is displayed after the command is done.
+Usually, the default command shell is `bash` (the GNU Bourne Again Shell), but there are a number of other advanced command shells available. The shell prints a text prompt, indicating it is ready to accept commands; after the user types the command and presses Enter, the command is executed, and another prompt is displayed after the command is done.
 
 ![Text Mode Login](images/text-mode-login.png)
 
@@ -198,7 +192,7 @@ Usually, the default command shell is bash (the GNU Bourne Again Shell), but the
 
 #### The Linux Kernel
 
-The boot loader loads both the kernel and an initial RAM–based file system (initramfs) into memory, so it can be used directly by the kernel.
+The boot loader loads both the kernel and an initial RAM–based file system (`initramfs`) into memory, so it can be used directly by the kernel.
 
 When the kernel is loaded in RAM, it immediately initializes and configures the computer’s memory and also configures all the hardware attached to the system. This includes all processors, I/O subsystems, storage devices, etc. The kernel also loads some necessary user space applications.
 
@@ -206,11 +200,11 @@ When the kernel is loaded in RAM, it immediately initializes and configures the 
 
 #### /sbin/init and Services
 
-Once the kernel has set up all its hardware and mounted the root filesystem, the kernel runs /sbin/init. This then becomes the initial process, which then starts other processes to get the system running. Most other processes on the system trace their origin ultimately to init; exceptions include the so-called kernel processes. These are started by the kernel directly, and their job is to manage internal operating system details.
+Once the kernel has set up all its hardware and mounted the root filesystem, the kernel runs `/sbin/init`. This then becomes the initial process, which then starts other processes to get the system running. Most other processes on the system trace their origin ultimately to init; exceptions include the so-called kernel processes. These are started by the kernel directly, and their job is to manage internal operating system details.
 
 Besides starting the system, init is responsible for keeping the system running and for shutting it down cleanly. One of its responsibilities is to act when necessary as a manager for all non-kernel processes; it cleans up after them upon completion, and restarts user login services as needed when users log in and out, and does the same for other background system services.
 
-Traditionally, this process startup was done using conventions that date back to the 1980s and the System V variety of UNIX. This serial process (called SysVinit) had the system pass through a sequence of runlevels containing collections of scripts that start and stop services. Each runlevel supported a different mode of running the system. Within each runlevel, individual services could be set to run, or to be shut down if running.
+Traditionally, this process startup was done using conventions that date back to the 1980s and the System V variety of UNIX. This serial process (called `SysVinit`) had the system pass through a sequence of runlevels containing collections of scripts that start and stop services. Each runlevel supported a different mode of running the system. Within each runlevel, individual services could be set to run, or to be shut down if running.
 
 However, all major distributions have moved away from this sequential method of system initialization, although they usually can emulate many System V utilities for compatibility purposes. Next, we discuss the new methods, of which systemd has become dominant.
 
@@ -218,16 +212,16 @@ However, all major distributions have moved away from this sequential method of 
 
 #### Startup Alternatives
 
-SysVinit viewed things as a serial process, divided into a series of sequential stages. Each stage required completion before the next could proceed. Thus, startup did not easily take advantage of the parallel processing that could be done with the multiple processors or cores found on modern systems.
+`SysVinit` viewed things as a serial process, divided into a series of sequential stages. Each stage required completion before the next could proceed. Thus, startup did not easily take advantage of the parallel processing that could be done with the multiple processors or cores found on modern systems.
 
 Furthermore,  starting up and rebooting were seen as relatively rare events; exactly how long they took was not considered important. This is no longer true, especially with mobile devices and embedded Linux systems. Some modern methods, such as the use of containers, can require almost instantaneous startup times. Thus, systems now require methods with faster and enhanced capabilities. Finally, the older methods required rather complicated startup scripts, which were difficult to keep universal across distribution versions, kernel versions, architectures, and types of systems. The two main alternatives developed were:
 
-**Upstart**
+##### Upstart
 
 - Developed by Ubuntu and first included in 2006
 - Adopted in Fedora 9 (in 2008) and in RHEL 6 and its clones
 
-**systemd**
+##### systemd
 
 - Adopted by Fedora first (in 2011)
 - Adopted by RHEL 7 and SUSE
@@ -237,11 +231,11 @@ While the migration to systemd was rather controversial, it has been adopted by 
 
 #### systemd Features
 
-Systems with systemd start up faster than those with earlier init methods. This is largely because it replaces a serialized set of steps with aggressive parallelization techniques, which permits multiple services to be initiated simultaneously.
+Systems with `systemd` start up faster than those with earlier `init` methods. This is largely because it replaces a serialized set of steps with aggressive parallelization techniques, which permits multiple services to be initiated simultaneously.
 
-Complicated startup shell scripts are replaced with simpler configuration files, which enumerate what has to be done before a service is started, how to execute service startup, and what conditions the service should indicate have been accomplished when startup is finished. One thing to note is that /sbin/init now just points to /lib/systemd/systemd; i.e. systemd takes over the init process.
+Complicated startup shell scripts are replaced with simpler configuration files, which enumerate what has to be done before a service is started, how to execute service startup, and what conditions the service should indicate have been accomplished when startup is finished. One thing to note is that `/sbin/init` now just points to `/lib/systemd/systemd`; i.e. `systemd` takes over the init process.
 
-One systemd command (systemctl) is used for most basic tasks. While we have not yet talked about working at the command line, here is a brief listing of its use:
+One systemd command (`systemctl`) is used for most basic tasks. While we have not yet talked about working at the command line, here is a brief listing of its use:
 
 - Starting, stopping, restarting a service (using httpd, the Apache web server, as an example) on a currently running system:
 
@@ -261,7 +255,7 @@ One systemd command (systemctl) is used for most basic tasks. While we have not 
     sudo systemctl status httpd.service
 ```
 
-In most cases, the .service can be omitted. There are many technical differences with older methods that lie beyond the scope of our discussion.
+In most cases, the `.service` can be omitted. There are many technical differences with older methods that lie beyond the scope of our discussion.
 
 ![systemd](images/systemd.png)
 
@@ -273,10 +267,10 @@ Libraries separate books and other media into multiple sections; this organizati
 
 Different types of filesystems supported by Linux:
 
-- Conventional disk filesystems: ext3, ext4, XFS, Btrfs, JFS, NTFS, vfat, exfat, etc.
-- Flash storage filesystems: ubifs, jffs2, yaffs, etc.
+- Conventional disk filesystems: `ext3`, `ext4`, `XFS`, `Btrfs`, `JFS`, `NTFS`, `vfat`, `exfat`, etc.
+- Flash storage filesystems: `ubifs`, `jffs2`, `yaffs`, etc.
 - Database filesystems
-- Special purpose filesystems: procfs, sysfs, tmpfs, squashfs, debugfs, fuse, etc.
+- Special purpose filesystems: `procfs`, `sysfs`, `tmpfs`, `squashfs`, `debugfs`, `fuse`, etc.
 
 #### Partitions and Filesystems
 
@@ -290,21 +284,21 @@ Make a table comparison between filesystems in Windows and Linux.
 
 |                              | WINDOWS                | LINUX                         |
 |------------------------------|------------------------|-------------------------------|
-| **Partition**                | Disk1, Disk2, etc.     | /dev/sda1, /dev/sdb1, etc.    |
-| **Filesystem**               | NTFS, FAT32, exFAT     | ext3, ext4, XFS, Btrfs, etc.  |
-| **Mount point**              | C:, D:, etc.           | /, /home, /var, etc.          |
-| **Base folder**              | C:\                    | /                             |
-| **Path separator**           | \                      | /                             |
+| **Partition**                | `Disk1`, `Disk2`, etc.   | `/dev/sda1`, `/dev/sdb1`, etc.  |
+| **Filesystem**               | `NTFS`, `FAT32`, `exFAT` | `ext3`, `ext4`, `XFS`, `Btrfs`, etc.  |
+| **Mount point**              | `C:`, `D:`, etc.         | `/`, `/home`, `/var`, etc.      |
+| **Base folder**              | `C:\`                    | `/`                             |
+| **Path separator**           | `\`                      | `/`                             |
 
 #### Filesystem Hierarchy Standard (FHS)
 
-Linux systems store their important files according to a standard layout called the Filesystem Hierarchy Standard (FHS), which has long been maintained by the Linux Foundation. For more information, take a look at the following document: "Filesystem Hierarchy Standard" created by LSB Workgroup. Having a standard is designed to ensure that users, administrators, and developers can move between distributions without having to re-learn how the system is organized.
+Linux systems store their important files according to a standard layout called the Filesystem Hierarchy Standard (FHS), which has long been maintained by the Linux Foundation. Having a standard is designed to ensure that users, administrators, and developers can move between distributions without having to re-learn how the system is organized.
 
-Linux uses the ‘/’ character to separate paths (as sis UNIX unlike Windows, which uses ‘\’) and does not have drive letters. Multiple drives and/or partitions are mounted as directories in the single filesystem. Removable media such as USB drives and CDs, and DVDs will show up as mounted at /run/media/yourusername/disklabel for recent Linux systems or under /media for older distributions. For example, if your username is student, a USB pen drive labeled FEDORA might end up being found at /run/media/student/FEDORA, and a file README.txt on that disc would be at /run/media/student/FEDORA/README.txt.
+Linux uses the `/` character to separate paths (as sis UNIX unlike Windows, which uses `\`) and does not have drive letters. Multiple drives and/or partitions are mounted as directories in the single filesystem. Removable media such as USB drives and CDs, and DVDs will show up as mounted at `/run/media/yourusername/disklabel` for recent Linux systems or under `/media` for older distributions. For example, if your username is student, a USB pen drive labeled FEDORA might end up being found at `/run/media/student/FEDORA`, and a file `README.txt` on that disc would be at `/run/media/student/FEDORA/README.txt`.
 
 ![FHS](images/dirtree.jpg)
 
-All Linux filesystem names are case-sensitive, so /boot, /Boot, and /BOOT represent three different directories (or folders). Many distributions distinguish between core utilities needed for proper system operation and other programs, and place the latter in directories under /usr (think user). To get a sense for how the other programs are organized, find the /usr directory in the diagram from the previous page and compare the subdirectories with those that exist directly under the system root directory (/).
+All Linux filesystem names are case-sensitive, so `/boot`, `/Boot`, and `/BOOT` represent three different directories (or folders). Many distributions distinguish between core utilities needed for proper system operation and other programs, and place the latter in directories under `/usr` (think user). To get a sense for how the other programs are organized, find the `/usr` directory in the diagram from the previous page and compare the subdirectories with those that exist directly under the system root directory (`/`).
 
 ### Linux Distribution Installation
 
@@ -316,7 +310,7 @@ The partition layout is best decided at the time of installation; it can be diff
 
 ![Partition Layout](images/partitions-planning.png)
 
-Nearly all Linux distribution installers provide a reasonable default layout, with either all space dedicated to normal files on one big partition and a smaller swap partition or with separate partitions for some space-sensitive areas like /home and /var. You may need to override the defaults and do something different if you have special needs or if you want to use more than one disk.
+Nearly all Linux distribution installers provide a reasonable default layout, with either all space dedicated to normal files on one big partition and a smaller swap partition or with separate partitions for some space-sensitive areas like `/home` and `/var`. You may need to override the defaults and do something different if you have special needs or if you want to use more than one disk.
 
 All installations include the bare minimum software for running a Linux distribution.
 
@@ -324,13 +318,13 @@ Distributions also provide options for adding categories of software. Common app
 
 Modern distributions tend to do a simple and quick install first and then let you make these choices once the system is running in at least some basic fashion. In earlier times, there were a lot of choices to make during first installation, which could be intimidating and confusing to a new user, and also make the install take a much longer time.
 
-All installers set up some initial security features on the new system. One basic step consists of setting the password for the superuser (root) and setting up an initial user. In some cases (such as with Fedora and Ubuntu), only an initial user is set up; direct root login is not configured, and root access requires logging in first as a normal user and then using sudo, as we will describe later. Some distributions will also install more advanced security frameworks, such as SELinux or AppArmor. For example, all Red Hat-based systems, including Fedora and CentOS, always use SELinux by default, and Ubuntu comes with AppArmor up and running.
+All installers set up some initial security features on the new system. One basic step consists of setting the password for the superuser (`root`) and setting up an initial user. In some cases (such as with Fedora and Ubuntu), only an initial user is set up; direct root login is not configured, and root access requires logging in first as a normal user and then using sudo, as we will describe later. Some distributions will also install more advanced security frameworks, such as SELinux or AppArmor. For example, all Red Hat-based systems, including Fedora and CentOS, always use SELinux by default, and Ubuntu comes with AppArmor up and running.
 
 ## 4 - Graphical Interface
 
 - GNOME is a popular desktop environment and graphical user interface that runs on top of the Linux operating system.
-- The default display manager for GNOME is called gdm.
-- The gdm display manager presents the user with the login screen, which prompts for the login username and password.
+- The default display manager for GNOME is called `gdm`.
+- The `gdm` display manager presents the user with the login screen, which prompts for the login username and password.
 - Logging out through the desktop environment kills all processes in your current X session and returns to the display manager login screen.
 - Linux enables users to switch between logged-in sessions.
 - Suspending puts the computer into sleep mode.
@@ -354,27 +348,27 @@ All systems have a lower-level utility that handles the details of unpacking a p
 
 In this section, you will learn how to install and update software in Linux using the Debian packaging system (used by systems such as Ubuntu as well) and RPM packaging systems (which are used by both Red Hat and SUSE family systems). These are the main ones in use, although others work well for other distributions which have a smaller user base, such as Archlinux and Gentoo.
 
-![Package Management](images/package-managemer.png)
+![Package Management](images//package-manager.png)
 
-**Debian Package Management**
+#### Debian Package Management
 
 Let’s look at the package management for the Debian family system.
 
-dpkg is the underlying package manager for these systems. It can install, remove, and build packages. Unlike higher-level package management systems, it does not automatically download and install packages and satisfy their dependencies.
+`dpkg` is the underlying package manager for these systems. It can install, remove, and build packages. Unlike higher-level package management systems, it does not automatically download and install packages and satisfy their dependencies.
 
-For Debian-based systems, the higher-level package management system is the Advanced Package Tool (APT) system of utilities. Generally, while each distribution within the Debian family uses APT, it creates its own user interface on top of it (for example, apt and apt-get, synaptic, gnome-software, Ubuntu Software Center, etc). Although apt repositories are generally compatible with each other, the software they contain generally is not. Therefore, most repositories target a particular distribution (like Ubuntu), and often software distributors ship with multiple repositories to support multiple distributions. Demonstrations are shown later in this section.
+For Debian-based systems, the higher-level package management system is the Advanced Package Tool (APT) system of utilities. Generally, while each distribution within the Debian family uses APT, it creates its own user interface on top of it (for example, `apt` and `apt-get`, `synaptic`, gnome-software, Ubuntu Software Center, etc). Although `apt` repositories are generally compatible with each other, the software they contain generally is not. Therefore, most repositories target a particular distribution (like Ubuntu), and often software distributors ship with multiple repositories to support multiple distributions. Demonstrations are shown later in this section.
 
 ![Debian Package Management](images/debian-packaging.png)
 
-**Red Hat Package Manager**
+#### Red Hat Package Manager
 
 Red Hat Package Manager (RPM) is the other package management system popular on Linux distributions. It was developed by Red Hat and adopted by a number of other distributions, including Fedora, CentOS, SUSE/openSUSE, Oracle Linux, and others.
 
-The higher-level package manager differs between distributions. Red Hat family distributions historically use RHEL/CentOS, and Fedora uses dnf, while SUSE family distributions such as openSUSE also use RPM but use the zypper interface.
+The higher-level package manager differs between distributions. Red Hat family distributions historically use RHEL/CentOS, and Fedora uses `dnf`, while SUSE family distributions such as openSUSE also use RPM but use the `zypper` interface.
 
 ![RPM Package Management](images/rhpm.png)
 
-**OpenSUSE YaST Software Management**
+#### OpenSUSE YaST Software Management
 
 The Yet another Setup Tool (YaST) software manager is similar to other graphical package managers. It is an RPM-based application. You can add, remove, or update packages using this application very easily. To access the YaST software manager:
 
@@ -550,25 +544,6 @@ find . -name file
 find . -name file -type f
 ```
 
-Virtual terminals (VT) in Linux are consoles, or command line terminals that use the connected monitor and keyboard.
-Different Linux distributions start and stop the graphical desktop in different ways.
-A terminal emulator program on the graphical desktop works by emulating a terminal within a window on the desktop.
-The Linux system allows you to either log in via text terminal or remotely via the console.
-When typing your password, nothing is printed to the terminal, not even a generic symbol to indicate that you typed.
-The preferred method to shut down or reboot the system is to use the shutdown command.
-There are two types of pathnames: absolute and relative.
-An absolute pathname begins with the root directory and follows the tree, branch by branch, until it reaches the desired directory or file.
-A relative pathname starts from the present working directory.
-Using hard and soft (symbolic) links is extremely useful in Linux.
-cd remembers where you were last, and lets you get back there with cd -.
-locate performs a database search to find all file names that match a given pattern.
-find locates files recursively from a given directory or set of directories.
-find is able to run commands on the files that it lists, when used with the -exec option.
-touch is used to set the access, change, and edit times of files, as well as to create empty files.
-The Advanced Packaging Tool (apt) package management system is used to manage installed software on Debian-based systems.
-You can use the dnf command-line package management utility for the RPM-based Red Hat Family Linux distributions.
-The zypper package management system is based on RPM and used for openSUSE.
-
 ```bash
 # Search for text within files in the current directory
 grep text file
@@ -616,15 +591,15 @@ command1 | command2
 
 ### Locating applications
 
-Depending on the specifics of your particular distribution's policy, programs and software packages can be installed in various directories. In general, executable programs and scripts should live in the /bin, /usr/bin, /sbin, /usr/sbin directories, or somewhere under /opt. They can also appear in /usr/local/bin and /usr/local/sbin, or in a directory in a user's account space, such as /home/student/bin.
+Depending on the specifics of your particular distribution's policy, programs and software packages can be installed in various directories. In general, executable programs and scripts should live in the `/bin`, `/usr/bin`, `/sbin`, `/usr/sbin` directories, or somewhere under `/opt`. They can also appear in `/usr/local/bin` and `/usr/local/sbin`, or in a directory in a user's account space, such as `/home/student/bin`.
 
-One way to locate programs is to employ the which utility. For example, to find out exactly where the diff program resides on the filesystem:
+One way to locate programs is to employ the `which` utility. For example, to find out exactly where the `diff` program resides on the filesystem:
 
 ```bash
 which application
 ```
 
-If which does not find the program, whereis is a good alternative because it looks for packages in a broader range of system directories:
+If `which` does not find the program, `whereis` is a good alternative because it looks for packages in a broader range of system directories:
 
 ```bash
 whereis application
@@ -641,16 +616,16 @@ variable=value
 
 ### Steps for Setting Up and Running sudo
 
-If your system does not already have sudo set up and enabled, you need to do the following steps:
+If your system does not already have `sudo` set up and enabled, you need to do the following steps:
 
-You will need to make modifications as the administrative, or superuser, root. While sudo will become the preferred method of doing this, we do not have it set up yet, so we will need to use su instead. At the command line prompt, type su and press Enter. You will then be prompted for the root password, so enter it and press Enter. You will notice that nothing is printed; this is so others cannot see the password on the screen. You should end up with a different looking prompt, often ending with ‘#’. For example:
+You will need to make modifications as the administrative, or superuser, `root`. While `sudo` will become the preferred method of doing this, we do not have it set up yet, so we will need to use `su` instead. At the command line prompt, type su and press Enter. You will then be prompted for the root password, so enter it and press Enter. You will notice that nothing is printed; this is so others cannot see the password on the screen. You should end up with a different looking prompt, often ending with `#`. For example:
 
 ```bash
 su Password:
 # 
 ```
 
-Now, you need to create a configuration file to enable your user account to use sudo. Typically, this file is created in the /etc/sudoers.d/ directory with the name of the file the same as your username. For example, for this demo, let’s say your username is student. After doing step 1, you would then create the configuration file for student by doing this:
+Now, you need to create a configuration file to enable your user account to use `sudo`. Typically, this file is created in the `/etc/sudoers.d/` directory with the name of the file the same as your username. For example, for this demo, let’s say your username is `student`. After doing step 1, you would then create the configuration file for student by doing this:
 
 ```bash
 echo "student ALL=(ALL) ALL" > /etc/sudoers.d/student
@@ -662,7 +637,7 @@ Finally, some Linux distributions will complain if you do not also change permis
 chmod 440 /etc/sudoers.d/student
 ```
 
-That should be it. For the rest of this course, if you use sudo you should be properly set up. When using sudo, by default you will be prompted to give a password (your own user password) at least the first time you do it within a specified time interval. It is possible (though very insecure) to configure sudo to not require a password or change the time window in which the password does not have to be repeated with every sudo command.
+That should be it. For the rest of this course, if you use `sudo` you should be properly set up. When using `sudo`, by default you will be prompted to give a password (your own user password) at least the first time you do it within a specified time interval. It is possible (though very insecure) to configure `sudo` to not require a password or change the time window in which the password does not have to be repeated with every `sudo` command.
 
 ### Turning off the graphical interface
 
@@ -695,7 +670,7 @@ find is an extremely useful and often-used utility program in the daily life of 
 
 For example, administrators sometimes scan for potentially large core files (which contain diagnostic information after a program fails) that are more than several weeks old in order to remove them.
 
-It is also common to remove files non-essential or outdated files in /tmp (and other volatile directories, such as those under /var/cache/ containing dispensable cached files) that have not been accessed recently. Many Linux distributions use shell scripts that run periodically (through cron usually) to perform such house cleaning.
+It is also common to remove files non-essential or outdated files in `/tmp` (and other volatile directories, such as those under `/var/cache/` containing dispensable cached files) that have not been accessed recently. Many Linux distributions use shell scripts that run periodically (through `cron` usually) to perform such house cleaning.
 
 ```bash
 # Search for files and directories in the current directory
@@ -711,33 +686,33 @@ The `locate` command is used to search for files and directories in the file sys
 locate file
 ```
 
-The {} (squiggly brackets) is a placeholder that will be filled with all the file names that result from the find expression, and the preceding command will be run on each one individually.
+The `{}` (squiggly brackets) is a placeholder that will be filled with all the file names that result from the find expression, and the preceding command will be run on each one individually.
 
-Please note that you have to end the command with either ‘;’ (including the single-quotes) or \;. Both forms are fine.
+Please note that you have to end the command with either `‘;’` (including the single-quotes) or `\;`. Both forms are fine.
 
-One can also use the -ok option, which behaves the same as -exec, except that find will prompt you for permission before executing the command. This makes it a good way to test your results before blindly executing any potentially dangerous commands.
+One can also use the `-ok` option, which behaves the same as `-exec`, except that find will prompt you for permission before executing the command. This makes it a good way to test your results before blindly executing any potentially dangerous commands.
 
 ![Locate Files](images/find-command.png)
 
 ### Basic package management
 
-The Advanced Packaging Tool (apt) is the underlying package management system that manages software on Debian-based systems. While it forms the backend for graphical package managers, such as the Ubuntu Software Center and synaptic, its native user interface is at the command line, with programs that include apt (or apt-get) and apt-cache.
+The Advanced Packaging Tool (`apt`) is the underlying package management system that manages software on Debian-based systems. While it forms the backend for graphical package managers, such as the Ubuntu Software Center and `synaptic`, its native user interface is at the command line, with programs that include `apt` (or `apt-get`) and `apt-cache`.
 
-dnf is the open source command-line package-management utility for the RPM-compatible Linux systems that belong to the Red Hat family.
+`dnf` is the open source command-line package-management utility for the RPM-compatible Linux systems that belong to the Red Hat family.
 
-zypper is the package management system for the SUSE/openSUSE family and is also based on RPM. zypper also allows you to manage repositories from the command line. zypper is fairly straightforward to use and closely resembles dnf.
+`zypper` is the package management system for the SUSE/openSUSE family and is also based on RPM. `zypper` also allows you to manage repositories from the command line. `zypper` is fairly straightforward to use and closely resembles `dnf`.
 
 ![Package Management](images/package-management-system.png)
 
 |Operation | Debian-based | Red Hat-based | SUSE-based |
 |----------|---------------|---------------|------------|
-|Install package | sudo apt install package | sudo dnf install package | sudo zypper install package |
-|Remove package | sudo apt remove package | sudo dnf remove package | sudo zypper remove package |
-|Update package | sudo apt update package | sudo dnf update package | sudo zypper update package |
-|Search package | sudo apt search package | sudo dnf search package | sudo zypper search package |
-|List installed packages | dpkg -l | rpm -qa | zypper se --installed-only |
-|Update entire system | sudo apt update && sudo apt upgrade | sudo dnf update | sudo zypper update |
-|Show package information | apt show package | dnf info package | zypper info package |
+|Install package | `sudo apt install package` | `sudo dnf install package` | `sudo zypper install package` |
+|Remove package | `sudo apt remove package` | `sudo dnf remove package` | `sudo zypper remove package` |
+|Update package | `sudo apt update package` | `sudo dnf update package` | `sudo zypper update package` |
+|Search package | `sudo apt search package` | `sudo dnf search package` | `sudo zypper search package` |
+|List installed packages | `dpkg -l` | `rpm -qa` | `zypper se --installed-only` |
+|Update entire system | `sudo apt update && sudo apt upgrade` | `sudo dnf update` | `sudo zypper update` |
+|Show package information | `apt show package` | `dnf info package` | `zypper info package` |
 
 ### Summary
 
@@ -758,7 +733,8 @@ zypper is the package management system for the SUSE/openSUSE family and is also
 - `touch` is used to set the access, change, and edit times of files, as well as to create empty files.
 - The Advanced Packaging Tool (apt) package management system is used to manage installed software on Debian-based systems.
 - You can use the dnf command-line package management utility for the RPM-based Red Hat Family Linux distributions.
-The zypper package management system is based on RPM and used for openSUSE.
+
+The `zypper` package management system is based on RPM and used for openSUSE.
 
 |Command | Description | Example |
 |--------|-------------|---------|
@@ -814,10 +790,10 @@ Processes can be of different types according to the task being performed.
 |Process Type | Description | Example |
 |-------------|-------------|---------|
 | Interactive | Need to be started by a user, either at a command line or through a graphical interface such as an icon or a menu selection.| bash, firefox, Slack |
-| Batch | Automatic processes which are scheduled from and then disconnected from the terminal. These tasks are queued and work on a FIFO (First-In, First-Out) basis. | updatedb, backup scripts |
-| Daemons | Server processes that run continuously. Many are launched during system startup and then wait for a user or system request indicating that their service is required | httpd, sshd, cupsd |
-| Threads | Lightweight processes. These are tasks that run under the umbrella of a main process, sharing memory and other resources, but are scheduled and run by the system on an individual basis. An individual thread can end without terminating the whole process and a process can create new threads at any time. Many non-trivial programs are multi-threaded. | dconf-service, gnome-terminal-server |
-| Kernel Threads | Kernel tasks that users neither start nor terminate and have little control over. These may perform actions like moving a thread from one CPU to another, or making sure input/output operations to disk are completed.| kthreadd, migration, ksoftirqd |
+| Batch | Automatic processes which are scheduled from and then disconnected from the terminal. These tasks are queued and work on a FIFO (First-In, First-Out) basis. | `updatedb`, `backup scripts` |
+| Daemons | Server processes that run continuously. Many are launched during system startup and then wait for a user or system request indicating that their service is required | `httpd`, `sshd`, `cupsd` |
+| Threads | Lightweight processes. These are tasks that run under the umbrella of a main process, sharing memory and other resources, but are scheduled and run by the system on an individual basis. An individual thread can end without terminating the whole process and a process can create new threads at any time. Many non-trivial programs are multi-threaded. | `dconf-service`, `gnome-terminal-server` |
+| Kernel Threads | Kernel tasks that users neither start nor terminate and have little control over. These may perform actions like moving a thread from one CPU to another, or making sure input/output operations to disk are completed.| `kthreadd`, `migration`, `ksoftirqd` |
 
 ### Process States
 
@@ -841,7 +817,7 @@ New PIDs are usually assigned in ascending order as processes are born. Thus, PI
 |PPID | Process (Parent) that started this process. If the parent dies, the PPID will refer to an adoptive parent; on modern kernels, this is kthreadd which has PPID=2|
 |TID | Thread ID number. This is the same as the PID for single-threaded processes. For a multi-threaded process, each thread shares the same PID, but has a unique TID.|
 
-To terminate a process, you can use the kill command. The kill command sends a signal to a process, which can be used to terminate the process. The kill command sends a signal to a process with the specified PID.
+To terminate a process, you can use the `kill` command. The `kill` command sends a signal to a process, which can be used to terminate the process. The `kill` command sends a signal to a process with the specified PID.
 
 ```bash
 # Terminate a process
@@ -890,7 +866,7 @@ The load average is the average of the load number for a given period of time. I
 
 Linux differs from other UNIX-like operating systems in that it includes the sleeping processes. Furthermore, it only includes so-called uninterruptible sleepers, those which cannot be awakened easily.
 
-The load average can be viewed by running w, top or uptime.
+The load average can be viewed by running `w`, `top` or `uptime`.
 
 The load average is displayed using three numbers (0.45, 0.17, and 0.12) in the below screenshot. Assuming our system is a single-CPU system, the three load average numbers are interpreted as follows:
 
@@ -908,13 +884,13 @@ Short-term increases are usually not a problem. A high peak you see is likely a 
 
 Linux supports background and foreground job processing. A job in this context is just a command launched from a terminal window. Foreground jobs run directly from the shell, and when one foreground job is running, other jobs need to wait for shell access (at least in that terminal window if using the GUI) until it is completed. This is fine when jobs complete quickly. But this can have an adverse effect if the current job is going to take a long time (even several hours) to complete.
 
-In such cases, you can run the job in the background and free the shell for other tasks. The background job will be executed at lower priority, which, in turn, will allow smooth execution of the interactive tasks, and you can type other commands in the terminal window while the background job is running. By default, all jobs are executed in the foreground. You can put a job in the background by suffixing & to the command, for example: updatedb &.
+In such cases, you can run the job in the background and free the shell for other tasks. The background job will be executed at lower priority, which, in turn, will allow smooth execution of the interactive tasks, and you can type other commands in the terminal window while the background job is running. By default, all jobs are executed in the foreground. You can put a job in the background by suffixing `&` to the command, for example: `updatedb &`.
 
-You can use CTRL-Z to suspend a foreground job (i.e., put it in background) and CTRL-C to terminate it. You can always use the bg command to run a suspended process in the background, or the fg command to run a background process in the foreground.
+You can use `CTRL-Z` to suspend a foreground job (i.e., put it in background) and `CTRL-C` to terminate it. You can always use the `bg` command to run a suspended process in the background, or the `fg` command to run a background process in the foreground.
 
-The jobs utility displays all jobs running in background. The display shows the job ID, state, and command name, as shown here.
+The `jobs` utility displays all jobs running in background. The display shows the job ID, state, and command name, as shown here.
 
-jobs -l provides the same information as jobs, and adds the PID of the background jobs.
+`jobs -l` provides the same information as jobs, and adds the PID of the background jobs.
 
 The background jobs are connected to the terminal window, so, if you log off, the jobs utility will not show the ones started from that window.
 
@@ -922,25 +898,25 @@ The background jobs are connected to the terminal window, so, if you log off, th
 
 ### Listing processes
 
-ps (process status) provides information about currently running processes keyed by PID. If you want a periodic update of this status, you can use top or other commonly installed variants (such as htop, atop, or btop) from the command line, or invoke your distribution's graphical system monitor application (such as gnome-system-monitor or ksysguard).
+`ps` (process status) provides information about currently running processes keyed by PID. If you want a periodic update of this status, you can use top or other commonly installed variants (such as `htop`, `atop`, or `btop`) from the command line, or invoke your distribution's graphical system monitor application (such as `gnome-system-monitor` or `ksysguard`).
 
-ps has many options for specifying exactly which tasks to examine, what information to display about them, and precisely what output format should be used.
+`ps` has many options for specifying exactly which tasks to examine, what information to display about them, and precisely what output format should be used.
 
-Without options, ps will display all processes running under the current shell. You can use the -u option to display information of processes for a specified username. The command ps -ef displays all the processes in the system in full detail. The command ps -eLf goes one step further and displays one line of information for every thread (remember, a process can contain multiple threads).
+Without options, `ps` will display all processes running under the current shell. You can use the `-u` option to display information of processes for a specified username. The command `ps -ef` displays all the processes in the system in full detail. The command `ps -eLf` goes one step further and displays one line of information for every thread (remember, a process can contain multiple threads).
 
 ![Process Status](images/ubuntupsef.png)
 
-ps has another style of option specification, which stems from the BSD variety of UNIX, where options are specified without preceding dashes. For example, the command ps aux displays all processes of all users. The command ps axo allows you to specify which attributes you want to view.
+`ps` has another style of option specification, which stems from the BSD variety of UNIX, where options are specified without preceding dashes. For example, the command `ps aux` displays all processes of all users. The command `ps axo` allows you to specify which attributes you want to view.
 
-The screenshot shows a sample output of ps with the aux and axo qualifiers.
+The screenshot shows a sample output of `ps` with the `aux` and `axo` qualifiers.
 
 ![Process Status](images/psbsdrhel.png)
 
-pstree displays the processes running on the system in the form of a tree diagram showing the relationship between a process and its parent process and any other processes that it created. Repeated entries of a process are not displayed, and threads are displayed in curly braces.
+`pstree` displays the processes running on the system in the form of a tree diagram showing the relationship between a process and its parent process and any other processes that it created. Repeated entries of a process are not displayed, and threads are displayed in curly braces.
 
 ![Process Tree](images/pstree.png)
 
-While a static view of what the system is doing is useful, monitoring the system performance live over time is also valuable. One option would be to run ps at regular intervals, say, every few seconds. A better alternative is to use top to get constant real-time updates (every two seconds by default), until you exit by typing q.top clearly highlights which processes are consuming the most CPU cycles and memory (using appropriate commands from within top).
+While a static view of what the system is doing is useful, monitoring the system performance live over time is also valuable. One option would be to run ps at regular intervals, say, every few seconds. A better alternative is to use `top` to get constant real-time updates (every two seconds by default), until you exit by typing `top` clearly highlights which processes are consuming the most CPU cycles and memory (using appropriate commands from within top).
 
 ![Top Command](images/top-command.png)
 
@@ -1003,13 +979,13 @@ There are a number of alternatives to top with both prettier displays and additi
 
 ### Starting processes in the future
 
-Suppose you need to perform a task on a specific day sometime in the future. However, you know you will be away from the machine on that day. How will you perform the task? You can use the at utility program to execute any non-interactive command at a specified time, as illustrated in the screenshot below:
+Suppose you need to perform a task on a specific day sometime in the future. However, you know you will be away from the machine on that day. How will you perform the task? You can use the `at` utility program to execute any non-interactive command at a specified time, as illustrated in the screenshot below:
 
 ![At Command](images/atout.png)
 
-cron is a time-based scheduling utility program. It can launch routine background jobs at specific times and/or days on an ongoing basis. cron is driven by a configuration file called /etc/crontab (cron table), which contains the various shell commands that need to be run at the properly scheduled times. There are both system-wide crontab files and individual user-based ones. Each line of a crontab file represents a job, and is composed of a so-called CRON expression, followed by a shell command to execute.
+`cron` is a time-based scheduling utility program. It can launch routine background jobs at specific times and/or days on an ongoing basis. `cron` is driven by a configuration file called `/etc/crontab` (cron table), which contains the various shell commands that need to be run at the properly scheduled times. There are both system-wide crontab files and individual user-based ones. Each line of a `crontab` file represents a job, and is composed of a so-called CRON expression, followed by a shell command to execute.
 
-Typing crontab -e will open the crontab editor to edit existing jobs or to create new jobs. Each line of the crontab file will contain 6 fields:
+Typing `crontab -e` will open the crontab editor to edit existing jobs or to create new jobs. Each line of the crontab file will contain 6 fields:
 
 |Field | Description | Values |
 |------|-------------|--------|
@@ -1022,15 +998,15 @@ Typing crontab -e will open the crontab editor to edit existing jobs or to creat
 
 ```Example: 0 0 * * * /usr/bin/updatedb```
 
-While cron has been used in UNIX-like operating systems for decades, modern Linux distributions have moved over to a newer facility: anacron. This was because cron implicitly assumed the machine was always running. However, If the machine was powered off, scheduled jobs would not run. anacron will run the necessary jobs in a controlled and staggered manner when the system is up and running.
+While `cron` has been used in UNIX-like operating systems for decades, modern Linux distributions have moved over to a newer facility: `anacron`. This was because `cron` implicitly assumed the machine was always running. However, If the machine was powered off, scheduled jobs would not run. `anacron` will run the necessary jobs in a controlled and staggered manner when the system is up and running.
 
 ![ananacron](images/anacrontab.png)
 
-Note that anacron still makes use of the cron infrastructure for submitting jobs on a daily, weekly, and monthly basis, but it defers running them until opportune times when the system is actually alive.
+Note that `anacron` still makes use of the `cron` infrastructure for submitting jobs on a daily, weekly, and monthly basis, but it defers running them until opportune times when the system is actually alive.
 
-Sometimes, a command or job must be delayed or suspended. Suppose, for example, an application has read and processed the contents of a data file and then needs to save a report on a backup system. If the backup system is currently busy or not available, the application can be made to sleep (wait) until it can complete its work. Such a delay might be to mount the backup device and prepare it for writing.  An even simpler and frequent case is one where a system process needs to run periodically to take care of any work that has been queued up for it to deal with and then has to lurk in the background until it is needed again.
+Sometimes, a command or job must be delayed or suspended. Suppose, for example, an application has read and processed the contents of a data file and then needs to save a report on a backup system. If the backup system is currently busy or not available, the application can be made to sleep (`wait`) until it can complete its work. Such a delay might be to mount the backup device and prepare it for writing. An even simpler and frequent case is one where a system process needs to run periodically to take care of any work that has been queued up for it to deal with and then has to lurk in the background until it is needed again.
 
-sleep suspends execution for at least the specified period of time, which can be given as the number of seconds (the default), minutes, hours, or days. After that time has passed (or an interrupting signal has been received), execution will resume.
+`sleep` suspends execution for at least the specified period of time, which can be given as the number of seconds (the default), minutes, hours, or days. After that time has passed (or an interrupting signal has been received), execution will resume.
 
 The syntax is:
 
@@ -1038,11 +1014,11 @@ The syntax is:
 sleep time
 ```
 
-where time can be a number followed by a unit (s for seconds, m for minutes, h for hours, d for days).
+where `time` can be a number followed by a unit (s for seconds, m for minutes, h for hours, d for days).
 
-sleep and at are quite different; sleep delays execution for a specific period, while at starts execution at a specific designated later time.
+`sleep` and `at` are quite different; `sleep` delays execution for a specific period, while `at` starts execution at a specific designated later time.
 
-You can see if the job is queued up by using the atq command. If you want to remove a job from the queue, you can use the atrm command.
+You can see if the job is queued up by using the `atq` command. If you want to remove a job from the queue, you can use the `atrm` command.
 
 Here is a summary of the commands and utilities discussed in this section:
 
@@ -1051,12 +1027,12 @@ Here is a summary of the commands and utilities discussed in this section:
 - Processes can be of different types, such as interactive and non-interactive.
 - Every process has a unique identifier (PID) to enable the operating system to keep track of it.
 - The nice value, or niceness, can be used to set priority.
-- ps provides information about the currently running processes.
+- `ps` provides information about the currently running processes.
 - You can use top to get constant real-time updates about overall system performance, as well as - information about the processes running on the system.
 - Load average indicates the amount of utilization the system is under at particular times.
 - Linux supports background and foreground processing for a job.
-- at executes any non-interactive command at a specified time.
-- cron is used to schedule tasks that need to be performed at regular intervals.
+- `at` executes any non-interactive command at a specified time.
+- `cron` is used to schedule tasks that need to be performed at regular intervals.
 
 ## 8 - File Operations
 
@@ -1064,31 +1040,31 @@ Here is a summary of the commands and utilities discussed in this section:
 
 “Everything is a file” is an often repeated adage quoted by users of Linux (and all UNIX-like operating systems). Whether you are dealing with normal data files and documents, or with devices such as sound cards and printers, this means interaction with them proceeds through the same Input/Output (I/O) operations you commonly use with files. This simplifies things: you open a “file” and perform normal operations like reading and writing it (which is one reason why text editors, which you will learn about in an upcoming section, are so important).
 
-On many systems (including Linux), the filesystem is structured like a tree. The tree is usually portrayed as inverted and starts at what is most often called the root directory, which marks the beginning of the hierarchical filesystem and is also sometimes referred to as the trunk and simply denoted by /. The root directory is not the same as the root user. The hierarchical filesystem also contains other elements in the path (directory names), which are separated by forward slashes (/), as in /usr/bin/emacs, where the last element is the actual file name.
+On many systems (including Linux), the filesystem is structured like a tree. The tree is usually portrayed as inverted and starts at what is most often called the root directory, which marks the beginning of the hierarchical filesystem and is also sometimes referred to as the trunk and simply denoted by `/`. The root directory is not the same as the root user. The hierarchical filesystem also contains other elements in the path (directory names), which are separated by forward slashes (`/`), as in /usr/bin/emacs, where the last element is the actual file name.
 
 Linux supports a number of native filesystem types, expressly created by Linux developers, such as:
 
-- ext3
-- ext4
-- squashfs
-- btrfs
+- `ext3`
+- `ext4`
+- `squashfs`
+- `btrfs`
 
 It also offers implementations of filesystems used on other alien operating systems, such as those from:
 
-- Windows (ntfs, vfat, exfat)
-- SGI (xfs)
-- IBM (jfs)
-- MacOS (hfs, hfs+)
+- Windows (`ntfs`, `vfat`, `exfat`)
+- SGI (`xfs`)
+- IBM (`jfs`)
+- MacOS (`hfs`, `hfs+`)
 
-Many older, legacy filesystems, such as FAT, are also supported.
+Many older, legacy filesystems, such as `FAT`, are also supported.
 
-It is often the case that more than one filesystem type is used on a machine, based on considerations such as the size of files, how often they are modified, what kind of hardware they sit on and what kind of access speed is needed, etc. The most advanced filesystem types in common use are the journaling varieties: ext4, xfs, btrfs, and jfs. These have many state-of-the-art features and high performance, and are not easy to corrupt accidentally.
+It is often the case that more than one filesystem type is used on a machine, based on considerations such as the size of files, how often they are modified, what kind of hardware they sit on and what kind of access speed is needed, etc. The most advanced filesystem types in common use are the journaling varieties: `ext4`, `xfs`, `btrfs`, and `jfs`. These have many state-of-the-art features and high performance, and are not easy to corrupt accidentally.
 
 Linux also makes use of network (or distributed)  filesystems, where all or part of the filesystem is on external machines. Besides NFS (Network File System) whose usage we will discuss, this includes Ceph, Lustre, and OpenAFS.
 
 #### Partitions
 
-In most situations, each filesystem on a Linux system occupies a disk partition. (It is also possible to encapsulate a filesystem in a loopback file residing on another regular partition-based filesystem, but we won’t discuss that here.) Partitions help to organize the contents of disks according to the kind and use of the data contained. For example, important programs required to run the system are often kept on a separate partition (known as root or /) than the one that contains files owned by regular users of that system (/home). In addition, temporary files created and destroyed during the normal operation of Linux may be located on dedicated partitions. One advantage of this kind of isolation by type and variability is that when all available space on a particular partition is exhausted, the system may still operate normally. Furthermore, if data is either corrupted through error or hardware failure, or breached through a security problem,  it might be possible to confine problems to an area smaller than the entire system.
+In most situations, each filesystem on a Linux system occupies a disk partition. (It is also possible to encapsulate a filesystem in a loopback file residing on another regular partition-based filesystem, but we won’t discuss that here.) Partitions help to organize the contents of disks according to the kind and use of the data contained. For example, important programs required to run the system are often kept on a separate partition (known as `root` or `/`) than the one that contains files owned by regular users of that system (`/home`). In addition, temporary files created and destroyed during the normal operation of Linux may be located on dedicated partitions. One advantage of this kind of isolation by type and variability is that when all available space on a particular partition is exhausted, the system may still operate normally. Furthermore, if data is either corrupted through error or hardware failure, or breached through a security problem, it might be possible to confine problems to an area smaller than the entire system.
 
 The picture shows the use of the GParted utility, which displays the partition layout on a laptop system that has two operating systems on it: RHEL9 and RHEL 8.
 
@@ -1102,13 +1078,13 @@ If you mount a filesystem on a non-empty directory, the former contents of that 
 
 ![Mount Point](images/mount-points.png)
 
-The mount command is used to attach a filesystem (which can be local to the computer or on a network) somewhere within the filesystem tree. The basic arguments are the device node and mount point. For example,
+The `mount` command is used to attach a filesystem (which can be local to the computer or on a network) somewhere within the filesystem tree. The basic arguments are the device node and mount point. For example,
 
 ```bash
 mount /dev/sda5 /home
 ```
 
-will attach the filesystem contained in the disk partition associated with the /dev/sda5 device node into the filesystem tree at the /home mount point. There are other ways to specify the partition other than the device node, such as using the disk label or UUID (Universally Unique IDentifier).
+will attach the filesystem contained in the disk partition associated with the `/dev/sda5` device node into the filesystem tree at the `/home` mount point. There are other ways to specify the partition other than the device node, such as using the disk label or UUID (Universally Unique IDentifier).
 
 To unmount the partition, the command would be:
 
@@ -1116,17 +1092,17 @@ To unmount the partition, the command would be:
 umount /home
 ```
 
-Note the command is umount, not unmount! Only a root user (logged in as root, or using sudo) has the privilege to run these commands, unless the system has been otherwise configured.
+Note the command is `umount`, not unmount! Only a root user (logged in as root, or using sudo) has the privilege to run these commands, unless the system has been otherwise configured.
 
-If you want it to be automatically available every time the system starts up, you need to edit /etc/fstab accordingly (the name is short for filesystem table). Looking at this file will show you the configuration of all pre-configured filesystems. man fstab will display how this file is used and how to configure it.
+If you want it to be automatically available every time the system starts up, you need to edit `/etc/fstab` accordingly (the name is short for filesystem table). Looking at this file will show you the configuration of all pre-configured filesystems.
 
 Executing mount without any arguments will show all presently mounted filesystems.
 
-The command df -Th (disk free) will display information about mounted filesystems, including the filesystem type, and usage statistics about currently used and available space.
+The command `df -Th` (disk free) will display information about mounted filesystems, including the filesystem type, and usage statistics about currently used and available space.
 
 ![Disk Free](images/dfmountdebian.png)
 
-You may notice a number of entries of type tmpfs. These are not real physical filesystems but are parts of system memory that are represented as such to take advantage of certain programming features.
+You may notice a number of entries of type `tmpfs`. These are not real physical filesystems but are parts of system memory that are represented as such to take advantage of certain programming features.
 
 #### Network Filesystems
 
@@ -1146,41 +1122,41 @@ On the server machine, NFS uses daemons (built-in networking and service process
 sudo systemctl start nfs-server
 ```
 
-The text file /etc/exports contains the directories and permissions that a host is willing to share with other systems over NFS. A very simple entry in this file may look like the following:
+The text file `/etc/exports` contains the directories and permissions that a host is willing to share with other systems over NFS. A very simple entry in this file may look like the following:
 
 ```bash
 /projects *.example.com(rw)
 ```
 
-This entry allows the directory /projects to be mounted using NFS with read and write (rw) permissions and shared with other hosts in the example.com domain. As we will detail in the next chapter, every file in Linux has three possible permissions: read (r), write (w) and execute (x).
+This entry allows the directory `/projects` to be mounted using NFS with read and write (rw) permissions and shared with other hosts in the [example.com] domain. As we will detail in the next chapter, every file in Linux has three possible permissions: read (r), write (w) and execute (x).
 
-After modifying the /etc/exports file, you can type exportfs -av to notify Linux about the directories you are allowing to be remotely mounted using NFS. You can also restart NFS with sudo systemctl restart nfs, but this is heavier, as it halts NFS for a short while before starting it up again. To make sure the NFS service starts whenever the system is booted, issue sudo systemctl enable nfs.
+After modifying the `/etc/exports` file, you can type `exportfs -av` to notify Linux about the directories you are allowing to be remotely mounted using NFS. You can also restart NFS with `sudo systemctl restart nfs`, but this is heavier, as it halts NFS for a short while before starting it up again. To make sure the NFS service starts whenever the system is booted, issue `sudo systemctl enable nfs`.
 
 ![NFS Server](images/exportsnfs.png)
 
-On the client machine, if it is desired to have the remote filesystem mounted automatically upon system boot, /etc/fstab is modified to accomplish this. For example, an entry in the client's /etc/fstab might look like the following:
+On the client machine, if it is desired to have the remote filesystem mounted automatically upon system boot, `/etc/fstab` is modified to accomplish this. For example, an entry in the client's `/etc/fstab` might look like the following:
 
 ```bash
 servername:/projects /mnt/nfs/projects nfs defaults 0 0
 ```
 
-You can also mount the remote filesystem without a reboot or as a one-time mount by directly using the mount command:
+You can also mount the remote filesystem without a reboot or as a one-time mount by directly using the `mount` command:
   
 ```bash
 sudo mount servername:/projects /mnt/nfs/projects
 ```
 
-Remember, if /etc/fstab is not modified, this remote mount will not be present the next time the system is restarted. Furthermore, you may want to use the nofail option in fstab in case the NFS server is not live at boot.
+Remember, if `/etc/fstab` is not modified, this remote mount will not be present the next time the system is restarted. Furthermore, you may want to use the `nofail` option in `fstab` in case the NFS server is not live at boot.
 
 ![NFS Client](images/nfsclientubuntu.png)
 
 ### Filesystem layout
 
-Each user has a home directory, usually placed under /home. The /root ("slash-root") directory on modern Linux systems is no more than the home directory of the root user (or superuser or system administrator account).
+Each user has a home directory, usually placed under `/home`. The `/root` ("slash-root") directory on modern Linux systems is no more than the home directory of the root user (or superuser or system administrator account).
 
-On multi-user systems, the /home directory infrastructure may be mounted as a separate filesystem on its own partition or even exported (shared) remotely on a network through NFS.
+On multi-user systems, the `/home` directory infrastructure may be mounted as a separate filesystem on its own partition or even exported (shared) remotely on a network through NFS.
 
-Sometimes, you may group users based on their department or function. You can then create subdirectories under the /home directory for each of these groups. For example, a school may organize /home with something like the following:
+Sometimes, you may group users based on their department or function. You can then create subdirectories under the `/home` directory for each of these groups. For example, a school may organize `/home` with something like the following:
 
 ```bash
 /home/students
@@ -1188,100 +1164,100 @@ Sometimes, you may group users based on their department or function. You can th
 /home/staff
 ```
 
-The /bin directory contains executable binaries, essential commands used to boot the system or in single-user mode, and essential commands required by all system users, such as cat, cp, ls, mv, ps, and rm.
+The `/bin` directory contains executable binaries, essential commands used to boot the system or in single-user mode, and essential commands required by all system users, such as `cat`, `cp`, `ls`, `mv`, `ps`, and `rm`.
 
 ![lsbin](images/lsbin.png)
 
-Likewise, the /sbin directory is intended for essential binaries related to system administration, such as fsck and ip.
+Likewise, the `/sbin` directory is intended for essential binaries related to system administration, such as `fsck` and `ip`.
 
 ![lssbin](images/lssbin.png)
 
-Commands that are not essential (theoretically) for the system to boot or operate in single-user mode are placed in the /usr/bin and /usr/sbin directories. Historically, this was done so /usr could reside on a separate filesystem that could be mounted at a later stage of system startup or even over a network. However, nowadays most find this distinction to be obsolete. In fact, many distributions have been discovered to be unable to boot with this separation, as this modality had not been used or tested for a long time.
+Commands that are not essential (theoretically) for the system to boot or operate in single-user mode are placed in the `/usr/bin` and `/usr/sbin` directories. Historically, this was done so `/usr` could reside on a separate filesystem that could be mounted at a later stage of system startup or even over a network. However, nowadays most find this distinction to be obsolete. In fact, many distributions have been discovered to be unable to boot with this separation, as this modality had not been used or tested for a long time.
 
-Thus, on most Linux distributions today, /usr/bin and /bin are actually just symbolically linked together, as are /usr/sbin and /sbin, so there are really just two directories, not four.
+Thus, on most Linux distributions today, `/usr/bin` and `/bin` are actually just symbolically linked together, as are `/usr/sbin` and `/sbin`, so there are really just two directories, not four.
 
-Certain filesystems, like the one mounted at /proc, are called pseudo-filesystems because they have no actual permanent presence anywhere on the disk.
+Certain filesystems, like the one mounted at `/proc`, are called pseudo-filesystems because they have no actual permanent presence anywhere on the disk.
 
-The /proc filesystem contains virtual files (files that exist only in memory) that permit viewing constantly changing kernel data. /proc contains files and directories that mimic kernel structures and configuration information. It does not contain real files, but runtime system information, e.g. system memory, devices mounted, hardware configuration, etc. Some important entries in /proc are:
+The `/proc` filesystem contains virtual files (files that exist only in memory) that permit viewing constantly changing kernel data. `/proc` contains files and directories that mimic kernel structures and configuration information. It does not contain real files, but runtime system information, e.g. system memory, devices mounted, hardware configuration, etc. Some important entries in `/proc` are:
 
-- /proc/cpuinfo: Information about the CPU
-- /proc/meminfo: Information about memory usage
-- /proc/version: Kernel version
-- /proc/filesystems: Filesystems supported by the kernel
-- /proc/net: Network status
-- /proc/sys: Kernel parameters
-- /proc/interrupts: Interrupts in use
-- /proc/mounts: Mounted filesystems
-- /proc/partitions: Partitions on the system
+- `/proc/cpuinfo` Information about the CPU
+- `/proc/meminfo` Information about memory usage
+- `/proc/version` Kernel version
+- `/proc/filesystems` Filesystems supported by the kernel
+- `/proc/net` Network status
+- `/proc/sys` Kernel parameters
+- `/proc/interrupts` Interrupts in use
+- `/proc/mounts` Mounted filesystems
+- `/proc/partitions` Partitions on the system
 
-/proc has subdirectories for each process running on the system, named by their process ID (PID). Each of these directories contains information about the process, such as the command line used to start the process, the environment variables, and the file descriptors used by the process.
+`/proc` has subdirectories for each process running on the system, named by their process ID (PID). Each of these directories contains information about the process, such as the command `line` used to start the process, the environment variables, and the file descriptors used by the process.
 
-The first example shows there is a directory for every process running on the system, which contains vital information about it. The second example shows a virtual directory that contains a lot of information about the entire system, in particular its hardware and configuration. The /proc filesystem is very useful because the information it reports is gathered only as needed and never needs storage on the disk.
+The first example shows there is a directory for every process running on the system, which contains vital information about it. The second example shows a virtual directory that contains a lot of information about the entire system, in particular its hardware and configuration. The `/proc` filesystem is very useful because the information it reports is gathered only as needed and never needs storage on the disk.
 
 ![Proc](images/lsproc.png)
 
-The /dev directory contains device nodes, a type of pseudo-file used by most hardware and software devices, except for network devices. This directory is:
+The `/dev` directory contains device nodes, a type of pseudo-file used by most hardware and software devices, except for network devices. This directory is:
 
 - Empty on the disk partition when it is not mounted
-- Contains entries which are created by the udev system, which creates and manages device nodes on Linux, creating them dynamically when devices are found. The /dev directory contains items such as:
-  - /dev/sda1 (first partition on the first hard disk)
-  - /dev/lp1 (second printer)
-  - /dev/random (a source of random numbers).
+- Contains entries which are created by the `udev` system, which creates and manages device nodes on Linux, creating them dynamically when devices are found. The `/dev` directory contains items such as:
+  - `/dev/sda1` (first partition on the first hard disk)
+  - `/dev/lp1` (second printer)
+  - `/dev/random` (a source of random numbers).
 
-The /var directory contains files that are expected to change in size and content as the system is running (var stands for variable), such as the entries in the following directories:
+The `/var` directory contains files that are expected to change in size and content as the system is running (var stands for variable), such as the entries in the following directories:
 
-- /var/log: Log files
-- /var/spool: Spool files (e.g., print queues)
-- /var/tmp: Temporary files
-- /var/run: Information about the running system since last boot
-- /var/lib: State information about packages installed on the system
+- `/var/log` Log files
+- `/var/spool` Spool files (e.g., print queues)
+- `/var/tmp` Temporary files
+- `/var/run` Information about the running system since last boot
+- `/var/lib` State information about packages installed on the system
 
 ![Var](images/lsvar.png)
 
-The /var directory may be put on its own filesystem so that growth of the files can be accommodated and any exploding file sizes do not fatally affect the system. Network services directories such as /var/ftp (the FTP service) and /var/www (the HTTP web service) are also found under /var.
+The `/var` directory may be put on its own filesystem so that growth of the files can be accommodated and any exploding file sizes do not fatally affect the system. Network services directories such as `/var/ftp` (the FTP service) and `/var/www` (the HTTP web service) are also found under `/var`.
 
 ![Var Directory](images/var-directory.png)
 
-The /etc directory is the home for system configuration files. It contains no binary programs, although there are some executable scripts. For example, /etc/resolv.conf tells the system where to go on the network to obtain host name to IP address mappings (DNS). Files like passwd, shadow and group for managing user accounts are found in the /etc directory. While some distributions have historically had their own extensive infrastructure under /etc (for example, Red Hat and SUSE have used /etc/sysconfig), with the advent of systemd there is much more uniformity among distributions today.
+The `/etc` directory is the home for system configuration files. It contains no binary programs, although there are some executable scripts. For example, `/etc/resolv.conf` tells the system where to go on the network to obtain host name to IP address mappings (DNS). Files like `passwd`, `shadow` and `group` for managing user accounts are found in the `/etc` directory. While some distributions have historically had their own extensive infrastructure under `/etc` (for example, Red Hat and SUSE have used `/etc/sysconfig`), with the advent of `systemd` there is much more uniformity among distributions today.
 
-Note that /etc is for system-wide configuration files and only the superuser can modify files there. User-specific configuration files are always found under their home directory.
+Note that `/etc` is for system-wide configuration files and only the superuser can modify files there. User-specific configuration files are always found under their home directory.
 
 ![Etc](images/debianetc.png)
 
-The /boot directory contains the few essential files needed to boot the system. For every alternative kernel installed on the system there are four files:
+The `/boot` directory contains the few essential files needed to boot the system. For every alternative kernel installed on the system there are four files:
 
-- vmlinuz - The compressed Linux kernel, required for booting.
-- initramfs - The initial ram filesystem, required for booting, sometimes called initrd, not initramfs.
-- config - The kernel configuration file, only used for debugging and bookkeeping.
-- System.map - Kernel symbol table, only used for debugging.
+- `vmlinuz` The compressed Linux kernel, required for booting.
+- `initramfs` The initial ram filesystem, required for booting, sometimes called initrd, not initramfs.
+- `config` The kernel configuration file, only used for debugging and bookkeeping.
+- `System.map` Kernel symbol table, only used for debugging.
 
 Each of these files has a kernel version appended to its name.
 
-The Grand Unified Bootloader (GRUB) files such as /boot/grub/grub.conf or /boot/grub2/grub2.cfg are also found under the /boot directory.
+The Grand Unified Bootloader (GRUB) files such as `/boot/grub/grub.conf` or `/boot/grub2/grub2.cfg` are also found under the `/boot` directory.
 
-The screenshot shows an example listing of the /boot directory, taken from a RHEL system that has multiple installed kernels, including both distribution-supplied and custom-compiled ones. Names will vary and things will tend to look somewhat different on a different distribution.
+The screenshot shows an example listing of the `/boot` directory, taken from a RHEL system that has multiple installed kernels, including both distribution-supplied and custom-compiled ones. Names will vary and things will tend to look somewhat different on a different distribution.
 
 ![Boot](images/boot-directory.png)
 
-/lib contains libraries (common code shared by applications and needed for them to run) for the essential programs in /bin and /sbin. These library filenames either start with ld or lib. For example, /lib/libncurses.so.5.9.
+`/lib` contains libraries (common code shared by applications and needed for them to run) for the essential programs in `/bin` and `/sbin`. These library filenames either start with `ld` or `lib`. For example, `/lib/libncurses.so.5.9`.
 
-Most of these are what is known as dynamically loaded libraries (also known as shared libraries or Shared Objects (SO)). On some Linux distributions there exists a /lib64 directory containing 64-bit libraries, while /lib contains 32-bit versions.
+Most of these are what is known as dynamically loaded libraries (also known as shared libraries or Shared Objects (SO)). On some Linux distributions there exists a `/lib64` directory containing 64-bit libraries, while `/lib` contains 32-bit versions.
 
 On recent Linux distributions, one finds:
 
 ![Lib](images/flib.png)
 
-i.e., just like for /bin and /sbin, the directories just point to those under /usr.
+i.e., just like for `/bin` and `/sbin`, the directories just point to those under `/usr`.
 
-Kernel modules (kernel code, often device drivers, that can be loaded and unloaded without re-starting the system) are located in /lib/modules/[kernel-version-number]
+Kernel modules (kernel code, often device drivers, that can be loaded and unloaded without re-starting the system) are located in `/lib/modules/[kernel-version-number]`
 
 ![Modules](images/libmodules.png)
 
 One often uses removable media, such as USB drives, CDs and DVDs. To make the material accessible through the regular filesystem, it has to be mounted at a convenient location. Most Linux systems are configured so any removable media are automatically mounted when the system notices something has been plugged in.
 
-While historically this was done under the /media directory, modern Linux distributions place these mount points under the /run directory. For example, a USB pen drive with a label myusbdrive for a user named student would be mounted at /run/media/student/myusbdrive.
+While historically this was done under the `/media` directory, modern Linux distributions place these mount points under the `/run` directory. For example, a USB pen drive with a label `myusbdrive` for a user named `student` would be mounted at `/run/media/student/myusbdrive`.
 
-The /mnt directory has been used since the early days of UNIX for temporarily mounting filesystems. These can be those on removable media, but more often might be network filesystems, which are not normally mounted. Or these can be temporary partitions, or so-called loopback filesystems, which are files which pretend to be partitions.
+The `/mnt` directory has been used since the early days of UNIX for temporarily mounting filesystems. These can be those on removable media, but more often might be network filesystems, which are not normally mounted. Or these can be temporary partitions, or so-called loopback filesystems, which are files which pretend to be partitions.
 
 ![Mnt](images/run-directory.png)
 
@@ -1289,31 +1265,31 @@ There are other directories that are not part of the standard Linux filesystem l
 
 |Directory | Description |
 |----------|-------------|
-| /opt | Optional software packages |
-| /srv | Site-specific data served up by the system Seldom used |
-| /tmp | Temporary files; on some distributions erased across a reboot and/or may actually be a ramdisk in memory |
-| /usr | Multi-user applications, utilities and data|
-| /lost+found | Recovered files |
-| /sys | Virtual pseudo-filesystem giving information about the system and the hardware Can be used to alter system parameters and for debugging purposes |
+| `/opt` | Optional software packages |
+| `/srv` | Site-specific data served up by the system Seldom used |
+| `/tmp` | Temporary files; on some distributions erased across a reboot and/or may actually be a ramdisk in memory |
+| `/usr` | Multi-user applications, utilities and data|
+| `/lost+found` | Recovered files |
+| `/sys` | Virtual pseudo-filesystem giving information about the system and the hardware Can be used to alter system parameters and for debugging purposes |
 
-The /usr directory tree contains theoretically non-essential programs and scripts (in the sense that they should not be needed to initially boot the system) and has at least the following sub-directories:
+The `/usr` directory tree contains theoretically non-essential programs and scripts (in the sense that they should not be needed to initially boot the system) and has at least the following sub-directories:
 
 |Directory | Usage |
 |----------|-------|
-| /usr/bin | This is the primary directory of executable programs and scripts|
-| /usr/sbin | Non-essential system binaries, such as system daemons, and scripts |
-| /usr/lib | Libraries for /usr/bin and /usr/sbin |
-| /usr/lib64 | 64-bit libraries for /usr/bin and /usr/sbin |
-| /usr/local | Data and programs specific to the local machine; subdirectories include bin, sbin, lib, share, include, etc.|
-| /usr/share | Shared data used by applications, generally architecture-independent |
-| /usr/src | Source code, usually for the Linux kernel |
-| /usr/include | Header files used to compile applications |
+| `/usr/bin` | This is the primary directory of executable programs and scripts|
+| `/usr/sbin` | Non-essential system binaries, such as system daemons, and scripts |
+| `/usr/lib` | Libraries for `/usr/bin` and `/usr/sbin` |
+| `/usr/lib64` | 64-bit libraries for `/usr/bin` and `/usr/sbin` |
+| `/usr/local` | Data and programs specific to the local machine; subdirectories include `bin`, `sbin`, `lib`, `share`, `include`, etc.|
+| `/usr/share` | Shared data used by applications, generally architecture-independent |
+| `/usr/src` | Source code, usually for the Linux kernel |
+| `/usr/include` | Header files used to compile applications |
 
 ### Comparing files and file types
 
 Now that you know about the filesystem and its structure, let’s learn how to manage files and directories.
 
-diff is used to compare files and directories. This often-used utility program has many useful options (see: man diff) including:
+`diff` is used to compare files and directories. This often-used utility program has many useful options including:
 
 |Option | Usage |
 |-------|-------|
@@ -1325,11 +1301,11 @@ diff is used to compare files and directories. This often-used utility program h
 | -i | Ignore case |
 | -w | Ignore white space |
 
-To compare two files, at the command prompt, type diff [options] [filename1] [filename2]. diff is meant to be used for text files; for binary files, one can use cmp.
+To compare two files, at the command prompt, type `diff [options] [filename1] [filename2]`. `diff` is meant to be used for text files; for binary files, one can use `cmp`.
 
-If you prefer, there are multiple graphical interfaces to diff, including diffuse, vimdiff, and meld.
+If you prefer, there are multiple graphical interfaces to `diff`, including `diffuse`, `vimdiff`, and `meld`.
 
-n Linux, a file's extension does not, by default, categorize its nature the way it might in other operating systems. For example, one cannot assume that a file named file.txt is a text file and not an executable program. In Linux, a filename is generally more meaningful to the user of the system than the system itself. In fact, most applications directly examine a file's contents to see what kind of object it is rather than relying on an extension. This is very different from the way Windows handles filenames, where a filename ending with .exe, for example, represents an executable binary file.
+In Linux, a file's extension does not, by default, categorize its nature the way it might in other operating systems. For example, one cannot assume that a file named `file.txt` is a text file and not an executable program. In Linux, a filename is generally more meaningful to the user of the system than the system itself. In fact, most applications directly examine a file's contents to see what kind of object it is rather than relying on an extension. This is very different from the way Windows handles filenames, where a filename ending with `.exe`, for example, represents an executable binary file.
 
 The real nature of a file can be ascertained by using the file utility. For the file names given as arguments, it examines the contents and certain characteristics to determine whether the files are plain text, shared libraries, executable programs, scripts, or something else.
 
@@ -1337,23 +1313,23 @@ The real nature of a file can be ascertained by using the file utility. For the 
 
 ### Backing up
 
-There are many ways you can back up data or even your entire system. Basic ways to do so include the use of simple copying with cp and use of the more robust rsync.
+There are many ways you can back up data or even your entire system. Basic ways to do so include the use of simple copying with `cp` and use of the more robust `rsync`.
 
-Both can be used to synchronize entire directory trees. However, rsync is more efficient, because it checks if the file being copied already exists. If the file exists and there is no change in size or modification time, rsync will avoid an unnecessary copy and save time. Furthermore, because rsync copies only the parts of files that have actually changed, it can be very fast.
+Both can be used to synchronize entire directory trees. However, `rsync` is more efficient, because it checks if the file being copied already exists. If the file exists and there is no change in size or modification time, `rsync` will avoid an unnecessary copy and save time. Furthermore, because `rsync` copies only the parts of files that have actually changed, it can be very fast.
 
-cp can only copy files to and from destinations on the local machine (unless you are copying to or from a filesystem mounted using NFS), but rsync can also be used to copy files from one machine to another. Locations are designated in the target:path form, where target can be in the form of someone@host. The someone@ part is optional and used if the remote user is different from the local user.
+`cp` can only copy files to and from destinations on the local machine (unless you are copying to or from a filesystem mounted using NFS), but `rsync` can also be used to copy files from one machine to another. Locations are designated in the `target:path` form, where `target` can be in the form of `someone@host`. The `someone@` part is optional and used if the remote user is different from the local user.
 
-rsync is very efficient when recursively copying one directory tree to another, because only the differences are transmitted over the network. One often synchronizes the destination directory tree with the origin, using the -r option to recursively walk down the directory tree copying all files and directories below the one listed as the source.
+`rsync` is very efficient when recursively copying one directory tree to another, because only the differences are transmitted over the network. One often synchronizes the destination directory tree with the origin, using the `-r` option to recursively walk down the directory tree copying all files and directories below the one listed as the source.
 
-rsync is a very powerful utility. For example, a very useful way to back up a project directory might be to use the following command:
+`rsync` is a very powerful utility. For example, a very useful way to back up a project directory might be to use the following command:
 
 ```bash
 rsync -av /home/student/project /mnt/backup
 ```
 
-Note that rsync can be very destructive! Accidental misuse can do a lot of harm to data and programs, by inadvertently copying changes to where they are not wanted. Take care to specify the correct options and paths. It is highly recommended that you first test your rsync command using the -dry-run option to ensure that it provides the results that you want.
+Note that `rsync` can be very destructive! Accidental misuse can do a lot of harm to data and programs, by inadvertently copying changes to where they are not wanted. Take care to specify the correct options and paths. It is highly recommended that you first test your `rsync` command using the `-dry-run` option to ensure that it provides the results that you want.
 
-To use rsync at the command prompt, type rsync sourcefile destinationfile, where either file can be on the local machine or on a networked machine; The contents of sourcefile will be copied to destinationfile.
+To use `rsync` at the command prompt, type `rsync sourcefile destinationfile`, where either file can be on the local machine or on a networked machine; the contents of sourcefile will be copied to destinationfile.
 
 A good combination of options is shown in:
 
@@ -1361,7 +1337,7 @@ A good combination of options is shown in:
 rsync --progress -avrxH  --delete sourcedir destdir
 ```
 
-The dd program is very useful for making copies of raw disk space. For example, to back up your Master Boot Record (MBR) (the first 512-byte sector on the disk that contains a table describing the partitions on that disk), you might type:
+The `dd` program is very useful for making copies of raw disk space. For example, to back up your Master Boot Record (MBR) (the first 512-byte sector on the disk that contains a table describing the partitions on that disk), you might type:
 
 ```bash
 dd if=/dev/sda of=sda.mbr bs=512 count=1
@@ -1389,66 +1365,66 @@ Linux uses a number of methods to perform this compression, including:
 
 |Command | Usage |
 |--------|-------|
-| gzip | The most frequently used Linux compression utility|
-| bzip2 | Produces files significantly smaller than those produced by gzip|
-| xz | The most space-efficient compression utility used in Linux |
-| zip | Is often required to examine and decompress archives from other operating systems |
+| `gzip` | The most frequently used Linux compression utility|
+| `bzip2` | Produces files significantly smaller than those produced by `gzip`|
+| `xz` | The most space-efficient compression utility used in Linux |
+| `zip` | Is often required to examine and decompress archives from other operating systems |
 
 These techniques vary in the efficiency of the compression (how much space is saved) and in how long they take to compress; generally, the more efficient techniques take longer. Decompression time does not vary as much across different methods.
 
-In addition, the tar utility is often used to group files in an archive and then compress the whole archive at once.
+In addition, the `tar` utility is often used to group files in an archive and then compress the whole archive at once.
 
-gzip has historically been the most widely used Linux compression utility. It compresses well and is very fast. The following table provides some usage examples:
-
-|Command | Usage |
-|--------|-------|
-| gzip file | Compresses file and renames it file.gz |
-| gzip -r directory | Compresses all files in the directory and its subdirectories |
-| gzip -9 file | Compresses file with maximum compression |
-| gzip -d file.gz | Decompresses file.gz and renames it file |
-| gunzip file.gz | Decompresses file.gz and renames it file |
-
-bzip2 has a syntax that is similar to gzip but it uses a different compression algorithm and produces significantly smaller files, at the price of taking a longer time to do its work. Thus, it is more likely to be used to compress larger files.
-
-Examples of common usage are also similar to gzip:
+`gzip` has historically been the most widely used Linux compression utility. It compresses well and is very fast. The following table provides some usage examples:
 
 |Command | Usage |
 |--------|-------|
-| bzip2 file | Compresses file and renames it file.bz2 |
-| bzip2 -d file.bz2 | Decompresses file.bz2 and renames it file |
-| bunzip2 file.bz2 | Decompresses file.bz2 and renames it file |
+| `gzip file` | Compresses file and renames it `file.gz` |
+| `gzip -r directory` | Compresses all files in the directory and its subdirectories |
+| `gzip -9 file` | Compresses file with maximum compression |
+| `gzip -d file.gz` | Decompresses `file.gz` and renames it file |
+| `gunzip file.gz` | Decompresses `file.gz` and renames it file |
 
-bzip2 has lately become deprecated due to lack of maintenance and the superior compression ratios of xz which is actively maintained. While it should no longer be used for compressing files, you are likely to still need it to decompress files you encounter with the bz2 extension.
+`bzip2` has a syntax that is similar to `gzip` but it uses a different compression algorithm and produces significantly smaller files, at the price of taking a longer time to do its work. Thus, it is more likely to be used to compress larger files.
 
-xz is the most space-efficient compression utility frequently used in Linux and is the choice for distributing and storing archives of the Linux kernel. Once again, it trades a slower compression speed for an even higher compression ratio. It is gradually becoming the dominant compression method, especially for large files which may need to be downloaded from the Internet.
-
-|Command | Usage |
-|--------|-------|
-| xz * | Compresses all files in the current directory |
-| xz file | Compresses file and renames it file.xz |
-| xz -d file.xz | Decompresses file.xz and renames it file |
-| xz -dk file.xz | Decompresses file.xz and renames it file, keeping the original file |
-| xz -dcf file.xz | Decompresses file.xz and sends the output to the standard output |
-
-While, the zip program is rarely used to compress files in Linux, it may be needed to examine and decompress archives from other operating systems. It is only used in Linux when you get a zipped file from a Windows user or environment or from Internet downloads. It is a legacy program. It is neither fast nor efficient.
+Examples of common usage are also similar to `gzip`:
 
 |Command | Usage |
 |--------|-------|
-| zip file.zip file | Compresses file and renames it file.zip |
-| zip -r directory.zip directory | Compresses all files in the directory and its subdirectories |
-| unzip file.zip | Decompresses file.zip and renames it file |
+| `bzip2 file` | Compresses file and renames it `file.bz2` |
+| `bzip2 -d file.bz2` | Decompresses `file.bz2` and renames it file |
+| `bunzip2 file.bz2` | Decompresses `file.bz2` and renames it file |
 
-Historically, tar stood for "tape archive" and was used to archive files to a magnetic tape. It allows you to create or extract files from an archive file, often called a tarball. At the same time, you can optionally compress while creating the archive, and decompress while extracting its contents.
+`bzip2` has lately become deprecated due to lack of maintenance and the superior compression ratios of `xz` which is actively maintained. While it should no longer be used for compressing files, you are likely to still need it to decompress files you encounter with the bz2 extension.
+
+`xz` is the most space-efficient compression utility frequently used in Linux and is the choice for distributing and storing archives of the Linux kernel. Once again, it trades a slower compression speed for an even higher compression ratio. It is gradually becoming the dominant compression method, especially for large files which may need to be downloaded from the Internet.
 
 |Command | Usage |
 |--------|-------|
-| tar xvf mydir.tar | Extract all the files in mydir.tar into the mydir directory |
-| tar zcvf mydir.tar.gz mydir | Create the archive and compress with gzip |
-| tar jcvf mydir.tar.bz2 mydir | Create the archive and compress with bz2 |
-| tar Jcvf mydir.tar.xz mydir | Create the archive and compress with xz |
-| tar xvf mydir.tar.gz | Extract all the files in mydir.tar.gz into the mydir directory |
+| `xz *` | Compresses all files in the current directory |
+| `xz file` | Compresses file and renames it `file.xz` |
+| `xz -d file.xz` | Decompresses `file.xz` and renames it file |
+| `xz -dk file.xz` | Decompresses `file.xz` and renames it file, keeping the original file |
+| `xz -dcf file.xz` | Decompresses `file.xz` and sends the output to the standard output |
 
-Use of a dash (“-”) before options is often done, although it is usually unnecessary, as in tar -xvf mydir.tar.
+While, the `zip` program is rarely used to compress files in Linux, it may be needed to examine and decompress archives from other operating systems. It is only used in Linux when you get a zipped file from a Windows user or environment or from Internet downloads. It is a legacy program. It is neither fast nor efficient.
+
+|Command | Usage |
+|--------|-------|
+| `zip file.zip file` | Compresses file and renames it `file.zip` |
+| `zip -r directory.zip directory` | Compresses all files in the directory and its subdirectories |
+| `unzip file.zip` | Decompresses `file.zip` and renames it file |
+
+Historically, `tar` stood for "tape archive" and was used to archive files to a magnetic tape. It allows you to create or extract files from an archive file, often called a `tarball`. At the same time, you can optionally compress while creating the archive, and decompress while extracting its contents.
+
+|Command | Usage |
+|--------|-------|
+| `tar xvf mydir.tar` | Extract all the files in `mydir.tar` into the `mydir` directory |
+| `tar zcvf mydir.tar.gz mydir` | Create the archive and compress with `gzip` |
+| `tar jcvf mydir.tar.bz2 mydir` | Create the archive and compress with `bz2` |
+| `tar Jcvf mydir.tar.xz mydir` | Create the archive and compress with `xz` |
+| `tar xvf mydir.tar.gz` | Extract all the files in `mydir.tar.gz` into the `mydir` directory |
+
+Use of a dash (`“-”`) before options is often done, although it is usually unnecessary, as in `tar -xvf mydir.tar`.
 
 You can separate out the archiving and compression stages, as in:
 
@@ -1457,9 +1433,9 @@ tar cvf mydir.tar mydir
 gzip mydir.tar
 ```
 
-but this is slower and wastes space by creating an unneeded intermediary .tar file.
+but this is slower and wastes space by creating an unneeded intermediary `.tar` file.
 
-To demonstrate the relative efficiency of gzip, bzip2, and xz, the following screenshot shows the results of compressing a purely text file directory tree (the include directory from the kernel source) using the three methods.
+To demonstrate the relative efficiency of `gzip`, `bzip2`, and `xz`, the following screenshot shows the results of compressing a purely text file directory tree (the include directory from the kernel source) using the three methods.
 
 ![Compression](images/compression-times.png)
 
@@ -1471,14 +1447,14 @@ This shows that as compression factors go up, CPU time does as well (i.e., produ
 
 Linux is a multi-user operating system, meaning more than one user can log on at the same time.
 
-- To identify the current user, type whoami.
-- To list the currently logged-on users, type who.
+- To identify the current user, type `whoami`.
+- To list the currently logged-on users, type `who`.
 
-Giving who the -a option will give more detailed information
+Giving who the `-a` option will give more detailed information
 
 ![Who](images/who.png)
 
-In Linux, the command shell program (generally bash) uses one or more startup files to configure the user environment. Files in the /etc directory define global settings for all users, while initialization files in the user's home directory can include and/or override the global settings.
+In Linux, the command shell program (generally bash) uses one or more startup files to configure the user environment. Files in the `/etc` directory define global settings for all users, while initialization files in the user's home directory can include and/or override the global settings.
 
 The startup files can do anything the user would like to do in every command shell, such as:
 
@@ -1487,25 +1463,25 @@ The startup files can do anything the user would like to do in every command she
 - Setting the default text editor
 - Setting the path for where to find executable programs
 
-The standard prescription is that when you first login to Linux, /etc/profile is read and evaluated, after which the following files are searched (if they exist) in the listed order:
+The standard prescription is that when you first login to Linux, `/etc/profile` is read and evaluated, after which the following files are searched (if they exist) in the listed order:
 
-- ~/.bash_profile
-- ~/.bash_login
-- ~/.profile
+- `~/.bash_profile`
+- `~/.bash_login`
+- `~/.profile`
 
-where ~/ denotes the user's home directory. The Linux login shell evaluates whatever startup file that it comes across first and ignores the rest. This means that if it finds ~/.bash_profile, it ignores ~/.bash_login and ~/.profile. Different distributions may use different startup files.
+where `~/` denotes the user's home directory. The Linux login shell evaluates whatever startup file that it comes across first and ignores the rest. This means that if it finds `~/.bash_profile`, it ignores `~/.bash_login` and `~/.profile`. Different distributions may use different startup files.
 
-However, every time you create a new shell, or terminal window, etc., you do not perform a full system login; only a file named ~/.bashrc file is read and evaluated. Although this file is not read and evaluated along with the login shell, most distributions and/or users include the ~/.bashrc file from within one of the three user-owned startup files.
+However, every time you create a new shell, or terminal window, etc., you do not perform a full system login; only a file named `~/.bashrc` file is read and evaluated. Although this file is not read and evaluated along with the login shell, most distributions and/or users include the `~/.bashrc` file from within one of the three user-owned startup files.
 
-Most commonly, users only fiddle with ~/.bashrc, as it is invoked every time a new command line shell initiates, or another program is launched from a terminal window, while the other files are read and executed only when the user first logs onto the system.
+Most commonly, users only fiddle with `~/.bashrc`, as it is invoked every time a new command line shell initiates, or another program is launched from a terminal window, while the other files are read and executed only when the user first logs onto the system.
 
-Recent distributions sometimes do not even have .bash_profile and/or .bash_login, and some just do little more than include .bashrc.
+Recent distributions sometimes do not even have `.bash_profile` and/or `.bash_login`, and some just do little more than include `.bashrc`.
 
 ![Bashrc](images/bashrc.png)
 
-You can create customized commands or modify the behavior of already existing ones by creating aliases. Most often, these aliases are placed in your ~/.bashrc file so they are available to any command shells you create. unalias removes an alias.
+You can create customized commands or modify the behavior of already existing ones by creating aliases. Most often, these aliases are placed in your `~/.bashrc` file so they are available to any command shells you create. `unalias` removes an alias.
 
-Typing alias with no arguments will list currently defined aliases.
+Typing `alias` with no arguments will list currently defined aliases.
 
 Please note there should not be any spaces on either side of the equal sign and the alias definition needs to be placed within either single or double quotes if it contains any spaces.
 
@@ -1517,31 +1493,31 @@ All Linux users are assigned a unique user ID (uid), which is just an integer; n
 
 Linux uses groups for organizing users. Groups are collections of accounts with certain shared permissions; they are used to establish a set of users who have common interests for the purposes of access rights, privileges, and security considerations. Access rights to files (and devices) are granted on the basis of the user and the group they belong to.
 
-Control of group membership is administered through the /etc/group file, which shows the list of groups and their members. By default, every user belongs to a default (primary) group. When a user logs in, the group membership is set for their primary group, and all the members enjoy the same level of access and privilege. Permissions on various files and directories can be modified at the group level.
+Control of group membership is administered through the `/etc/group` file, which shows the list of groups and their members. By default, every user belongs to a default (primary) group. When a user logs in, the group membership is set for their primary group, and all the members enjoy the same level of access and privilege. Permissions on various files and directories can be modified at the group level.
 
-Users also have one or more group IDs (gid), including a default one that is the same as the user ID. These numbers are associated with names through the files /etc/passwd and /etc/group.
+Users also have one or more group IDs (gid), including a default one that is the same as the user ID. These numbers are associated with names through the files `/etc/passwd` and `/etc/group`.
 
-For example, /etc/passwd might contain john:x:1002:1002:John Garfield:/home/john:/bin/bash, and /etc/group might contain john:x:1002.
+For example, `/etc/passwd` might contain `john:x:1002:1002:John Garfield:/home/john:/bin/bash`, and `/etc/group might contain john:x:1002`.
 
 ![Groups](images/etc-group-passwd.png)
 
-Distributions have straightforward graphical interfaces for creating and removing users and groups and manipulating group membership. However, it is often useful to do it from the command line or from within shell scripts. Only the root user can add and remove users and groups.
+Distributions have straightforward graphical interfaces for creating and removing users and groups and manipulating group membership. However, it is often useful to do it from the command `line` or from within shell scripts. Only the root user can add and remove users and groups.
 
-Adding a new user is done with useradd and removing an existing user is done with userdel. In the simplest form, an account for the new user bjmoose would be done with:
+Adding a new user is done with `useradd` and removing an existing user is done with `userdel`. In the simplest form, an account for the new user `bjmoose` would be done with:
 
 ```bash
 sudo useradd bjmoose
 ```
 
-which, by default, sets the home directory to /home/bjmoose, populates it with some basic files (copied from /etc/skel) and adds a line to /etc/passwd such as:
+which, by default, sets the home directory to `/home/bjmoose`, populates it with some basic files (copied from `/etc/skel`) and adds a line to `/etc/passwd` such as:
 
 ```bash
 bjmoose:x:1001:1001::/home/bjmoose:/bin/bash
 ```
 
-and sets the default shell to /bin/bash. Removing a user account is as easy as typing userdel bjmoose. However, this will leave the /home/bjmoose directory intact. This might be useful if it is a temporary inactivation. To remove the home directory while removing the account one needs to use the -r option to userdel.
+and sets the default shell to `/bin/bash`. Removing a user account is as easy as typing `userdel bjmoose`. However, this will leave the `/home/bjmoose` directory intact. This might be useful if it is a temporary inactivation. To remove the home directory while removing the account one needs to use the `-r` option to userdel.
 
-Typing id with no argument gives information about the current user, as in:
+Typing `id` with no argument gives information about the current user, as in:
 
 ```bash
 $ id
@@ -1552,33 +1528,33 @@ If given the name of another user as an argument, id will report information abo
 
 ![useradd](images/useradd.png)
 
-Adding a new group is done with groupadd and removing an existing group is done with groupdel. In the simplest form, a group named newgroup would be created with:
+Adding a new group is done with `groupadd` and removing an existing group is done with `groupdel`. In the simplest form, a group named `newgroup` would be created with:
 
 ```bash
 sudo groupadd newgroup
 ```
 
-Adding a user to a group is done with usermod. For example, you would first look at what groups the user already belongs to:
+Adding a user to a group is done with `usermod`. For example, you would first look at what groups the user already belongs to:
 
 ```bash
 groups bjmoose
 ```
 
-and then add the user to the newgroup with:
+and then add the user to the `newgroup` with:
 
 ```bash
 sudo usermod -a -G newgroup bjmoose
 ```
 
-These utilities update /etc/group as necessary. Make sure to use the -a option, for append, so as to avoid removing already existing groups. groupmod can be used to change group properties, such as the Group ID (gid) with the -g option or its name with then -n option.
+These utilities update `/etc/group` as necessary. Make sure to use the `-a` option, for append, so as to avoid removing already existing groups. `groupmod` can be used to change group properties, such as the Group ID (gid) with the -g option or its name with then `-n` option.
 
-Removing a user from the group is somewhat trickier. The -G option to usermod must give a complete list of groups. Thus, if you do:
+Removing a user from the group is somewhat trickier. The `-G` option to `usermod` must give a complete list of groups. Thus, if you do:
 
 ```bash
 sudo usermod -G group1,group2,group3 bjmoose
 ```
 
-you will remove bjmoose from all groups except group1, group2, and group3. If you want to remove bjmoose from group2, you must list all the groups except group2. This is a common source of errors.
+you will remove `bjmoose` from all groups except `group1`, `group2`, and `group3`. If you want to remove `bjmoose` from `group2`, you must list all the groups except `group2`. This is a common source of errors.
 
 ![Groupadd](images/newgroupsuse.png)
 
@@ -1591,21 +1567,21 @@ However, you can use sudo to assign more limited privileges to user accounts:
 
 ![Sudo](images/sudo.jpg)
 
-When assigning elevated privileges, you can use the command su (switch or substitute user) to launch a new shell running as another user (you must type the password of the user you are becoming). Most often, this other user is root, and the new shell allows the use of elevated privileges until it is exited. It is almost always a bad (dangerous for both security and stability) practice to use su to become root. Resulting errors can include deletion of vital files from the system and security breaches.
+When assigning elevated privileges, you can use the command `su` (switch or substitute user) to launch a new shell running as another user (you must type the password of the user you are becoming). Most often, this other user is root, and the new shell allows the use of elevated privileges until it is exited. It is almost always a bad (dangerous for both security and stability) practice to use `su` to become root. Resulting errors can include deletion of vital files from the system and security breaches.
 
-Granting privileges using sudo is less dangerous and is preferred. By default, sudo must be enabled on a per-user basis. However, some distributions (such as Ubuntu) enable it by default for at least one main user, or give this as an installation option.
+Granting privileges using `sudo` is less dangerous and is preferred. By default, `sudo` must be enabled on a per-user basis. However, some distributions (such as Ubuntu) enable it by default for at least one main user, or give this as an installation option.
 
-To temporarily become the superuser for a series of commands, you can type su and then be prompted for the root password.
+To temporarily become the superuser for a series of commands, you can type `su` and then be prompted for the root password.
 
 To execute just one command with root privilege type `sudo command`. When the command is complete, you will return to being a normal unprivileged user.
 
-sudo configuration files are stored in the /etc/sudoers file and in the /etc/sudoers.d/ directory. By default, the sudoers.d directory is empty.
+`sudo` configuration files are stored in the `/etc/sudoers` file and in the `/etc/sudoers.d/` directory. By default, the `sudoers.d` directory is empty.
 
 ### Environment Variables
 
 Environment variables are quantities that have specific values which may be utilized by the command shell, such as bash, or other utilities and applications. Some environment variables are given preset values by the system (which can usually be overridden), while others are set directly by the user, either at the command line or within startup and other scripts.
 
-An environment variable is actually just a character string that contains information used by one or more applications. There are a number of ways to view the values of currently set environment variables; one can type set, env, or export. Depending on the state of your system, set may print out many more lines than the other two methods.
+An environment variable is actually just a character string that contains information used by one or more applications. There are a number of ways to view the values of currently set environment variables; one can type `set`, `env`, or `export`. Depending on the state of your system, set may print out many more lines than the other two methods.
 
 ![Environment Variables](images/env.png)
 
@@ -1613,10 +1589,10 @@ By default, variables created within a script are only available to the current 
 
 |Task | Command |
 |-----|---------|
-| Show the value of a variable | echo $VARIABLE |
-| Set a variable | export VARIABLE=value (or VARIABLE=value; export VARIABLE) |
-| Unset a variable | unset VARIABLE |
-| Add a variable permanently | Add the export command to the ~/.bashrc file |
+| Show the value of a variable | `echo $VARIABLE` |
+| Set a variable | `export VARIABLE=value (or VARIABLE=value; export VARIABLE)` |
+| Unset a variable | `unset VARIABLE` |
+| Add a variable permanently | Add the export command to the `~/.bashrc` file |
 
 You can also set environment variables to be fed as a one shot to a command as in:
 
@@ -1624,25 +1600,25 @@ You can also set environment variables to be fed as a one shot to a command as i
 SDIRS="s_0*" KROOT=/lib/modules/$(uname -r)/build make modules_install
 ```
 
-This will set the SDIRS and KROOT variables for the make command only.
+This will set the `SDIRS` and `KROOT` variables for the make command only.
 
-HOME is an environment variable that represents the home (or login) directory of the user. cd without arguments will change the current working directory to the value of HOME. Note the tilde character (~) is often used as an abbreviation for $HOME. Thus, cd $HOME and cd ~ are completely equivalent statements.
+`HOME` is an environment variable that represents the home (or login) directory of the user. `cd` without arguments will change the current working directory to the value of `HOME`. Note the tilde character (`~`) is often used as an abbreviation for `$HOME`. Thus, `cd $HOME` and `cd ~` are completely equivalent statements.
 
 |Command | Explanation |
 |--------|-------------|
-| echo $HOME | Displays the value of the HOME variable |
-| cd $HOME | Changes the current working directory to the home directory |
-| cd ~ | Changes the current working directory to the home directory |
-| pwd | Shows the current working directory |
+| `echo $HOME` | Displays the value of the `HOME` variable |
+| `cd $HOME` | Changes the current working directory to the home directory |
+| `cd ~` | Changes the current working directory to the home directory |
+| `pwd` | Shows the current working directory |
 
 ![Home](images/homeubuntu.png)
 
-PATH is an ordered list of directories (the path) which is scanned when a command is given to find the appropriate program or script to run. Each directory in the path is separated by colons (:). A null (empty) directory name (or ./) indicates the current directory at any given time.
+`PATH` is an ordered list of directories (the path) which is scanned when a command is given to find the appropriate program or script to run. Each directory in the path is separated by colons (`:`). A `null` (empty) directory name (or `./`) indicates the current directory at any given time.
 
-- :path1:path2
-- path1::path2
+- `:path1:path2`
+- `path1::path2`
 
-In the example :path1:path2, there is a null directory before the first colon (:). Similarly, for path1::path2 there is a null directory between path1 and path2.
+In the example `:path1:path2`, there is a `null` directory before the first colon (`:`). Similarly, for `path1::path2` there is a `null` directory between `path1` and `path2`.
 
 To prefix a private bin directory to your path:
   
@@ -1652,21 +1628,23 @@ export PATH=$HOME/bin:$PATH
 
 ![Path](images/setpath.png)
 
-The environment variable SHELL points to the user's default command shell (the program that is handling whatever you type in a command window, usually bash) and contains the full pathname to the shell:
+The environment variable `SHELL` points to the user's default command shell (the program that is handling whatever you type in a command window, usually bash) and contains the full pathname to the shell:
 
 ```bash
 echo $SHELL
 ```
 
-Prompt Statement (PS) is used to customize your prompt string in your terminal windows to display the information you want.
+Prompt Statement (`PS`) is used to customize your prompt string in your terminal windows to display the information you want.
 
-PS1 is the primary prompt variable which controls what your command line prompt looks like. The following special characters can be included in PS1:
+`PS1` is the primary prompt variable which controls what your command line prompt looks like. The following special characters can be included in `PS1`:
 
-- \u - User name
-- \h - Host name
-- \w - Current working directory
-- \! - History number of this command
-- \d - Date
+|Key | Usage |
+|----|-------|
+| `\u` | User name |
+| `\h` | Host name |
+| `\w` | Current working directory |
+| `\!` | History number of this command |
+| `\d` | Date |
 
 They must be surrounded in single quotes when they are used, as in the following example:
 
@@ -1682,54 +1660,52 @@ john@myhost:/home/john$
 
 ![PS1](images/ps1.png)
 
-bash keeps track of previously entered commands and statements in a history buffer. You can recall previously used commands simply by using the Up and Down cursor keys. To view the list of previously executed commands, you can just type history at the command line.
+`bash` keeps track of previously entered commands and statements in a history buffer. You can recall previously used commands simply by using the Up and Down cursor keys. To view the list of previously executed commands, you can just type history at the command line.
 
-The list of commands is displayed with the most recent command appearing last in the list. This information is stored in ~/.bash_history. If you have multiple terminals open, the commands typed in each session are not saved until the session terminates.
+The list of commands is displayed with the most recent command appearing last in the list. This information is stored in `~/.bash_history`. If you have multiple terminals open, the commands typed in each session are not saved until the session terminates.
 
 ![History](images/debianhistory.png)
 
 Several associated environment variables can be used to get information about the history file.
 
-- HISTFILE - The location of the history file.
-- HISTFILESIZE - The maximum number of lines in the history file (default 500).
-- HISTSIZE - The maximum number of commands in the history file.
-- HISTCONTROL - How commands are stored.
-- HISTIGNORE - Which command lines can be unsaved.
-
-For a complete description of the use of these environment variables, see man bash.
+- `HISTFILE` The location of the history file.
+- `HISTFILESIZE` The maximum number of lines in the history file (default 500).
+- `HISTSIZE` The maximum number of commands in the history file.
+- `HISTCONTROL` How commands are stored.
+- `HISTIGNORE` Which command lines can be unsaved.
 
 |Key | Usage |
 |----|-------|
-| Ctrl + r | Search backward in history |
-| Ctrl + s | Search forward in history |
-| Ctrl + p | Previous command |
-| !! | Repeat the last command |
-| !n | Repeat the nth command in history |
-| !$ | Last argument of the previous command |
-| !string | Repeat the last command starting with string |
-| !?string | Repeat the last command containing string |
+| `Ctrl + r` | Search backward in history |
+| `Ctrl + s` | Search forward in history |
+| `Ctrl + p` | Previous command |
+| `!!` | Repeat the last command |
+| `!n` | Repeat the nth command in history |
+| `!$` | Last argument of the previous command |
+| `!string` | Repeat the last command starting with `string` |
+| `!?string` | Repeat the last command containing `string` |
 
-If you want to recall a command in the history list, but do not want to press the arrow key repeatedly, you can press CTRL-R to do a reverse intelligent search.
+If you want to recall a command in the history list, but do not want to press the arrow key repeatedly, you can press `CTRL-R` to do a reverse intelligent search.
 
 As you start typing, the search goes back in reverse order to the first command that matches the letters you have typed. By typing more successive letters, you make the match more and more specific.
 
-The following is an example of how you can use the CTRL-R command to search through the command history:
+The following is an example of how you can use the `CTRL-R` command to search through the command history:
   
-You can use keyboard shortcuts to perform different tasks quickly. The table lists some of these keyboard shortcuts and their uses. Note the case of the "hotkey" does not matter, e.g. doing CTRL-a is the same as doing CTRL-A .
+You can use keyboard shortcuts to perform different tasks quickly. The table lists some of these keyboard shortcuts and their uses. Note the case of the "hotkey" does not matter, e.g. doing `CTRL-a` is the same as doing `CTRL-A`.
 
 |Key | Usage |
 |----|-------|
-| Ctrl + a | Move to the beginning of the line |
-| Ctrl + e | Move to the end of the line |
-| Ctrl + u | Delete from the cursor to the beginning of the line |
-| Ctrl + k | Delete from the cursor to the end of the line |
-| Ctrl + w | Delete the word before the cursor |
-| Ctrl + y | Paste the last deleted text |
-| Ctrl + l | Clear the screen |
-| Ctrl + c | Kill the current process |
-| Ctrl + z | Suspend the current process |
-| Ctrl + d | Log out of the current session |
-| Ctrl + t | Swap the last two characters before the cursor |
+| `Ctrl + a` | Move to the beginning of the line |
+| `Ctrl + e` | Move to the end of the line |
+| `Ctrl + u` | Delete from the cursor to the beginning of the line |
+| `Ctrl + k` | Delete from the cursor to the end of the line |
+| `Ctrl + w` | Delete the word before the cursor |
+| `Ctrl + y` | Paste the last deleted text |
+| `Ctrl + l` | Clear the screen |
+| `Ctrl + c` | Kill the current process |
+| `Ctrl + z` | Suspend the current process |
+| `Ctrl + d` | Log out of the current session |
+| `Ctrl + t` | Swap the last two characters before the cursor |
 
 ### File permissions
 
@@ -1739,11 +1715,11 @@ The following utility programs involve user and group ownership and permission s
 
 |Command | Usage |
 |--------|-------|
-| chown | Change the owner of a file |
-| chgrp | Change the group of a file |
-| chmod | Change the permissions of a file |
+| `chown` | Change the owner of a file |
+| `chgrp` | Change the group of a file |
+| `chmod` | Change the permissions of a file |
 
-Files have three kinds of permissions: read (r), write (w), execute (x). These are generally represented as in rwx. These permissions affect three groups of owners: user/owner (u), group (g), and others (o).
+Files have three kinds of permissions: read `r`, write `w`, execute `x`. These are generally represented as in `rwx`. These permissions affect three groups of owners: user/owner `u`, group `g`, and others `o`.
 
 There are a number of different ways to use chmod. For instance, to give the owner and others execute permission and remove the group write permission:
 
@@ -1751,7 +1727,7 @@ There are a number of different ways to use chmod. For instance, to give the own
 chmod u+x,o+x,g-w file
 ```
 
-where u stands for user (owner), o stands for other (world), and g stands for group.
+where `u` stands for user (owner), `o` stands for other (world), and `g` stands for group.
 
 This kind of syntax can be difficult to type and remember, so one often uses a shorthand which lets you set all the permissions in one step. This is done with a simple algorithm, and a single digit suffices to specify all three permission bits for each entity. This digit is the sum of:
 
@@ -1769,15 +1745,15 @@ chmod 755 file
 
 ![Chmod](images/chmod.png)
 
-Let's see an example of changing file ownership using chown, as shown in the screenshot to the right. First, we create two empty files using touch.
+Let's see an example of changing file ownership using `chown`, as shown in the screenshot to the right. First, we create two empty files using `touch`.
 
-Notice it requires sudo to change the owner of file2 to root. The second chown command changes both owner and group at the same time!
+Notice it requires `sudo` to change the owner of `file2` to `root`. The second `chown` command changes both owner and group at the same time!
 
 Finally, only the superuser can remove the files.
 
 ![Chown](images/chown.png)
 
-Now, let’s see an example of changing the group ownership using chgrp:
+Now, let’s see an example of changing the group ownership using `chgrp`:
 
 ![Chgrp](images/chgrp.png)
 
@@ -3010,7 +2986,7 @@ It is often useful to generate random numbers and other random data when perform
 
 Such random numbers can be generated by using the $RANDOM environment variable, which is derived from the Linux kernel’s built-in random number generator, or by the OpenSSL library function, which uses the FIPS140 (Federal Information Processing Standard) algorithm to generate random numbers for encryption.
 
-![Random](images/random.png)
+![Random](images/randomubuntu.png)
 
 Some servers have hardware random number generators that take as input different types of noise signals, such as thermal noise and photoelectric effect. A transducer converts this noise into an electric signal, which is again converted into a digital number by an A-D converter. This number is considered random. However, most common computers do not contain such specialized hardware and, instead, rely on events created during booting to create the raw data needed.
 

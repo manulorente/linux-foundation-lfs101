@@ -184,7 +184,7 @@ Near the end of the boot process, init starts a number of text-mode login prompt
 
 The terminals which run the command shells can be accessed using the ALT key plus a function key. Most distributions start six text terminals and one graphics terminal starting with F1 or F2. Within a graphical environment, switching to a text console requires pressing CTRL-ALT + the appropriate function key (with F7 or F1 leading to the GUI).
 
-Usually, the default command shell is `bash` (the GNU Bourne Again Shell), but there are a number of other advanced command shells available. The shell prints a text prompt, indicating it is ready to accept commands; after the user types the command and presses Enter, the command is executed, and another prompt is displayed after the command is done.
+Usually, the default command shell is `bash` (the GNU Bourne Again Shell), but there are a number of other advanced command shells available. The shell prints a text prompt, indicating it is ready to accept commands; after the user types the command and presses `Enter`, the command is executed, and another prompt is displayed after the command is done.
 
 ![Text Mode Login](images/text-mode-login.png)
 
@@ -206,7 +206,7 @@ Besides starting the system, init is responsible for keeping the system running 
 
 Traditionally, this process startup was done using conventions that date back to the 1980s and the System V variety of UNIX. This serial process (called `SysVinit`) had the system pass through a sequence of runlevels containing collections of scripts that start and stop services. Each runlevel supported a different mode of running the system. Within each runlevel, individual services could be set to run, or to be shut down if running.
 
-However, all major distributions have moved away from this sequential method of system initialization, although they usually can emulate many System V utilities for compatibility purposes. Next, we discuss the new methods, of which systemd has become dominant.
+However, all major distributions have moved away from this sequential method of system initialization, although they usually can emulate many System V utilities for compatibility purposes. Next, we discuss the new methods, of which `systemd` has become dominant.
 
 ![init and Services](images/sbin.png)
 
@@ -227,7 +227,7 @@ Furthermore,  starting up and rebooting were seen as relatively rare events; exa
 - Adopted by RHEL 7 and SUSE
 - Replaced Upstart in Ubuntu 16.04
 
-While the migration to systemd was rather controversial, it has been adopted by all major distributions, and so we will not discuss the older System V method or Upstart, which has become a dead end. Regardless of how one feels about the controversies or the technical methods of systemd, almost universal adoption has made learning how to work on Linux systems simpler, as there are fewer differences among distributions. We enumerate systemd features next.
+While the migration to `systemd` was rather controversial, it has been adopted by all major distributions, and so we will not discuss the older System V method or Upstart, which has become a dead end. Regardless of how one feels about the controversies or the technical methods of `systemd`, almost universal adoption has made learning how to work on Linux systems simpler, as there are fewer differences among distributions. We enumerate `systemd` features next.
 
 #### systemd Features
 
@@ -235,7 +235,7 @@ Systems with `systemd` start up faster than those with earlier `init` methods. T
 
 Complicated startup shell scripts are replaced with simpler configuration files, which enumerate what has to be done before a service is started, how to execute service startup, and what conditions the service should indicate have been accomplished when startup is finished. One thing to note is that `/sbin/init` now just points to `/lib/systemd/systemd`; i.e. `systemd` takes over the init process.
 
-One systemd command (`systemctl`) is used for most basic tasks. While we have not yet talked about working at the command line, here is a brief listing of its use:
+One `systemd` command (`systemctl`) is used for most basic tasks. While we have not yet talked about working at the command line, here is a brief listing of its use:
 
 - Starting, stopping, restarting a service (using httpd, the Apache web server, as an example) on a currently running system:
 
@@ -318,7 +318,7 @@ Distributions also provide options for adding categories of software. Common app
 
 Modern distributions tend to do a simple and quick install first and then let you make these choices once the system is running in at least some basic fashion. In earlier times, there were a lot of choices to make during first installation, which could be intimidating and confusing to a new user, and also make the install take a much longer time.
 
-All installers set up some initial security features on the new system. One basic step consists of setting the password for the superuser (`root`) and setting up an initial user. In some cases (such as with Fedora and Ubuntu), only an initial user is set up; direct root login is not configured, and root access requires logging in first as a normal user and then using sudo, as we will describe later. Some distributions will also install more advanced security frameworks, such as SELinux or AppArmor. For example, all Red Hat-based systems, including Fedora and CentOS, always use SELinux by default, and Ubuntu comes with AppArmor up and running.
+All installers set up some initial security features on the new system. One basic step consists of setting the password for the superuser `root` and setting up an initial user. In some cases (such as with Fedora and Ubuntu), only an initial user is set up; direct root login is not configured, and root access requires logging in first as a normal user and then using `sudo`, as we will describe later. Some distributions will also install more advanced security frameworks, such as SELinux or AppArmor. For example, all Red Hat-based systems, including Fedora and CentOS, always use SELinux by default, and Ubuntu comes with AppArmor up and running.
 
 ## 4 - Graphical Interface
 
@@ -618,7 +618,7 @@ variable=value
 
 If your system does not already have `sudo` set up and enabled, you need to do the following steps:
 
-You will need to make modifications as the administrative, or superuser, `root`. While `sudo` will become the preferred method of doing this, we do not have it set up yet, so we will need to use `su` instead. At the command line prompt, type su and press Enter. You will then be prompted for the root password, so enter it and press Enter. You will notice that nothing is printed; this is so others cannot see the password on the screen. You should end up with a different looking prompt, often ending with `#`. For example:
+You will need to make modifications as the administrative, or superuser, `root`. While `sudo` will become the preferred method of doing this, we do not have it set up yet, so we will need to use `su` instead. At the command line prompt, type `su` and press `Enter`. You will then be prompted for the root password, so enter it and press `Enter`. You will notice that nothing is printed; this is so others cannot see the password on the screen. You should end up with a different looking prompt, often ending with `#`. For example:
 
 ```bash
 su Password:
@@ -731,7 +731,7 @@ The Advanced Packaging Tool (`apt`) is the underlying package management system 
 - `find` locates files recursively from a given directory or set of directories.
 - `find` is able to run commands on the files that it lists, when used with the -exec option.
 - `touch` is used to set the access, change, and edit times of files, as well as to create empty files.
-- The Advanced Packaging Tool (apt) package management system is used to manage installed software on Debian-based systems.
+- The Advanced Packaging Tool `apt` package management system is used to manage installed software on Debian-based systems.
 - You can use the dnf command-line package management utility for the RPM-based Red Hat Family Linux distributions.
 
 The `zypper` package management system is based on RPM and used for openSUSE.
@@ -753,8 +753,7 @@ The `zypper` package management system is based on RPM and used for openSUSE.
 |`tar` | Create a tar archive | `tar -cvf archive.tar file1 file2 directory` |
 |`tar` | Extract a tar archive | `tar -xvf archive.tar` |
 |`cp` | Copy a file or directory | `cp file1 file2` |
-|`mv` | Move a file or directory | `mv file1 file2` |
-|`mv` | Rename a file or directory | `mv file1 file2` |
+|`mv` | Move/rename a file or directory | `mv file1 file2` |
 |`find` | Search for files and directories from a directory | `find . -name file` |
 |`locate` | Search for files and directories throughout a prebuilt database | `locate file` |
 |`grep` | Search for text within files | `grep text file` |
@@ -766,7 +765,7 @@ The `zypper` package management system is based on RPM and used for openSUSE.
 
 Important Linux documentation sources include:
 
-- The man pages (short for manual pages)
+- The `man` pages (short for manual pages)
 - GNU Info
 - The help command and --help option
 - Other documentation sources, e.g., Gentoo Handbook, Ubuntu Documentation, or Fedora Documentation.
@@ -1040,7 +1039,7 @@ Here is a summary of the commands and utilities discussed in this section:
 
 “Everything is a file” is an often repeated adage quoted by users of Linux (and all UNIX-like operating systems). Whether you are dealing with normal data files and documents, or with devices such as sound cards and printers, this means interaction with them proceeds through the same Input/Output (I/O) operations you commonly use with files. This simplifies things: you open a “file” and perform normal operations like reading and writing it (which is one reason why text editors, which you will learn about in an upcoming section, are so important).
 
-On many systems (including Linux), the filesystem is structured like a tree. The tree is usually portrayed as inverted and starts at what is most often called the root directory, which marks the beginning of the hierarchical filesystem and is also sometimes referred to as the trunk and simply denoted by `/`. The root directory is not the same as the root user. The hierarchical filesystem also contains other elements in the path (directory names), which are separated by forward slashes (`/`), as in /usr/bin/emacs, where the last element is the actual file name.
+On many systems (including Linux), the filesystem is structured like a tree. The tree is usually portrayed as inverted and starts at what is most often called the root directory, which marks the beginning of the hierarchical filesystem and is also sometimes referred to as the trunk and simply denoted by `/`. The root directory is not the same as the root user. The hierarchical filesystem also contains other elements in the path (directory names), which are separated by forward slashes `/`, as in `/usr/bin/emacs`, where the last element is the actual file name.
 
 Linux supports a number of native filesystem types, expressly created by Linux developers, such as:
 
@@ -1092,11 +1091,11 @@ To unmount the partition, the command would be:
 umount /home
 ```
 
-Note the command is `umount`, not unmount! Only a root user (logged in as root, or using sudo) has the privilege to run these commands, unless the system has been otherwise configured.
+Note the command is `umount`, not unmount! Only a root user (logged in as root, or using `sudo`) has the privilege to run these commands, unless the system has been otherwise configured.
 
 If you want it to be automatically available every time the system starts up, you need to edit `/etc/fstab` accordingly (the name is short for filesystem table). Looking at this file will show you the configuration of all pre-configured filesystems.
 
-Executing mount without any arguments will show all presently mounted filesystems.
+Executing `mount` without any arguments will show all presently mounted filesystems.
 
 The command `df -Th` (disk free) will display information about mounted filesystems, including the filesystem type, and usage statistics about currently used and available space.
 
@@ -1227,7 +1226,7 @@ Note that `/etc` is for system-wide configuration files and only the superuser c
 The `/boot` directory contains the few essential files needed to boot the system. For every alternative kernel installed on the system there are four files:
 
 - `vmlinuz` The compressed Linux kernel, required for booting.
-- `initramfs` The initial ram filesystem, required for booting, sometimes called initrd, not initramfs.
+- `initramfs` The initial ram filesystem, required for booting, sometimes called `initrd`, not `initramfs`.
 - `config` The kernel configuration file, only used for debugging and bookkeeping.
 - `System.map` Kernel symbol table, only used for debugging.
 
@@ -1293,13 +1292,13 @@ Now that you know about the filesystem and its structure, let’s learn how to m
 
 |Option | Usage |
 |-------|-------|
-| -q | Only report when files differ |
-| -r | Recursively compare directories |
-| -u | Output in unified format |
-| -y | Output in two columns |
-| -c | Provides a listing of differences that include three lines of context before and after the lines differing in content|
-| -i | Ignore case |
-| -w | Ignore white space |
+| `-q` | Only report when files differ |
+| `-r` | Recursively compare directories |
+| `-u` | Output in unified format |
+| `-y` | Output in two columns |
+| `-c` | Provides a listing of differences that include three lines of context before and after the lines differing in content|
+| `-i` | Ignore case |
+| `-w` | Ignore white space |
 
 To compare two files, at the command prompt, type `diff [options] [filename1] [filename2]`. `diff` is meant to be used for text files; for binary files, one can use `cmp`.
 
@@ -1454,7 +1453,7 @@ Giving who the `-a` option will give more detailed information
 
 ![Who](images/who.png)
 
-In Linux, the command shell program (generally bash) uses one or more startup files to configure the user environment. Files in the `/etc` directory define global settings for all users, while initialization files in the user's home directory can include and/or override the global settings.
+In Linux, the command shell program (generally `bash`) uses one or more startup files to configure the user environment. Files in the `/etc` directory define global settings for all users, while initialization files in the user's home directory can include and/or override the global settings.
 
 The startup files can do anything the user would like to do in every command shell, such as:
 
@@ -1560,12 +1559,10 @@ you will remove `bjmoose` from all groups except `group1`, `group2`, and `group3
 
 The root account is very powerful and has full access to the system. Other operating systems often call this the administrator account; in Linux, it is often called the superuser account. You must be extremely cautious before granting full root access to a user; it is rarely, if ever, justified. External attacks often consist of tricks used to elevate to the root account.  
 
-However, you can use sudo to assign more limited privileges to user accounts:
+However, you can use `sudo` to assign more limited privileges to user accounts:
 
 - Only on a temporary basis
 - Only for a specific subset of commands.
-
-![Sudo](images/sudo.jpg)
 
 When assigning elevated privileges, you can use the command `su` (switch or substitute user) to launch a new shell running as another user (you must type the password of the user you are becoming). Most often, this other user is root, and the new shell allows the use of elevated privileges until it is exited. It is almost always a bad (dangerous for both security and stability) practice to use `su` to become root. Resulting errors can include deletion of vital files from the system and security breaches.
 
@@ -1579,7 +1576,7 @@ To execute just one command with root privilege type `sudo command`. When the co
 
 ### Environment Variables
 
-Environment variables are quantities that have specific values which may be utilized by the command shell, such as bash, or other utilities and applications. Some environment variables are given preset values by the system (which can usually be overridden), while others are set directly by the user, either at the command line or within startup and other scripts.
+Environment variables are quantities that have specific values which may be utilized by the command shell, such as `bash`, or other utilities and applications. Some environment variables are given preset values by the system (which can usually be overridden), while others are set directly by the user, either at the command line or within startup and other scripts.
 
 An environment variable is actually just a character string that contains information used by one or more applications. There are a number of ways to view the values of currently set environment variables; one can type `set`, `env`, or `export`. Depending on the state of your system, set may print out many more lines than the other two methods.
 
@@ -1606,7 +1603,7 @@ This will set the `SDIRS` and `KROOT` variables for the make command only.
 
 |Command | Explanation |
 |--------|-------------|
-| `echo $HOME` | Displays the value of the `HOME` variable |
+| `echo $HOME` | Displays the value of the HOME variable |
 | `cd $HOME` | Changes the current working directory to the home directory |
 | `cd ~` | Changes the current working directory to the home directory |
 | `pwd` | Shows the current working directory |
@@ -1628,7 +1625,7 @@ export PATH=$HOME/bin:$PATH
 
 ![Path](images/setpath.png)
 
-The environment variable `SHELL` points to the user's default command shell (the program that is handling whatever you type in a command window, usually bash) and contains the full pathname to the shell:
+The environment variable `SHELL` points to the user's default command shell (the program that is handling whatever you type in a command window, usually `bash`) and contains the full pathname to the shell:
 
 ```bash
 echo $SHELL
@@ -1767,15 +1764,15 @@ Indeed, experienced system administrators write customized scripts to accomplish
 
 Here, we will concentrate on command line utilities employed to perform file and text manipulation.
 
-The cat command is short for concatenate and is one of the most frequently used Linux command line utilities. It is often used to read and print files, as well as for simply viewing file contents. To view a file, use the following command:
+The `cat` command is short for concatenate and is one of the most frequently used Linux command line utilities. It is often used to read and print files, as well as for simply viewing file contents. To view a file, use the following command:
 
 ```bash
 cat filename
 ```
 
-For example, cat readme.txt will display the contents of readme.txt on the terminal. However, the main purpose of cat is often to combine (concatenate) multiple files together. You can perform the actions listed in the table using cat.
+For example, `cat readme.txt` will display the contents of `readme.txt` on the terminal. However, the main purpose of cat is often to combine (concatenate) multiple files together. You can perform the actions listed in the table using `cat`.
 
-The tac command (cat spelled backwards) prints the lines of a file in reverse order. Each line remains the same, but the order of lines is inverted. The syntax of tac is exactly the same as for cat, as in:
+The `tac` command (cat spelled backwards) prints the lines of a file in reverse order. Each line remains the same, but the order of lines is inverted. The syntax of `tac` is exactly the same as for `cat`, as in:
 
 ```bash
 tac filename
@@ -1783,52 +1780,52 @@ tac filename
 
 |Command | Usage |
 |--------|-------|
-| cat file1 file2 | Concatenates file1 and file2 and displays the output |
-| cat file1 file2 > file3 | Concatenates file1 and file2 and saves the output to file3 |
-| cat file1 file2 >> file3 | Concatenates file1 and file2 and appends the output to file3 |
-| cat > file | Creates a new file and allows you to enter text |
-| cat >> file | Appends text to an existing file |
-| cat file \| command | Pipes the output of cat to a command |
+| `cat file1 file2` | Concatenates file1 and file2 and displays the output |
+| `cat file1 file2 > file3` | Concatenates file1 and file2 and saves the output to file3 |
+| `cat file1 file2 >> file3` | Concatenates file1 and file2 and appends the output to file3 |
+| `cat > file` | Creates a new file and allows you to enter text |
+| `cat >> file` | Appends text to an existing file |
+| `cat file \| command` | Pipes the output of cat to a command |
 
-cat can be used to read from standard input (such as the terminal window) if no files are specified. You can use the > operator to create and add lines into a new file, and the >> operator to append lines (or files) to an existing file. We mentioned this when talking about how to create files without an editor.
+`cat` can be used to read from standard input (such as the terminal window) if no files are specified. You can use the `>` operator to create and add lines into a new file, and the `>>` operator to append lines (or files) to an existing file. We mentioned this when talking about how to create files without an editor.
 
-To create a new file, at the command prompt type cat > [filename] and press the Enter key.
+To create a new file, at the command prompt type `cat > [filename]` and press the `Enter` key.
 
-This command creates a new file and waits for the user to edit/enter the text. After you finish typing the required text, press CTRL-D at the beginning of the next line to save and exit the editing.
+This command creates a new file and waits for the user to edit/enter the text. After you finish typing the required text, press `CTRL-D` at the beginning of the next line to save and exit the editing.
 
-Another way to create a file at the terminal is cat > [filename] << EOF. A new file is created and you can type the required input. To exit, enter EOF at the beginning of a line.
+Another way to create a file at the terminal is `cat > [filename] << EOF`. A new file is created and you can type the required input. To exit, enter `EOF` at the beginning of a line.
 
-Note that EOF is case sensitive. One can also use another word, such as STOP.
+Note that `EOF` is case sensitive. One can also use another word, such as `STOP`.
 
 ![Cat](images/cateoffedora.png)
 
-echo simply displays (echoes) text. It is used simply, as in:
+`echo` simply displays (echoes) text. It is used simply, as in:
 
 ```bash
 echo "Hello, World!"
 ```
 
-echo can be used to display a string on standard output (i.e. the terminal) or to place in a new file (using the > operator) or append to an already existing file (using the >> operator).
+`echo` can be used to display a string on standard output (i.e. the terminal) or to place in a new file (using the `>` operator) or append to an already existing file (using the `>>` operator).
 
-The –e option, along with the following switches, is used to enable special character sequences, such as the newline character or horizontal tab:
+The `–e` option, along with the following switches, is used to enable special character sequences, such as the newline character or horizontal tab:
 
-- \n represents newline
-- \t represents horizontal tab.
+- `\n` represents newline
+- `\t` represents horizontal tab.
 
-echo is particularly useful for viewing the values of environment variables (built-in shell variables). For example, echo $USERNAME will print the name of the user who has logged into the current terminal.
+`echo` is particularly useful for viewing the values of environment variables (built-in shell variables). For example, `echo $USERNAME` will print the name of the user who has logged into the current terminal.
 
 The following table lists echo commands and their usage.
 
 |Command | Usage |
 |--------|-------|
-| echo string > file | Writes string to file |
-| echo string >> file | Appends string to file |
-| echo -e "string1\nstring2" | Prints string1 and string2 on separate lines |
-| echo $variable | Prints the value of the variable |
+| `echo string > file` | Writes string to file |
+| `echo string >> file` | Appends string to file |
+| `echo -e "string1\nstring2"` | Prints string1 and string2 on separate lines |
+| `echo $variable` | Prints the value of the variable |
 
-System administrators need to work with configuration files, text files, documentation files, and log files. Some of these files may be large or become quite large as they accumulate data with time. These files will require both viewing and administrative updating. In this section, you will learn how to work with such large files.
+System administrators need to work with configuration files, text files, documentation files, and log files. Some of these files may be large or become quite large as they accumulate data with time. These files will require both viewing and administrative updating.
 
-For example, a system might maintain one simple large log file to record details of all system warnings and errors. (Modern systems tend to have more fine-grained logging facilities but still may have some large logging files.) Due to a security attack or a malfunction, the administrator might be forced to check for some data by navigating within the file. In such cases, directly opening the file in an editor will probably be inefficient (due to high memory utilization) because most text editors usually try to read the whole file into memory first. Instead, one can use less to view the contents of such a large file, scrolling up and down page by page, without the system having to place the entire file in memory before starting. This is much faster than using a text editor.
+For example, a system might maintain one simple large log file to record details of all system warnings and errors. (Modern systems tend to have more fine-grained logging facilities but still may have some large logging files.) Due to a security attack or a malfunction, the administrator might be forced to check for some data by navigating within the file. In such cases, directly opening the file in an editor will probably be inefficient (due to high memory utilization) because most text editors usually try to read the whole file into memory first. Instead, one can use `less` to view the contents of such a large file, scrolling up and down page by page, without the system having to place the entire file in memory before starting. This is much faster than using a text editor.
 
 Viewing somefile can be done by typing either of the two following commands:
 
@@ -1837,11 +1834,11 @@ less somefile
 cat somefile | less
 ```
 
-By default, man pages are sent through the less command. You may have encountered the older, more utility, which has the same basic function but fewer capabilities: i.e., less is more!
+By default, `man` pages are sent through the `less` command. You may have encountered the older, more utility, which has the same basic function but fewer capabilities: i.e., less is more!
 
-head reads the first few lines of each named file (10 by default) and displays it on standard output. You can give a different number of lines in an option.
+`head` reads the first few lines of each named file (10 by default) and displays it on standard output. You can give a different number of lines in an option.
 
-For example, if you want to print the first 5 lines from /etc/default/grub, use the following command:
+For example, if you want to print the first 5 lines from `/etc/default/grub`, use the following command:
 
 ```bash
 head -5 /etc/default/grub
@@ -1849,9 +1846,9 @@ head -5 /etc/default/grub
 
 ![Head](images/head.png)
 
-tail prints the last few lines of each named file and displays it on standard output. By default, it displays the last 10 lines. You can give a different number of lines as an option. tail is especially useful when you are troubleshooting any issue using log files, as you probably want to see the most recent lines of output.
+`tail` prints the last few lines of each named file and displays it on standard output. By default, it displays the last 10 lines. You can give a different number of lines as an option. `tail` is especially useful when you are troubleshooting any issue using log files, as you probably want to see the most recent lines of output.
 
-For example, to display the last 15 lines of somefile.log, use the following command:
+For example, to display the last 15 lines of `somefile.log`, use the following command:
 
 ```bash
 tail -15 somefile.log
@@ -1867,115 +1864,115 @@ This command will continuously display any new lines of output in somefile.log a
 
 ![Tail](images/tailubuntu.png)
 
-When working with compressed files, many standard commands cannot be used directly. For many commonly-used file and text manipulation programs, there is also a version especially designed to work directly with compressed files. These associated utilities often have the letter "z" prefixed to their name. For example, we have utility programs such as zcat, zless, zdiff and zgrep.
+When working with compressed files, many standard commands cannot be used directly. For many commonly-used file and text manipulation programs, there is also a version especially designed to work directly with compressed files. These associated utilities often have the letter "z" prefixed to their name. For example, we have utility programs such as:
 
 Here is a table listing some z family commands.
 
 |Command | Usage |
 |--------|-------|
-| zcat file.gz | Displays the contents of a compressed file |
-| zless file.gz | Displays the contents of a compressed file one screen at a time |
-| zgrep pattern file.gz | Searches for a pattern in a compressed file |
-| zdiff file1.gz file2.gz | Compares two compressed files |
-| zmore file.gz | Displays the contents of a compressed file one screen at a time |
+| `zcat file.gz` | Displays the contents of a compressed file |
+| `zless file.gz` | Displays the contents of a compressed file one screen at a time |
+| `zgrep pattern file.gz` | Searches for a pattern in a compressed file |
+| `zdiff file1.gz file2.gz` | Compares two compressed files |
+| `zmore file.gz` | Displays the contents of a compressed file one screen at a time |
 
-Note that if you run zless on an uncompressed file, it will still work and ignore the decompression stage. There are also equivalent utility programs for other compression methods besides gzip (e.g., xz or bzip2); we have xzcat, xzless, and xzdiff associated with xz and bzcat, bzless and bzdiff associated with bzip2.
+Note that if you run `zless` on an uncompressed file, it will still work and ignore the decompression stage. There are also equivalent utility programs for other compression methods besides `gzip` (e.g., `xz` or `bzip2`); we have `xzcat`, `xzless`, and `xzdiff` associated with `xz` and `bzcat`, `bzless` and `bzdiff` associated with `bzip2`.
 
 ### Text editing
 
-It is very common to create and then repeatedly edit and/or extract contents from a file. Let’s learn how to use sed and awk to easily perform such operations.
+It is very common to create and then repeatedly edit and/or extract contents from a file. Let’s learn how to use `sed` and `awk` to easily perform such operations.
 
-Note that many Linux users and administrators will write scripts using comprehensive scripting languages such as Python and perl, rather than use sed and awk (and some other utilities we will discuss later). Using such utilities is certainly fine in most circumstances; one should always feel free to use the tools one is experienced with. However, the utilities that are described here are much lighter; i.e. they use fewer system resources, and execute faster. There are situations (such as during booting the system) where a lot of time would be wasted using the more complicated tools, and the system may not even be able to run them. So, the simpler tools will always be needed.
+Note that many Linux users and administrators will write scripts using comprehensive scripting languages such as Python and perl, rather than use `sed` and `awk` (and some other utilities we will discuss later). Using such utilities is certainly fine in most circumstances; one should always feel free to use the tools one is experienced with. However, the utilities that are described here are much lighter; i.e. they use fewer system resources, and execute faster. There are situations (such as during booting the system) where a lot of time would be wasted using the more complicated tools, and the system may not even be able to run them. So, the simpler tools will always be needed.
 
-sed is a powerful text processing tool and is one of the oldest, earliest and most popular UNIX utilities. It is used to modify the contents of a file or input stream, usually placing the contents into a new file or output stream. Its name is an abbreviation for stream editor.
+`sed` is a powerful text processing tool and is one of the oldest, earliest and most popular UNIX utilities. It is used to modify the contents of a file or input stream, usually placing the contents into a new file or output stream. Its name is an abbreviation for stream editor.
 
 ![Sed](images/sed.png)
 
-sed can filter text, as well as perform substitutions in data streams.
+`sed` can filter text, as well as perform substitutions in data streams.
 
 Data from an input source/file (or stream) is taken and moved to a working space. The entire list of operations/modifications is applied over the data in the working space and the final contents are moved to the standard output space (or stream).
 
-You can invoke sed using commands like those listed in the accompanying table.
+You can invoke `sed` using commands like those listed in the accompanying table.
 
 |Command | Usage |
 |--------|-------|
-| sed 's/old/new/' file | Replaces the first occurrence of old with new in file |
-| sed 's/old/new/g' file | Replaces all occurrences of old with new in file |
-| sed -e command file | Applies multiple sed commands to a file |
-| sed -f scriptfile file | Applies sed commands from a file to another file |
+| `sed 's/old/new/' file` | Replaces the first occurrence of old with new in file |
+| `sed 's/old/new/g' file` | Replaces all occurrences of old with new in file |
+| `sed -e command file` | Applies multiple sed commands to a file |
+| `sed -f scriptfile file` | Applies sed commands from a file to another file |
 
-The -e option allows you to specify multiple editing commands simultaneously at the command line. It is unnecessary if you only have one operation invoked.
+The `-e` option allows you to specify multiple editing commands simultaneously at the command line. It is unnecessary if you only have one operation invoked.
 
 ![Sed2](images/fedorased.png)
 
-Now that you know that you can perform multiple editing and filtering operations with sed, let’s explain some of them in more detail. The table explains some basic operations, where pattern is the current string and replace_string is the new string.
+Now that you know that you can perform multiple editing and filtering operations with `sed`, let’s explain some of them in more detail. The table explains some basic operations, where `pattern` is the current string and `replace_string` is the new string.
 
 |Command | Explanation |
 |--------|-------------|
-| sed s/pattern/replace_string/ file | Replaces the first occurrence of pattern with replace_string in file |
-| sed s/pattern/replace_string/g file | Replaces all occurrences of pattern with replace_string in file |
-| sed s/pattern/replace_string/ file > newfile | Replaces the first occurrence of pattern with replace_string in file and saves the output to newfile |
-| sed s/pattern/replace_string/g file > newfile | Replaces all occurrences of pattern with replace_string in file and saves the output to newfile |
-| sed -i s/pattern/replace_string/ file | Replaces the first occurrence of pattern with replace_string in file and saves the changes to file |
+| `sed s/pattern/replace_string/ file` | Replaces the first occurrence of pattern with replace_string in file |
+| `sed s/pattern/replace_string/g file` | Replaces all occurrences of pattern with replace_string in file |
+| `sed s/pattern/replace_string/ file > newfile` | Replaces the first occurrence of pattern with replace_string in file and saves the output to newfile |
+| `sed s/pattern/replace_string/g file > newfile` | Replaces all occurrences of pattern with replace_string in file and saves the output to newfile |
+| `sed -i s/pattern/replace_string/ file` | Replaces the first occurrence of pattern with replace_string in file and saves the changes to file |
 
-You must use the -i option with care, because the action is not reversible. It is always safer to use sed without the –i option and then replace the file yourself, as shown in the following example:
+You must use the `-i` option with care, because the action is not reversible. It is always safer to use sed without the `–i` option and then replace the file yourself, as shown in the following example:
 
 ```bash
 sed s/pattern/replace_string/ file > newfile
 mv newfile file
 ```
 
-The above command will replace all occurrences of pattern with replace_string in file1 and move the contents to file2. The contents of file2 can be viewed with cat file2. If you approve, you can then overwrite the original file with mv file2 file1.
+The above command will replace all occurrences of `pattern` with `replace_string` in file1 and move the contents to file2. The contents of file2 can be viewed with cat file2. If you approve, you can then overwrite the original file with `mv file2 file1`.
 
-awk is used to extract and then print specific contents of a file and is often used to construct reports. It was created at Bell Labs in the 1970s and derived its name from the last names of its authors: Alfred Aho, Peter Weinberger, and Brian Kernighan.
+`awk` is used to extract and then print specific contents of a file and is often used to construct reports. It was created at Bell Labs in the 1970s and derived its name from the last names of its authors: Alfred Aho, Peter Weinberger, and Brian Kernighan.
 
-awk has the following features:
+`awk` has the following features:
 
 - It is a powerful utility and interpreted programming language.
 - It is used to manipulate data files, and for retrieving and processing text.
 - It works well with fields (containing a single piece of data, essentially a column) and records (a - collection of fields, essentially a line in a file).
 
-awk is invoked as shown in the following:
+`awk` is invoked as shown in the following:
 
 ![Awk](images/awkpasswd.png)
 
-As with sed, short awk commands can be specified directly at the command line, but a more complex script can be saved in a file that you can specify using the -f option.
+As with `sed`, short `awk` commands can be specified directly at the command line, but a more complex script can be saved in a file that you can specify using the `-f` option.
 
-The table explains the basic tasks that can be performed using awk. The input file is read one line at a time, and, for each line, awk matches the given pattern in the given order and performs the requested action. The -F option allows you to specify a particular field separator character. For example, the /etc/passwd file uses ":" to separate the fields, so the -F: option is used with the /etc/passwd file.
+The table explains the basic tasks that can be performed using `awk`. The input file is read one line at a time, and, for each line, `awk` matches the given pattern in the given order and performs the requested action. The `-F` option allows you to specify a particular field separator character. For example, the `/etc/passwd` file uses `:` to separate the fields, so the `-F` option is used with the `/etc/passwd` file.
 
-The command/action in awk needs to be surrounded with apostrophes (or single-quote (')). awk can be used as follows:
+The command/action in `awk` needs to be surrounded with apostrophes (or single-quote `'`). awk can be used as follows:
 
 |Command | Usage |
 |--------|-------|
-| awk '{print $1}' /etc/passwd | Prints the first field of each line in /etc/passwd |
-| awk -f scriptfile file | Applies awk commands from a file to another file |
+| `awk '{print $1}' /etc/passwd` | Prints the first field of each line in /etc/passwd |
+| `awk -f scriptfile file` | Applies awk commands from a file to another file |
 
 ### File manipulation
 
 In managing your files, you may need to perform tasks such as sorting data and copying data from one location to another. Linux provides numerous file manipulation utilities that you can use while working with text files. In this section, you will learn about the following file manipulation programs:
 
-- sort
-- uniq
-- paste
-- join
-- split.
+- `sort`
+- `uniq`
+- `paste`
+- `join`
+- `split`
 
-sort is used to rearrange the lines of a text file, in either ascending or descending order according to a sort key. You can apply the key t to sort according to a particular field (column) in a file. The default sort key is the order of the ASCII characters (i.e. essentially alphabetically).
+`sort` is used to rearrange the lines of a text file, in either ascending or descending order according to a `sort` key. You can apply the key t to sort according to a particular field (column) in a file. The default sort key is the order of the ASCII characters (i.e. essentially alphabetically).
 
 |Command | Usage |
 |--------|-------|
-| sort file | Sorts the contents of file |
-| sort -r file | Sorts the contents of file in reverse order |
-| sort -n file | Sorts the contents of file numerically |
-| sort -k 2 file | Sorts the contents of file according to the second field |
+| `sort file` | Sorts the contents of file |
+| `sort -r file` | Sorts the contents of file in reverse order |
+| `sort -n file` | Sorts the contents of file numerically |
+| `sort -k 2 file` | Sorts the contents of file according to the second field |
 
-When used with the -u option, sort checks for unique values after sorting the records (lines). It is equivalent to running uniq (which we shall discuss) on the output of sort.
+When used with the `-u` option, `sort` checks for unique values after sorting the records (lines). It is equivalent to running `uniq` (which we shall discuss) on the output of `sort`.
 
 ![Sort](images/sortgrub.png)
 
-uniq removes duplicate consecutive lines in a text file and is useful for simplifying the text display.
+`uniq` removes duplicate consecutive lines in a text file and is useful for simplifying the text display.
 
-Because uniq requires that the duplicate entries must be consecutive, one often runs sort first and then pipes the output into uniq; if sort is used with the -u option, it can do all this in one step.
+Because `uniq` requires that the duplicate entries must be consecutive, one often runs sort first and then pipes the output into `uniq`; if `sort` is used with the `-u` option, it can do all this in one step.
 
 To remove duplicate entries from multiple files at once, use the following command:
 
@@ -1993,16 +1990,16 @@ sort file1 file2 | uniq -c
 
 Suppose you have a file that contains the full name of all employees and another file that lists their phone numbers and Employee IDs. You want to create a new file that contains all the data listed in three columns: name, employee ID, and phone number. How can you do this effectively without investing too much time?
 
-paste can be used to create a single file containing all three columns. The different columns are identified based on delimiters (spacing used to separate two fields). For example, delimiters can be a blank space, a tab, or an Enter. In the image provided, a single space is used as the delimiter in all files.
+`paste` can be used to create a single file containing all three columns. The different columns are identified based on delimiters (spacing used to separate two fields). For example, delimiters can be a blank space, a tab, or an `Enter`. In the image provided, a single space is used as the delimiter in all files.
 
-paste accepts the following options:
+`paste` accepts the following options:
 
-- -d delimiters, which specify a list of delimiters to be used instead of tabs for separating consecutive values on a single line. Each delimiter is used in turn; when the list has been exhausted, paste begins again at the first delimiter.
-- -s, which causes paste to append the data in series rather than in parallel; that is, in a horizontal rather than vertical fashion.
+- `-d` delimiters, which specify a list of delimiters to be used instead of tabs for separating consecutive values on a single line. Each delimiter is used in turn; when the list has been exhausted, `paste` begins again at the first delimiter.
+- `-s`, which causes `paste` to append the data in series rather than in parallel; that is, in a horizontal rather than vertical fashion.
 
 ![Paste](images/paste.png)
 
-paste can be used to combine fields (such as name or phone number) from different files, as well as combine lines from multiple files. For example, line one from file1 can be combined with line one of file2, line two from file1 can be combined with line two of file2, and so on.
+`paste` can be used to combine fields (such as name or phone number) from different files, as well as combine lines from multiple files. For example, line one from file1 can be combined with line one of file2, line two from file1 can be combined with line two of file2, and so on.
 
 To paste contents from two files one can do:
 
@@ -2022,23 +2019,23 @@ Common delimiters are a space, a tab, and a colon.
 
 Suppose you have two files with some similar columns. You have saved employees’ phone numbers in two files, one with their first name and the other with their last name. You want to combine the files without repeating the data of common columns. How do you achieve this?
 
-The above task can be achieved using join, which is essentially an enhanced version of paste. It first checks whether the files share common fields, such as names or phone numbers, and then joins the lines in two files based on a common field.
+The above task can be achieved using `join`, which is essentially an enhanced version of `paste`. It first checks whether the files share common fields, such as names or phone numbers, and then joins the lines in two files based on a common field.
 
 ![Join](images/join.png)
 
-To combine two files on a common field, at the command prompt type join file1 file2 and press the Enter key.
+To combine two files on a common field, at the command prompt type `join file1 file2` and press the `Enter` key.
 
 For example, the common field (i.e. it contains the same values) among the phonebook and cities files is the phone number, and the result of joining these two files is shown in the screen capture.
 
 ![Join2](images/join2.png)
 
-split is used to break up (or split) a file into equal-sized segments for easier viewing and manipulation, and is generally used only on relatively large files. By default, split breaks up a file into 1000-line segments. The original file remains unchanged, and a set of new files with the same name plus an added prefix is created. By default, the x prefix is added. To split a file into segments, use the command split infile.
+`split` is used to break up (or split) a file into equal-sized segments for easier viewing and manipulation, and is generally used only on relatively large files. By default, `split` breaks up a file into 1000-line segments. The original file remains unchanged, and a set of new files with the same name plus an added prefix is created. By default, the x prefix is added. To split a file into segments, use the command `split infile`.
 
-To split a file into segments using a different prefix, use the command split infile [prefix].
+To split a file into segments using a different prefix, use the command `split infile [prefix]`.
 
 ![Split](images/split.png)
 
-We will apply split to a dictionary file of almost 500,000 lines:
+We will apply `split` to a dictionary file of almost 500,000 lines:
 
 ```bash
 wc -l /usr/share/dict/words
@@ -2052,19 +2049,19 @@ split -l 100000 /usr/share/dict/words
 
 ![Split2](images/split2.png)
 
-grep is extensively used as a primary text searching tool. It scans files for specified patterns and can be used with regular expressions, as well as simple strings, as shown in the table:
+`grep` is extensively used as a primary text searching tool. It scans files for specified patterns and can be used with regular expressions, as well as simple strings, as shown in the table:
 
 |Command | Usage |
 |--------|-------|
-| grep pattern file | Searches for a pattern in a file |
-| grep -i pattern file | Searches for a pattern in a file (case-insensitive) |
-| grep -r pattern directory | Searches for a pattern in a directory and its subdirectories |
-| grep -v pattern file | Displays lines that do not contain the pattern |
-| grep -c pattern file | Displays the number of lines that contain the pattern |
-| grep [0-9] file | Searches for lines containing any digit in a file |
-| grep -e pattern1 -e pattern2 file | Searches for multiple patterns in a file |
+| `grep pattern file` | Searches for a pattern in a file |
+| `grep -i pattern file` | Searches for a pattern in a file (case-insensitive) |
+| `grep -r pattern directory` | Searches for a pattern in a directory and its subdirectories |
+| `grep -v pattern file` | Displays lines that do not contain the pattern |
+| `grep -c pattern file` | Displays the number of lines that contain the pattern |
+| `grep [0-9] file` | Searches for lines containing any digit in a file |
+| `grep -e pattern1 -e pattern2 file` | Searches for multiple patterns in a file |
 
-strings is used to extract all printable character strings found in the file or files given as arguments. It is useful in locating human-readable content embedded in binary files; for text files one can just use grep.
+`strings` is used to extract all printable character strings found in the file or files given as arguments. It is useful in locating human-readable content embedded in binary files; for text files one can just use `grep`.
 
 For example, to search for the string my_string in a spreadsheet
 
@@ -2078,33 +2075,33 @@ The screenshot shows a search of a number of programs to see which ones have GPL
 
 ### Regular expressions
 
-Regular expressions are text strings used for matching a specific pattern, or to search for a specific location, such as the start or end of a line or a word. Regular expressions can contain both normal characters or so-called meta-characters, such as * and $.
+Regular expressions are text strings used for matching a specific pattern, or to search for a specific location, such as the start or end of a line or a word. Regular expressions can contain both normal characters or so-called meta-characters, such as `*` and `$`.
 
-Many text editors and utilities such as vi, sed, awk, find and grep work extensively with regular expressions. Some of the popular computer languages that use regular expressions include Perl, Python and Ruby. It can get rather complicated and there are whole books written about regular expressions. Thus, we will do no more than skim the surface here.
+Many text editors and utilities such as `vi`, `sed`, `awk`, find and grep work extensively with regular expressions. Some of the popular computer languages that use regular expressions include Perl, Python and Ruby. It can get rather complicated and there are whole books written about regular expressions. Thus, we will do no more than skim the surface here.
 
-These regular expressions are different from the wildcards (or meta-characters) used in filename matching in command shells such as bash (which were covered in the Command-Line Operations chapter). The table lists search patterns and their usage.
+These regular expressions are different from the wildcards (or meta-characters) used in filename matching in command shells such as `bash` (which were covered in the Command-Line Operations chapter). The table lists search patterns and their usage.
 
 |Pattern | Explanation |
 |--------|-------------|
-| . | Matches any single character |
-| ^ | Matches the beginning of a line |
-| $ | Matches the end of a line |
-| * | Matches zero or more occurrences of the previous character |
-| [ ] | Matches any one of the enclosed characters |
-| a\|b | Matches either a or b |
+| `.` | Matches any single character |
+| `^` | Matches the beginning of a line |
+| `$` | Matches the end of a line |
+| `*` | Matches zero or more occurrences of the previous character |
+| `[ ]` | Matches any one of the enclosed characters |
+| `a\|b` | Matches either a or b |
 
-For example, consider the following sentence: the quick brown fox jumped over the lazy dog.
+For example, consider the following sentence: _the quick brown fox jumped over the lazy dog_
 
 Some of the patterns that can be applied to this sentence are as follows:
 
 |Command | Usage |
 |--------|-------|
-| a.. | Matches azy |
-| b.\|j. | Matches both br and ju |
-| ..$ | Matches og |
-| l.* | Matches lazy dog |
-| l.*y | Matches lazy |
-| the.* | Matches the entire sentence |
+| `a..` | Matches azy |
+| `b.\|j.` | Matches both br and ju |
+| `..$` | Matches og |
+| `l.*` | Matches lazy dog |
+| `l.*y` | Matches lazy |
+| `the.*` | Matches the entire sentence |
 
 ### Text utilities
 
@@ -2112,52 +2109,52 @@ In this section, you will learn about some additional text utilities that you ca
 
 ![tr](images/tr.png)
 
-The tr utility is used to translate specified characters into other characters or to delete them. The general syntax is as follows:
+The `tr` utility is used to translate specified characters into other characters or to delete them. The general syntax is as follows:
 
 ```bash
 tr [options] set1 [set2]
 ```
 
-The items in the square brackets are optional. tr requires at least one argument and accepts a maximum of two. The first, designated set1 in the example, lists the characters in the text to be replaced or removed. The second, set2, lists the characters that are to be substituted for the characters listed in the first argument. Sometimes these sets need to be surrounded by apostrophes (or single-quotes (')) in order to have the shell ignore that they mean something special to the shell. It is usually safe (and may be required) to use the single-quotes around each of the sets as you will see in the examples below.
+The items in the square brackets are optional. `tr` requires at least one argument and accepts a maximum of two. The first, designated set1 in the example, lists the characters in the text to be replaced or removed. The second, set2, lists the characters that are to be substituted for the characters listed in the first argument. Sometimes these sets need to be surrounded by apostrophes (or single-quotes `'`) in order to have the shell ignore that they mean something special to the shell. It is usually safe (and may be required) to use the single-quotes around each of the sets as you will see in the examples below.
 
-For example, suppose you have a file named city containing several lines of text in mixed case. To translate all lower case characters to upper case, at the command prompt type cat city | tr a-z A-Z and press the Enter key.
+For example, suppose you have a file named city containing several lines of text in mixed case. To translate all lower case characters to upper case, at the command prompt type `cat city | tr a-z A-Z` and press the `Enter` key.
 
 | Command | Usage |
 |---------|-------|
-| tr a-z A-Z < file | Translates all lower case characters to upper case |
-| tr -d 0-9 < file | Deletes all digits from the file |
-| tr -d [:space:] < file | Deletes all spaces from the file |
-| tr -d [:punct:] < file | Deletes all punctuation marks from the file |
-| tr '{}' '()' < file | Translates all curly braces to parentheses |
-| echo "Hello" \| tr -d 'l' | Deletes all occurrences of the letter l from the word Hello |
-| tr -cd '[:print:]' < file | Deletes all non-printable characters from the file |
-| tr -s ' ' < file | Squeezes multiple spaces into one space |
+| `tr a-z A-Z < file` | Translates all lower case characters to upper case |
+| `tr -d 0-9 < file` | Deletes all digits from the file |
+| `tr -d [:space:] < file` | Deletes all spaces from the file |
+| `tr -d [:punct:] < file` | Deletes all punctuation marks from the file |
+| `tr '{}' '()' < file` | Translates all curly braces to parentheses |
+| `echo "Hello" \| tr -d 'l'` | Deletes all occurrences of the letter l from the word Hello |
+| `tr -cd '[:print:]' < file` | Deletes all non-printable characters from the file |
+| `tr -s ' ' < file` | Squeezes multiple spaces into one space |
 
-tee takes the output from any command, and, while sending it to standard output, it also saves it to a file. In other words, it tees the output stream from the command: one stream is displayed on the standard output and the other is saved to a file.
+`tee` takes the output from any command, and, while sending it to standard output, it also saves it to a file. In other words, it tees the output stream from the command: one stream is displayed on the standard output and the other is saved to a file.
 
-For example, to list the contents of a directory on the screen and save the output to a file, at the command prompt type ls -l | tee newfile and press the Enter key.
+For example, to list the contents of a directory on the screen and save the output to a file, at the command prompt type `ls -l | tee newfile` and press the `Enter` key.
 
-Typing cat newfile will then display the output of ls –l.
+Typing `cat newfile` will then display the output of `ls –l`.
 
 ![Tee](images/tee.png)
 
-wc (word count) counts the number of lines, words, and characters in a file or list of files. Options are given in the table below.
+`wc` (word count) counts the number of lines, words, and characters in a file or list of files. Options are given in the table below.
 
 | Option | Explanation |
 |--------|-------------|
-| -l | Counts the number of lines |
-| -w | Counts the number of words |
-| -c | Counts the number of characters |
+| `-l` | Counts the number of lines |
+| `-w` | Counts the number of words |
+| `-c` | Counts the number of characters |
 
 By default, all three of these options are active.
 
-For example, to print only the number of lines contained in a file, type wc -l filename and press the Enter key
+For example, to print only the number of lines contained in a file, type `wc -l filename` and press the `Enter` key
 
 ![Wc](images/wc.png)
 
-cut is used for manipulating column-based files and is designed to extract specific columns. The default column separator is the TAB character. A different delimiter can be given as a command option.
+`cut` is used for manipulating column-based files and is designed to extract specific columns. The default column separator is the `TAB` character. A different delimiter can be given as a command option.
 
-For example, to display the third column delimited by a blank space, at the command prompt type ls -l | cut -d" " -f3 and press the Enter key.
+For example, to display the third column delimited by a blank space, at the command prompt type `ls -l | cut -d" " -f3` and press the `Enter` key.
 
 ![Cut](images/cut.png)
 
@@ -2185,9 +2182,9 @@ One reason IPv4 has not disappeared is there are widely-used ways to effectively
 
 A 32-bit IPv4 address is divided into four 8-bit sections called octets or bytes.
 
-Example:
-IP address: 172.16.254.1
-Binary:     10101100.00010000.11111110.00000001
+_Example:_  
+_IP address: 172.16.254.1_  
+_Binary:     10101100.00010000.11111110.00000001_  
 
 Network addresses are divided into five classes: A, B, C, D and E. Classes A, B and C are classified into two parts: Network addresses (Net ID) and Host address (Host ID). The Net ID is used to identify the network, while the Host ID is used to identify a host in the network. Class D is used for special multicast applications (information is broadcast to multiple computers simultaneously) and Class E is reserved for future use.
 
@@ -2227,19 +2224,19 @@ You can assign IP addresses to computers over a network either manually or dynam
 
 Name Resolution is used to convert numerical IP address values into a human-readable format known as the hostname. For example, 3.13.31.214 is the numerical IP address that refers to the hostname linuxfoundation.org. Hostnames are much easier to remember!
 
-Given an IP address, you can obtain its corresponding hostname. Accessing the machine over the network becomes easier when you can type the hostname instead of the IP address.
+Given an IP address, you can obtain its corresponding hostname. Accessing the machine over the network becomes easier when you can type the `hostname` instead of the IP address.
 
-You can view your system’s hostname simply by typing hostname with no argument.
+You can view your system’s hostname simply by typing `hostname` with no argument.
 
 The special hostname localhost is associated with the IP address 127.0.0.1 and describes the machine you are currently on (which normally has additional network-related IP addresses).
 
 ### Networking configuration and tools
 
-Network configuration files are essential to ensure that interfaces function correctly. They are located in the /etc directory tree. However, the exact files used have historically been dependent on the particular Linux distribution and version being used.
+Network configuration files are essential to ensure that interfaces function correctly. They are located in the `/etc` directory tree. However, the exact files used have historically been dependent on the particular Linux distribution and version being used.
 
-For Debian family configurations, the basic network configuration files could be found under /etc/network/, while for Red Hat and SUSE family systems one needed to inspect /etc/sysconfig/network.
+For Debian family configurations, the basic network configuration files could be found under `/etc/network/`, while for Red Hat and SUSE family systems one needed to inspect `/etc/sysconfig/network`.
 
-Modern systems emphasize the use of Network Manager, which we briefly discussed when we considered graphical system administration, rather than try to keep up with the vagaries of the files in /etc. While the graphical versions of Network Manager do look somewhat different in different distributions, the nmtui utility (shown in the screenshot) varies almost not at all, as does the even more sparse nmcli (command line interface) utility. If you are proficient in the use of the GUIs, by all means, use them. If you are working on a variety of systems, the lower level utilities may make lif
+Modern systems emphasize the use of Network Manager, which we briefly discussed when we considered graphical system administration, rather than try to keep up with the vagaries of the files in `/etc`. While the graphical versions of Network Manager do look somewhat different in different distributions, the nmtui utility (shown in the screenshot) varies almost not at all, as does the even more sparse nmcli (command line interface) utility. If you are proficient in the use of the GUIs, by all means, use them. If you are working on a variety of systems, the lower level utilities may make lif
 
 ![Nmtui](images/nmtui.png)
 
@@ -2247,7 +2244,7 @@ Recent Ubuntu distributions include netplan, which is turned on by default, and 
 
 Network interfaces are a connection channel between a device and a network. Physically, network interfaces can proceed through a network interface card (NIC) or can be more abstractly implemented as software. You can have multiple network interfaces operating at once. Specific interfaces can be brought up (activated) or brought down (deactivated) at any time.
 
-Information about a particular network interface or all network interfaces can be reported by the ip and ifconfig utilities, which you may have to run as the superuser, or at least, give the full path, i.e. /sbin/ifconfig, on some distributions. ip is newer than ifconfig and has far more capabilities, but its output is uglier to the human eye. Some new Linux distributions do not install the older net-tools package to which ifconfig belongs, and so you would have to install it if you want to use it.
+Information about a particular network interface or all network interfaces can be reported by the `ip` and `ifconfig` utilities, which you may have to run as the superuser, or at least, give the full path, i.e. `/sbin/ifconfig`, on some distributions. `ip` is newer than `ifconfig` and has far more capabilities, but its output is uglier to the human eye. Some new Linux distributions do not install the older net-tools package to which `ifconfig` belongs, and so you would have to install it if you want to use it.
 
 ![Ifconfig](images/ifconfig-ip.png)
 
@@ -2263,15 +2260,15 @@ To view the routing table:
 /sbin/ip route show
 ```
 
-ip is a very powerful program that can do many things. Older (and more specific) utilities such as ifconfig and route are often used to accomplish similar tasks. A look at the relevant man pages can tell you much more about these utilities.
+`ip` is a very powerful program that can do many things. Older (and more specific) utilities such as `ifconfig` and route are often used to accomplish similar tasks. A look at the relevant man pages can tell you much more about these utilities.
 
 ![Ip](images/ipaddrshow.png)
 
-ping is used to check whether or not a machine attached to the network can receive and send data; i.e. it confirms that the remote host is online and is responding.
+`ping` is used to check whether or not a machine attached to the network can receive and send data; i.e. it confirms that the remote host is online and is responding.
 
-To check the status of the remote host, at the command prompt, type ping [hostname].
+To check the status of the remote host, at the command prompt, type `ping [hostname]`.
 
-ping is frequently used for network testing and management; however, its usage can increase network load unacceptably. Hence, you can abort the execution of ping by typing CTRL-C, or by using the -c option, which limits the number of packets that ping will send before it quits. When execution stops, a summary is displayed. Some hosts refuse to answer ping requests.
+`ping` is frequently used for network testing and management; however, its usage can increase network load unacceptably. Hence, you can abort the execution of `ping` by typing `CTRL-C`, or by using the `-c` option, which limits the number of packets that `ping` will send before it quits. When execution stops, a summary is displayed. Some hosts refuse to answer `ping` requests.
 
 ![Ping](images/ping.png)
 
@@ -2279,48 +2276,48 @@ A network requires the connection of many nodes. Data moves from source to desti
 
 ![route](images/routeubuntu.png)
 
-One can use the route utility (or the newer ip route command) to view or change the IP routing table to add, delete, or modify specific (static) routes to specific hosts or networks. The table explains some commands that can be used to manage IP routing:
+One can use the `route` utility (or the newer `ip route` command) to view or change the IP routing table to add, delete, or modify specific (static) routes to specific hosts or networks. The table explains some commands that can be used to manage IP routing:
 
 | Command | Usage |
 |---------|-------|
-| route -n | Displays the routing table in numeric format |
-| route add -net address netmask mask gw gateway | Adds a new route to the routing table |
-| route del -net address netmask mask | Deletes a route from the routing table |
+| `route -n` | Displays the routing table in numeric format |
+| `route add -net address netmask mask gw gateway` | Adds a new route to the routing table |
+| `route del -net address netmask mask` | Deletes a route from the routing table |
 
-traceroute is used to inspect the route which the data packet takes to reach the destination host, which makes it quite useful for troubleshooting network delays and errors. By using traceroute, you can isolate connectivity issues between hops, which helps resolve them faster.
+`traceroute` is used to inspect the route which the data packet takes to reach the destination host, which makes it quite useful for troubleshooting network delays and errors. By using `traceroute`, you can isolate connectivity issues between hops, which helps resolve them faster.
 
-To print the route taken by the packet to reach the network host, at the command prompt, type traceroute [address].
+To print the route taken by the packet to reach the network host, at the command prompt, type `traceroute [address]`.
 
 Now, let’s learn about some additional networking tools. Networking tools are very useful for monitoring and debugging network problems, such as network connectivity and network traffic.
 
 | Command | Description |
 |---------|-------------|
-| netstat | Displays network connections, routing tables, interface statistics, masquerade connections, and multicast memberships |
-| ss | A utility to investigate sockets |
-| nmap | A network scanning tool used to discover hosts and services on a computer network |
-| tcpdump | A network packet analyzer that captures and displays the packets transmitted over a network |
-| ethtool | A utility used to view and modify network interface settings |
-| mtu | A utility used to view and modify the Maximum Transmission Unit (MTU) size of network interfaces |
-| mtr | A network diagnostic tool that combines the functionality of the traceroute and ping utilities |
-| iptraf | A network monitoring tool that displays general network statistics, such as IP traffic, TCP/UDP traffic, and so on |
-| dig | A utility used to query DNS servers and perform DNS lookups |
+| `netstat` | Displays network connections, routing tables, interface statistics, masquerade connections, and multicast memberships |
+| `ss` | A utility to investigate sockets |
+| `nmap` | A network scanning tool used to discover hosts and services on a computer network |
+| `tcpdump` | A network packet analyzer that captures and displays the packets transmitted over a network |
+| `ethtool` | A utility used to view and modify network interface settings |
+| `mtu` | A utility used to view and modify the Maximum Transmission Unit (MTU) size of network interfaces |
+| `mtr` | A network diagnostic tool that combines the functionality of the traceroute and ping utilities |
+| `iptraf` | A network monitoring tool that displays general network statistics, such as IP traffic, TCP/UDP traffic, and so on |
+| `dig` | A utility used to query DNS servers and perform DNS lookups |
 
-Sometimes, you need to download files and information, but a browser is not the best choice, either because you want to download multiple files and/or directories, or you want to perform the action from a command line or a script. wget is a command line utility that can capably handle the following types of downloads:
+Sometimes, you need to download files and information, but a browser is not the best choice, either because you want to download multiple files and/or directories, or you want to perform the action from a command line or a script. `wget` is a command line utility that can capably handle the following types of downloads:
 
 - Large file downloads
 - Recursive downloads, where a web page refers to other web pages and all are downloaded at once
 - Password-required downloads
 - Multiple file downloads.
 
-To download a web page, you can simply type wget [url], and then you can read the downloaded page as a local file using a graphical or non-graphical browser.
+To download a web page, you can simply type `wget [url]`, and then you can read the downloaded page as a local file using a graphical or non-graphical browser.
 
 ![Wget](images/wget.png)
 
-Besides downloading, you may want to obtain information about a URL, such as the source code being used. curl can be used from the command line or a script to read such information. curl also allows you to save the contents of a web page to a file, as does wget.
+Besides downloading, you may want to obtain information about a URL, such as the source code being used. curl can be used from the command line or a script to read such information. curl also allows you to save the contents of a web page to a file, as does `wget`.
 
 You can read a URL using curl [URL]. For example, if you want to read <http://www.linuxfoundation.org>, type curl ht‌tp://www.linuxfoundation.org.
 
-To get the contents of a web page and store it to a file, type curl -o saved.html ht‌tp://www.mysite.com. The contents of the main index file at the website will be saved in saved.html
+To get the contents of a web page and store it to a file, type `curl -o saved.html ht‌tp://www.mysite.com`. The contents of the main index file at the website will be saved in saved.html.
 
 ![Curl](images/curl.png)
 
@@ -2332,18 +2329,18 @@ FTP is one of the oldest methods of network data transfer, dating back to the ea
 
 ![Ftp](images/ftp.png)
 
-FTP clients enable you to transfer files with remote computers using the FTP protocol. These clients can be either graphical or command line tools. Filezilla, for example, allows the use of the drag-and-drop approach to transfer files between hosts. All web browsers support FTP; all you have to do is give a URL like ftp://ftp.kernel.org where the usual http:// becomes ftp://.
+FTP clients enable you to transfer files with remote computers using the FTP protocol. These clients can be either graphical or command line tools. Filezilla, for example, allows the use of the drag-and-drop approach to transfer files between hosts. All web browsers support FTP; all you have to do is give a URL like [ftp://ftp.kernel.org] where the usual `http://` becomes `ftp://`.
 
 Some command line FTP clients are:
 
-- ftp
-- sftp
-- ncftp
-- yafc (Yet Another FTP Client).
+- `ftp`
+- `sftp`
+- `ncftp`
+- `yafc` (Yet Another FTP Client).
 
 FTP is one of the oldest methods of network data transfer, dating back to the early 1970s. As such, it is considered inadequate for modern needs, as well as being intrinsically insecure. However, it is still in use, unfortunately.  Most modern websites (such as kernel.org) have abandoned its use.
 
-The reason FTP has fallen into disfavor on modern systems is that it is intrinsically insecure; passwords are user credentials that can be transmitted without encryption and are thus prone to interception. Thus, it was removed in favor of using rsync and web browser https access for example. As an alternative, sftp is a very secure mode of connection, which uses the Secure Shell (ssh) protocol, which we will discuss shortly. sftp encrypts its data and thus sensitive information is transmitted more securely. However, it does not work with so-called anonymous FTP (guest user credentials).
+The reason FTP has fallen into disfavor on modern systems is that it is intrinsically insecure; passwords are user credentials that can be transmitted without encryption and are thus prone to interception. Thus, it was removed in favor of using rsync and web browser https access for example. As an alternative, sftp is a very secure mode of connection, which uses the Secure Shell (`ssh`) protocol, which we will discuss shortly. sftp encrypts its data and thus sensitive information is transmitted more securely. However, it does not work with so-called anonymous FTP (guest user credentials).
 
 ![FTP clients](images/ftp-clients.png)
 
@@ -2351,15 +2348,15 @@ Secure Shell (SSH) is a cryptographic network protocol used for secure data comm
 
 ![SSH](images/ssh.png)
 
-To login to a remote system using your same user name you can just type ssh some_system and press Enter. ssh then prompts you for the remote password. You can also configure ssh to securely allow your remote access without typing a password each time.
+To login to a remote system using your same user name you can just type `ssh some_system` and press `Enter`. `ssh` then prompts you for the remote password. You can also configure `ssh` to securely allow your remote access without typing a password each time.
 
-If you want to run as another user, you can do either ssh -l someone some_system or ssh someone@some_system. To run a command on a remote system via SSH, at the command prompt, you can type ssh some_system my_command.
+If you want to run as another user, you can do either `ssh -l someone some_system` or `ssh someone@some_system`. To run a command on a remote system via SSH, at the command prompt, you can type `ssh some_system my_command`.
 
-We can also move files securely using Secure Copy (scp) between two networked hosts. scp uses the SSH protocol for transferring data.
+We can also move files securely using Secure Copy (`scp`) between two networked hosts. `scp` uses the SSH protocol for transferring data.
 
-To copy a local file to a remote system, at the command prompt, type scp [localfile] <user@remotesystem>:/home/user/ and press Enter.
+To copy a local file to a remote system, at the command prompt, type `scp [localfile] <user@remotesystem>:/home/user/` and press `Enter`.
 
-You will receive a prompt for the remote password. You can also configure scp so that it does not prompt for a password for each transfer.
+You will receive a prompt for the remote password. You can also configure `scp` so that it does not prompt for a password for each transfer.
 
 ![Scp](images/scp.png)
 
@@ -2367,39 +2364,39 @@ You will receive a prompt for the remote password. You can also configure scp so
 
 ### Introduction
 
-Suppose you want to look up a filename, check if the associated file exists, and then respond accordingly, displaying a message confirming or not confirming the file's existence. If you only need to do it once, you can just type a sequence of commands at a terminal. However, if you need to do this multiple times, automation is the way to go. In order to automate sets of commands, you will need to learn how to write shell scripts. Most commonly in Linux, these scripts are developed to be run under the bash command shell interpreter. The graphic illustrates several of the benefits of deploying scripts.
+Suppose you want to look up a filename, check if the associated file exists, and then respond accordingly, displaying a message confirming or not confirming the file's existence. If you only need to do it once, you can just type a sequence of commands at a terminal. However, if you need to do this multiple times, automation is the way to go. In order to automate sets of commands, you will need to learn how to write shell scripts. Most commonly in Linux, these scripts are developed to be run under the `bash` command shell interpreter. The graphic illustrates several of the benefits of deploying scripts.
 
 ![Shell scripting](images/shell-scripts.png)
 
-The command interpreter is tasked with executing statements that follow it in the script. Commonly used interpreters include: /usr/bin/perl, /bin/bash, /bin/csh, /usr/bin/python and /bin/sh.
+The command interpreter is tasked with executing statements that follow it in the script. Commonly used interpreters include: `/usr/bin/perl`, `/bin/bash`, `/bin/csh`, `/usr/bin/python` and `/bin/sh`.
 
 Typing a long sequence of commands at a terminal window can be complicated, time consuming, and error prone. By deploying shell scripts, using the command line becomes an efficient and quick way to launch complex sequences of steps. The fact that shell scripts are saved in a file also makes it easy to use them to create new script variations and share standard procedures with several users.
 
-Linux provides a wide choice of shells; exactly what is available on the system is listed in /etc/shells. Typical choices are:
+Linux provides a wide choice of shells; exactly what is available on the system is listed in `/etc/shells`. Typical choices are:
 
-- /bin/sh
-- /bin/bash
-- /bin/tcsh
-- /bin/csh
-- /bin/ksh
-- /bin/zsh
+- `/bin/sh`
+- `/bin/bash`
+- `/bin/tcsh`
+- `/bin/csh`
+- `/bin/ksh`
+- `/bin/zsh`
 
-Most Linux users use the default bash shell, but those with long UNIX backgrounds with other shells may want to override the default.
+Most Linux users use the default `bash` shell, but those with long UNIX backgrounds with other shells may want to override the default.
 
 ![Shells](images/shells.png)
 
-A shell is simply a command line interpreter which provides the user interface for terminal windows. A command shell can also be used to run scripts, even in non-interactive sessions without a terminal window, as if the commands were being directly typed in. For example, typing find . -name "*.c" -ls at the command line accomplishes the same thing as executing a script file containing the lines:
+A shell is simply a command line interpreter which provides the user interface for terminal windows. A command shell can also be used to run scripts, even in non-interactive sessions without a terminal window, as if the commands were being directly typed in. For example, typing `find . -name "*.c" -ls` at the command line accomplishes the same thing as executing a script file containing the lines:
 
 ```bash
 #!/bin/bash
 find . -name "*.c" -ls
 ```
 
-The first line of the script, which starts with #!, contains the full path of the command interpreter (in this case /bin/bash) that is to be used on the file. You have quite a few choices for the scripting language you can use, such as /usr/bin/perl, /bin/csh, /usr/bin/python, etc. The special two-character sequence, #!, is often called a shebang, and avoids the usual rule that the pound sign, #, delineates the following text as a comment.
+The first line of the script, which starts with `#!`, contains the full path of the command interpreter (in this case `/bin/bash`) that is to be used on the file. You have quite a few choices for the scripting language you can use, such as `/usr/bin/perl`, `/bin/csh`, `/usr/bin/python`, etc. The special two-character sequence, `#!`, is often called a shebang, and avoids the usual rule that the pound sign, `#`, delineates the following text as a comment.
 
 ![hellosuse](images/hellosuse.png)
 
-Now, let's see how to create a more interactive example using a bash script. The user will be prompted to enter a value, which is then displayed on the screen. The value is stored in a temporary variable, name. We can reference the value of a shell variable by using a $ in front of the variable name, such as $name. To create this script, you need to create a file named getname.sh in your favorite editor with the following content:
+Now, let's see how to create a more interactive example using a `bash` script. The user will be prompted to enter a value, which is then displayed on the screen. The value is stored in a temporary variable, name. We can reference the value of a shell variable by using a `$` in front of the variable name, such as `$name`. To create this script, you need to create a file named `getname.sh` in your favorite editor with the following content:
 
 ```bash
 #!/bin/bash
@@ -2408,44 +2405,44 @@ read name
 echo "Hello $name, welcome to Linux Academy!"
 ```
 
-The hash-tag/pound-sign/number-sign (#) is used to start comments in the script and can be placed anywhere in the line (the rest of the line is considered a comment). However, note the special magic combination of #! (shebang) used on the first line, is a unique exception to this rule.
+The hash-tag/pound-sign/number-sign `#` is used to start comments in the script and can be placed anywhere in the line (the rest of the line is considered a comment). However, note the special magic combination of `#!` (shebang) used on the first line, is a unique exception to this rule.
 
 All shell scripts generate a return value upon finishing execution, which can be explicitly set with the exit statement. Return values permit a process to monitor the exit state of another process, often in a parent-child relationship. Knowing how the process terminates enables taking any appropriate steps which are necessary or contingent on success or failure.
 
 ![return](images/return.png)
 
-As a script executes, one can check for a specific value or condition and return success or failure as the result. By convention, success is returned as zero (0), and failure is returned as any non-zero value. An easy way to demonstrate success and failure completion is to execute the ls program on a file that exists as well as one that does not. The return value is stored in the environment variable represented by $?:
+As a script executes, one can check for a specific value or condition and return success or failure as the result. By convention, success is returned as zero (0), and failure is returned as any non-zero value. An easy way to demonstrate success and failure completion is to execute the `ls` program on a file that exists as well as one that does not. The return value is stored in the environment variable represented by `$?`:
 
 ```bash
 ls /etc/passwd
 echo $?
 ```
 
-When run on a non-existing file, it returns 2. Applications often translate these return values into meaningful messages easily understood by the user. Usually, the specific values that can be returned and their meanings are explained in the man page for the program as in:
+When run on a non-existing file, it returns 2. Applications often translate these return values into meaningful messages easily understood by the user. Usually, the specific values that can be returned and their meanings are explained in the `man` page for the program as in:
 
 ![manls](images/manls.png)
 
 ### Syntax
 
-Scripts require you to follow a standard language syntax. Rules delineate how to define variables and how to construct and format allowed statements, etc. The table lists some special character usages within bash scripts:
+Scripts require you to follow a standard language syntax. Rules delineate how to define variables and how to construct and format allowed statements, etc. The table lists some special character usages within `bash` scripts:
 
 | Character | Description |
 |-----------|-------------|
-| # | Used to start a comment |
-| $ | Used to reference a variable |
-| ; | Used to separate commands |
-| \| | Used to pipe the output of one command to another |
-| & | Used to run a command in the background |
-| && | Used to run a command only if the previous command was successful |
-| > | Used to redirect output to a file |
-| < | Used to redirect input from a file |
-| >> | Used to append output to a file |
+| `#` | Used to start a comment |
+| `$` | Used to reference a variable |
+| `;` | Used to separate commands |
+| `\|` | Used to pipe the output of one command to another |
+| `&` | Used to run a command in the background |
+| `&&` | Used to run a command only if the previous command was successful |
+| `>` | Used to redirect output to a file |
+| `<` | Used to redirect input from a file |
+| `>>` | Used to append output to a file |
 
 There are other special characters and character combinations and constructs that scripts understand, such as (..), {..}, [..], &&, ||, ', ", $((...)), some of which we will discuss later.
 
 Sometimes, commands are too long to either easily type on one line, or to grasp and understand (even though there is no real practical limit to the length of a command line).  
 
-In this case, the concatenation operator (\), the backslash character, is used to continue long commands over several lines.
+In this case, the concatenation operator `\`, the backslash character, is used to continue long commands over several lines.
 
 Here is an example of a command installing a long list of packages on a system using Debian package management:
 
@@ -2457,13 +2454,13 @@ sudo apt install autoconf automake bison build-essential \
     vim wget xterm zip
 ```
 
-The command is divided into multiple lines to make it look readable and easier to understand. The \ operator at the end of each line causes the shell to combine (concatenate) multiple lines and execute them as one single command.
+The command is divided into multiple lines to make it look readable and easier to understand. The `\` operator at the end of each line causes the shell to combine (concatenate) multiple lines and execute them as one single command.
 
 ![continue](images/continue.png)
 
 Users sometimes need to combine several commands and statements and even conditionally execute them based on the behavior of operators used in between them. This method is called chaining of commands.
 
-There are several different ways to do this, depending on what you want to do. The ; (semicolon) character is used to separate these commands and execute them sequentially, as if they had been typed on separate lines. Each ensuing command is executed whether or not the preceding one succeeded.
+There are several different ways to do this, depending on what you want to do. The `;` (semicolon) character is used to separate these commands and execute them sequentially, as if they had been typed on separate lines. Each ensuing command is executed whether or not the preceding one succeeded.
 
 Thus, the three commands in the following example will all execute, even if the ones preceding them fail:
 
@@ -2471,13 +2468,13 @@ Thus, the three commands in the following example will all execute, even if the 
 ls /etc/passwd; ls /etc/shadow; ls /etc/group
 ```
 
-However, you may want to abort subsequent commands when an earlier one fails. You can do this using the && (and) operator as in:
+However, you may want to abort subsequent commands when an earlier one fails. You can do this using the `&&` (and) operator as in:
 
 ```bash
 ls /etc/passwd && ls /etc/shadow && ls /etc/group
 ```
 
-If the first command fails, the second one will never be executed. A final refinement is to use the || (or) operator, as in:
+If the first command fails, the second one will never be executed. A final refinement is to use the `||` (or) operator, as in:
 
 ```bash
 ls /etc/passwd || ls /etc/shadow || ls /etc/group
@@ -2489,21 +2486,21 @@ Chaining commands is not the same as piping them; in the later case succeeding c
 
 Most operating systems accept input from the keyboard and display the output on the terminal. However, with shell commands and scripts you can send the output to a file. The process of diverting the output to a file is called output redirection. We have already used this facility in our earlier sections on how to use the command line.
 
-The > character is used to write output to a file. For example, the following command sends the output of free to /tmp/free.out:
+The `>` character is used to write output to a file. For example, the following command sends the output of free to `/tmp/free.out`:
 
 ```bash
 free > /tmp/free.out
 ```
 
-To check the contents of /tmp/free.out, at the command prompt type cat /tmp/free.out.
+To check the contents of `/tmp/free.out`, at the command prompt type `cat /tmp/free.out`.
 
-Two > characters (>>) will append output to a file if it exists, and act just like > if the file does not already exist.
+Two `>` characters `>>` will append output to a file if it exists, and act just like `>` if the file does not already exist.
 
 ![Redirection](images/grubd.png)
 
-Just as the output can be redirected to a file, the input of a command can be read from a file. The process of reading input from a file is called input redirection and uses the < character.
+Just as the output can be redirected to a file, the input of a command can be read from a file. The process of reading input from a file is called input redirection and uses the `<` character.
 
-The following three commands (using wc to count the number of lines, words and characters in a file) are entirely equivalent and involve input redirection, and a command operating on the contents of a file:
+The following three commands (using `wc` to count the number of lines, words and characters in a file) are entirely equivalent and involve input redirection, and a command operating on the contents of a file:
 
 ```bash
 wc < /etc/passwd
@@ -2517,15 +2514,15 @@ Shell scripts execute sequences of commands and other types of statements. These
 - Built-in bash commands
 - Shell scripts or scripts from other interpreted languages, such as perl and Python.
 
-Compiled applications are binary executable files, usually residing on the filesystem in well-known directories such as /usr/bin. Shell scripts always have access to applications in the default path, such as rm, ls, df, vi, and gzip, which are programs compiled from lower-level programming languages such as C.
+Compiled applications are binary executable files, usually residing on the filesystem in well-known directories such as `/usr/bin`. Shell scripts always have access to applications in the default path, such as `rm`, `ls`, `df`, `vi`, and `gzip`, which are programs compiled from lower-level programming languages such as C.
 
-In addition, bash has many built-in commands, which can only be used to display the output within a terminal shell or shell script. Sometimes, these commands have the same name as executable programs on the system, which can lead to subtle problems. These built-in commands include cd, pwd, echo, read, logout, printf, let, time, and ulimit. Thus, slightly different behavior can be expected from the built-in version of a command such as echo as compared to /bin/echo.
+In addition, `bash` has many built-in commands, which can only be used to display the output within a terminal shell or shell script. Sometimes, these commands have the same name as executable programs on the system, which can lead to subtle problems. These built-in commands include `cd`, `pwd`, `echo`, `read`, `logout`, `printf`, `let`, `time`, and `ulimit`. Thus, slightly different behavior can be expected from the built-in version of a command such as `echo` as compared to `/bin/echo`.
 
-A complete list of bash built-in commands can be found in the bash man page, or by simply typing help, as we review on the next page.
+A complete list of `bash` built-in commands can be found in the bash `man` page, or by simply typing help, as we review on the next page.
 
 ![Commands](images/commands.png)
 
-We already enumerated which commands have versions internal to bash in our earlier discussion of how to get help on Linux systems. Once again, here is a screenshot listing exactly which commands are available.
+We already enumerated which commands have versions internal to `bash` in our earlier discussion of how to get help on Linux systems. Once again, here is a screenshot listing exactly which commands are available.
 
 ![Help](images/help.png)
 
@@ -2539,25 +2536,26 @@ Within a script, the parameter or an argument is represented with a $ and a numb
 
 | Parameter | Description |
 |-----------|-------------|
-| $0 | The name of the script |
-| $1 | The first argument passed to the script |
-| $2, $3, ... | The second, third, etc. arguments passed to the script |
-| $# | The total number of arguments passed to the script |
-| $* | All the arguments passed to the script |
+| `$0` | The name of the script |
+| `$1` | The first argument passed to the script |
+| `$2, $3, ...` | The second, third, etc. arguments passed to the script |
+| `$#` | The total number of arguments passed to the script |
+| `$*` | All the arguments passed to the script |
 
 At times, you may need to substitute the result of a command as a portion of another command. It can be done in two ways:
 
-By enclosing the inner command in $( )
-By enclosing the inner command with backticks (`)
+- By enclosing the inner command in `$( )`
+- By enclosing the inner command with backticks ```
+
 The second form using backticks is deprecated, and its use should be avoided in new scripts and commands. No matter which method is used, the specified command will be executed in a newly launched shell environment, and the standard output of the shell will be inserted where the command substitution is done.
 
-Virtually any command can be executed this way. While both of these methods enable command substitution, the $( ) method allows command nesting, while the use of backticks does not because the right and left delimiters are identical. New scripts should always use this more modern method. For example:
+Virtually any command can be executed this way. While both of these methods enable command substitution, the `$( )` method allows command nesting, while the use of backticks does not because the right and left delimiters are identical. New scripts should always use this more modern method. For example:
 
 ```bash
 ls /lib/modules/$(uname -r)/
 ```
 
-In the above example, the output of the command uname –r (which will be something like 6.2.4) is inserted into the argument for the ls command.
+In the above example, the output of the command `uname –r` (which will be something like 6.2.4) is inserted into the argument for the `ls` command.
 
 ![Substitution](images/unamer.png)
 
@@ -2565,23 +2563,23 @@ In the above example, the output of the command uname –r (which will be someth
 
 Most scripts use variables containing a value, which can be used anywhere in the script. These variables can either be user or system-defined. Many applications use such environment variables (already covered in some detail in the User Environment chapter) for supplying inputs, validation, and controlling behavior.
 
-As we discussed earlier, some examples of standard environment variables are HOME, PATH, and HOST. When referenced, environment variables must be prefixed with the $ symbol, as in $HOME. You can view and set the value of environment variables. For example, the following command displays the value stored in the PATH variable:
+As we discussed earlier, some examples of standard environment variables are `HOME`, `PATH`, and `HOST`. When referenced, environment variables must be prefixed with the $ symbol, as in `$HOME`. You can view and set the value of environment variables. For example, the following command displays the value stored in the`PATH` variable:
 
 ```bash
 echo $PATH
 ```
 
-However, no prefix is required when setting or modifying the variable value. For example, the following command sets the value of the MYCOLOR variable to blue
+However, no prefix is required when setting or modifying the variable value. For example, the following command sets the value of the `MYCOLOR` variable to blue.
 
 ```bash
 MYCOLOR=blue
 ```
 
-You can get a list of environment variables with the env, set, or printenv commands.
+You can get a list of environment variables with the `env`, `set`, or `printenv` commands.
 
 ![Environment](images/envubuntu.png)
 
-While we discussed the export of environment variables in the section on the "User Environment", it is worth reviewing this topic in the context of writing bash scripts.
+While we discussed the export of environment variables in the section on the "User Environment", it is worth reviewing this topic in the context of writing `bash` scripts.
 
 By default, the variables created within a script are available only to the subsequent steps of that script. Any child processes (sub-shells) do not have automatic access to the values of these variables. To make them available to child processes, they must be promoted to environment variables using the export statement, as in:
 
@@ -2618,7 +2616,7 @@ display () {
 }
 ```
 
-The function can be as long as desired and have many statements. Once defined, the function can be called later as many times as necessary. In the full example shown in the figure, we are also showing an often-used refinement: how to pass an argument to the function. The first argument can be referred to as $1, the second as $2, etc.
+The function can be as long as desired and have many statements. Once defined, the function can be called later as many times as necessary. In the full example shown in the figure, we are also showing an often-used refinement: how to pass an argument to the function. The first argument can be referred to as `$1`, the second as `$2`, etc.
 
 ![Function](images/bashfunubuntu.png)
 
@@ -2656,7 +2654,7 @@ fi
 
 We really should also check first that there is an argument passed to the script ($1) and abort if not.
 
-Notice the use of the square brackets ([]) to delineate the test condition. There are many other kinds of tests you can perform, such as checking whether two numbers are equal to, greater than, or less than each other and make a decision accordingly; we will discuss these other tests.
+Notice the use of the square brackets `[]` to delineate the test condition. There are many other kinds of tests you can perform, such as checking whether two numbers are equal to, greater than, or less than each other and make a decision accordingly; we will discuss these other tests.
 
 In modern scripts, you may see doubled brackets as in `[[ -f /etc/passwd ]]`. This is not an error. It is never wrong to do so and it avoids some subtle problems, such as referring to an empty environment variable without surrounding it in double quotes; we will not talk about this here.
 
@@ -2678,7 +2676,7 @@ In the example shown we use strings tests which we will explain shortly, and sho
 
 ![Elif](images/elif.png)
 
-bash provides a set of file conditionals, that can be used with the if statement, including those in the table.
+`bash` provides a set of file conditionals, that can be used with the if statement, including those in the table.
 
 You can use the if statement to test for file attributes, such as:
 
@@ -2696,31 +2694,31 @@ else
 fi
 ```
 
-the if statement checks if the file /etc/passwd is executable, which it is not.
+the if statement checks if the file `/etc/passwd` is executable, which it is not.
 
 | Condition | Meaning |
 |-----------|---------|
-| -e file | True if file exists |
-| -f file | True if file is a regular file |
-| -d file | True if file is a directory |
-| -r file | True if file is readable |
-| -w file | True if file is writable |
-| -x file | True if file is executable |
-| -s file | True if file has a size greater than zero |
-| -g file | True if file has the set-group-id bit set |
-| -u file | True if file has the set-user-id bit set |
+| `-e file` | True if file exists |
+| `-f file` | True if file is a regular file |
+| `-d file` | True if file is a directory |
+| `-r file` | True if file is readable |
+| `-w file` | True if file is writable |
+| `-x file` | True if file is executable |
+| `-s file` | True if file has a size greater than zero |
+| `-g file` | True if file has the set-group-id bit set |
+| `-u file` | True if file has the set-user-id bit set |
 
 Boolean expressions evaluate to either TRUE or FALSE, and results are obtained using the various Boolean operators listed in the table.
 
 | Operator | Operation | Description |
 |----------|-----------|-------------|
-| ! | NOT | Reverses the result of the condition |
-| && | AND | Returns TRUE if both conditions are TRUE |
-| \|\| | OR | Returns TRUE if either condition is TRUE |
+| `!` | NOT | Reverses the result of the condition |
+| `&&` | AND | Returns TRUE if both conditions are TRUE |
+| `\|\|` | OR | Returns TRUE if either condition is TRUE |
 
-Note that if you have multiple conditions strung together with the && operator, processing stops as soon as a condition evaluates to false. For example, if you have A && B && C and A is true but B is false, C will never be executed.
+Note that if you have multiple conditions strung together with the `&&` operator, processing stops as soon as a condition evaluates to false. For example, if you have `A && B && C` and A is true but B is false, C will never be executed.
 
-Likewise, if you are using the || operator, processing stops as soon as anything is true. For example, if you have A || B || C and A is false and B is true, you will also never execute C.
+Likewise, if you are using the `||` operator, processing stops as soon as anything is true. For example, if you have `A || B || C` and A is false and B is true, you will also never execute C.
 
 Boolean expressions return either TRUE or FALSE. We can use such expressions when working with multiple data types, including strings or numbers, as well as with files. For example, to check if a file exists, use the following conditional test:
 
@@ -2740,7 +2738,7 @@ then
 fi
 ```
 
-You can use the if statement to compare strings using the operator == (two equal signs). The syntax is as follows:
+You can use the if statement to compare strings using the operator `==` (two equal signs). The syntax is as follows:
 
 ```bash
 if [ string1 == string2 ]
@@ -2749,7 +2747,7 @@ then
 fi
 ```
 
-Note that using one = sign will also work, but some consider it deprecated usage. Let’s now consider an example of testing strings.
+Note that using one `=` sign will also work, but some consider it deprecated usage. Let’s now consider an example of testing strings.
 
 In the example illustrated here, the if statement is used to compare the input provided by the user and accordingly display the result.
 
@@ -2759,12 +2757,12 @@ You can use specially defined operators with the if statement to compare numbers
 
 | Operator | Meaning |
 |----------|---------|
-| -eq | Equal to |
-| -ne | Not equal to |
-| -gt | Greater than |
-| -lt | Less than |
-| -ge | Greater than or equal to |
-| -le | Less than or equal to |
+| `-eq` | Equal to |
+| `-ne` | Not equal to |
+| `-gt` | Greater than |
+| `-lt` | Less than |
+| `-ge` | Greater than or equal to |
+| `-le` | Less than or equal to |
 
 ![Number](images/mathtestubuntu.png)
 
@@ -2772,7 +2770,7 @@ Arithmetic expressions can be evaluated in the following three ways (spaces are 
 
 - Using the `expr` utility. For example, `echo $(expr 2 + 2)` will output 4.
 - Using the `let` built-in command. For example, `let "a=2+2"` will set the variable a to 4.
-- Using the double parentheses (( )) construct. For example, `a=$((2 + 2))` will set the variable a to 4.
+- Using the double parentheses `( )` construct. For example, `a=$((2 + 2))` will set the variable a to 4.
 
 ![Arithmetic](images/mathevalrhel7.png)
 
@@ -2786,13 +2784,13 @@ String operators include those that do comparison, sorting, and finding the leng
 
 | Operator | Meaning |
 |----------|---------|
-| [[ string1 == string2 ]] | True if the strings are equal |
-| [[ string1 != string2 ]] | True if the strings are not equal |
-| [[ string1 < string2 ]] | True if string1 sorts before string2 |
-| [[ string1 > string2 ]] | True if string1 sorts after string2 |
-| [[ myLen1=${#string1} ]] | Stores the length of string1 in myLen1 |
+| `[[ string1 == string2 ]]` | True if the strings are equal |
+| `[[ string1 != string2 ]]` | True if the strings are not equal |
+| `[[ string1 < string2 ]]` | True if string1 sorts before string2 |
+| `[[ string1 > string2 ]]` | True if string1 sorts after string2 |
+| `[[ myLen1=${#string1} ]]` | Stores the length of string1 in myLen1 |
 
-Remember, in most cases, we can use single square brackets ( [ ] ) instead of double ([[ ]]) in comparisons and logical tests, but the more modern doubled form helps avoid some errors, such as those that can arise when doing a comparison with empty strings and environment variables.
+Remember, in most cases, we can use single square brackets `[ ]` instead of double `[[ ]]` in comparisons and logical tests, but the more modern doubled form helps avoid some errors, such as those that can arise when doing a comparison with empty strings and environment variables.
 
 In the first example, we compare two strings and display an appropriate message using the if statement. In the results shown, note the third test where there is an error if we use single brackets and do not put the variable name in quotes.
 
@@ -2802,9 +2800,9 @@ In the second example, we pass in a file name and see if that file exists or not
 
 ![File](images/file-exists.png)
 
-At times, you may not need to compare or use an entire string. To extract the first n characters of a string, we can specify: ${string:0:n}. Here, 0 is the offset in the string (i.e., which character to begin from) where the extraction needs to start, and n is the number of characters to be extracted.
+At times, you may not need to compare or use an entire string. To extract the first n characters of a string, we can specify: `${string:0:n}`. Here, 0 is the offset in the string (i.e., which character to begin from) where the extraction needs to start, and n is the number of characters to be extracted.
 
-To extract all characters in a string after a dot (.), use the following expression: ${string#*.}.
+To extract all characters in a string after a dot `.`, use the following expression: `${string#*.}`.
 
 ![Substring](images/substring.png)
 
@@ -2842,7 +2840,7 @@ Note that as soon as the expression matches a pattern successfully, the executio
 
 By using looping constructs, you can execute one or more lines of code repetitively, usually on a selection of values of data such as individual files. Usually, you do this until a conditional test returns either true or false, as is required.
 
-Three frequently used types of loops are often used in bash and in many programming languages:
+Three frequently used types of loops are often used in `bash` and in many programming languages:
 
 - The for loop
 - The while loop
@@ -2897,7 +2895,7 @@ Debugging helps troubleshoot and resolve such errors and is one of the most impo
 
 Before fixing an error (or bug), it is vital to locate the source.
 
-You can run a bash script in debug mode either by doing bash –x ./script_file, or bracketing parts of the script with set -x and set +x. The debug mode helps identify the error because:
+You can run a `bash` script in debug mode either by doing `bash –x ./script_file`, or bracketing parts of the script with set `-x` and set `+x`. The debug mode helps identify the error because:
 
 - It traces and prefixes each command with the + character.
 - It displays each command before executing it.
@@ -2913,9 +2911,9 @@ In UNIX/Linux, all programs that run are given three open file streams when they
 
 | File Stream | Description | File Descriptor |
 |-------------|-------------|-----------------|
-| stdin | Standard input, by default the keyboard | 0 |
-| stdout | Standard output, by default the terminal | 1 |
-| stderr | Standard error, by default the terminal | 2 |
+| `stdin` | Standard input, by default the keyboard | 0 |
+| `stdout` | Standard output, by default the terminal | 1 |
+| `stderr` | Standard error, by default the terminal | 2 |
 
 By using redirection, we can save the standard output and error streams to one file or two separate files for later analysis after a program or command is executed.
 
@@ -2927,16 +2925,16 @@ Consider a situation where you want to retrieve 100 lines from a file with 10,00
 
 Temporary files (and directories) are meant to store data for a short time. Usually, one arranges it so that these files disappear when the program using them terminates. While you can also use touch to create a temporary file, in some circumstances, this may make it easy for hackers to gain access to your data. This is particularly true if the name and the file location of the temporary file are predictable.
 
-The best practice is to create random and unpredictable filenames for temporary storage. One way to do this is with the mktemp utility, as in the following examples.
+The best practice is to create random and unpredictable filenames for temporary storage. One way to do this is with the `mktemp` utility, as in the following examples.
 
-The XXXXXXXX is replaced by mktemp with random characters to ensure the name of the temporary file cannot be easily predicted and is only known within your program. You have to have at least 3 Xs in the supplied template, and the number of random characters will be equal to the number of Xs given.
+The `XXXXXXXX` is replaced by `mktemp` with random characters to ensure the name of the temporary file cannot be easily predicted and is only known within your program. You have to have at least 3 Xs in the supplied template, and the number of random characters will be equal to the number of Xs given.
 
 | Command | Usage |
 |---------|-------|
-| TEMP=$(mktemp /tmp/tempfile.XXXXXX) | Creates a temporary file in /tmp |
-| TEMPDIR=$(mktemp -d /tmp/tempdir.XXXXXX) | Creates a temporary directory in /tmp |
+| `TEMP=$(mktemp /tmp/tempfile.XXXXXX)` | Creates a temporary file in /tmp |
+| `TEMPDIR=$(mktemp -d /tmp/tempdir.XXXXXX)` | Creates a temporary directory in /tmp |
 
-Sloppiness in creation of temporary files can lead to real damage, either by accident or if there is a malicious actor. For example, if someone were to create a symbolic link from a known temporary file used by root to the /etc/passwd file, like this:
+Sloppiness in creation of temporary files can lead to real damage, either by accident or if there is a malicious actor. For example, if someone were to create a symbolic link from a known temporary file used by root to the `/etc/passwd` file, like this:
 
 ```bash
 ln -s /etc/passwd /tmp/tempfile
@@ -2959,9 +2957,9 @@ echo $VAR > $TEMP
 
 ![Tempfile](images/tempfiles.png)
 
-Certain commands (such as find) are quite capable of spewing voluminous and overwhelming amounts of output. To avoid this, we can redirect the large output to a special file (a device node) called /dev/null. This pseudofile is also called the bit bucket or black hole.
+Certain commands (such as find) are quite capable of spewing voluminous and overwhelming amounts of output. To avoid this, we can redirect the large output to a special file (a device node) called `/dev/null`. This pseudofile is also called the bit bucket or black hole.
 
-All data written to /dev/null is discarded.  Furthermore, write operations never return failure conditions. Using the proper redirection operators, it can make the uninteresting output disappear from commands that would normally generate output to stdout and/or stderr:
+All data written to `/dev/null` is discarded.  Furthermore, write operations never return failure conditions. Using the proper redirection operators, it can make the uninteresting output disappear from commands that would normally generate output to `stdout` and/or `stderr`:
 
 ```bash
 ls -lR /tmp > /dev/null
@@ -2984,7 +2982,7 @@ It is often useful to generate random numbers and other random data when perform
 - Erasing and/or obscuring existing data
 - Generating meaningless data to be used for tests
 
-Such random numbers can be generated by using the $RANDOM environment variable, which is derived from the Linux kernel’s built-in random number generator, or by the OpenSSL library function, which uses the FIPS140 (Federal Information Processing Standard) algorithm to generate random numbers for encryption.
+Such random numbers can be generated by using the `$RANDOM` environment variable, which is derived from the Linux kernel’s built-in random number generator, or by the OpenSSL library function, which uses the FIPS140 (Federal Information Processing Standard) algorithm to generate random numbers for encryption.
 
 ![Random](images/randomubuntu.png)
 
@@ -2992,11 +2990,11 @@ Some servers have hardware random number generators that take as input different
 
 Regardless of which of these two sources is used, the system maintains a so-called entropy pool of these digital numbers/random bits. Random numbers are created from this entropy pool.
 
-The Linux kernel offers the /dev/random and /dev/urandom device nodes, which draw on the entropy pool to provide random numbers which are drawn from the estimated number of bits of noise in the entropy pool.
+The Linux kernel offers the `/dev/random` and `/dev/urandom` device nodes, which draw on the entropy pool to provide random numbers which are drawn from the estimated number of bits of noise in the entropy pool.
 
-/dev/random is used where very high-quality randomness is required, such as a one-time pad or key generation, but it is relatively slow to provide values. /dev/urandom is faster and suitable (good enough) for most cryptographic purposes.
+`/dev/random` is used where very high-quality randomness is required, such as a one-time pad or key generation, but it is relatively slow to provide values. `/dev/urandom` is faster and suitable (good enough) for most cryptographic purposes.
 
-Furthermore, when the entropy pool is empty, /dev/random is blocked and does not generate any number until additional environmental noise (network traffic, mouse movement, etc.) is gathered, whereas /dev/urandom reuses the internal pool to produce more pseudo-random bits.
+Furthermore, when the entropy pool is empty, `/dev/random` is blocked and does not generate any number until additional environmental noise (network traffic, mouse movement, etc.) is gathered, whereas `/dev/urandom` reuses the internal pool to produce more pseudo-random bits.
 
 ![Random](images/devrandom.png)
 
@@ -3028,17 +3026,17 @@ CUPS carries out the printing process with the help of its various components:
 
 CUPS is designed around a print scheduler that manages print jobs, handles administrative commands, allows users to query the printer status, and manages the flow of data through all CUPS components.
 
-The print scheduler reads server settings from several configuration files, the two most important of which are cupsd.conf and printers.conf. These and all other CUPS-related configuration files are stored under the /etc/cups/ directory.
+The print scheduler reads server settings from several configuration files, the two most important of which are `cupsd.conf` and `printers.conf`. These and all other CUPS-related configuration files are stored under the `/etc/cups/` directory.
 
-cupsd.conf is where most system-wide settings are located; it does not contain any printer-specific details. Most of the settings available in this file relate to network security, i.e., which systems can access CUPS network capabilities, how printers are advertised on the local network, what management features are offered, and so on.
+`cupsd.conf` is where most system-wide settings are located; it does not contain any printer-specific details. Most of the settings available in this file relate to network security, i.e., which systems can access CUPS network capabilities, how printers are advertised on the local network, what management features are offered, and so on.
 
-printers.conf is where you will find the printer-specific settings. For every printer connected to the system, a corresponding section describes the printer’s status and capabilities. This file is generated or modified only after adding a printer to the system and should not be modified by hand.
+`printers.conf` is where you will find the printer-specific settings. For every printer connected to the system, a corresponding section describes the printer’s status and capabilities. This file is generated or modified only after adding a printer to the system and should not be modified by hand.
 
-You can view the full list of configuration files by typing ls -lF /etc/cups.
+You can view the full list of configuration files by typing `ls -lF /etc/cups`.
 
 ![CUPS](images/etccupsubuntu.png)
 
-CUPS stores print requests as files under the /var/spool/cups directory (these can actually be accessed before a document is sent to a printer). Data files are prefixed with the letter d, while control files are prefixed with the letter c.
+CUPS stores print requests as files under the `/var/spool/cups` directory (these can actually be accessed before a document is sent to a printer). Data files are prefixed with the letter d, while control files are prefixed with the letter `c`.
 
 ![Spool](images/varspoolcups.png)
 
@@ -3046,7 +3044,7 @@ After a printer successfully handles a job, data files are automatically removed
 
 ![Queue](images/print-queue.png)
 
-Log files are placed in /var/log/cups and are used by the scheduler to record activities that have taken place. These files include access, error, and page records.
+Log files are placed in `/var/log/cups` and are used by the scheduler to record activities that have taken place. These files include access, error, and page records.
 
 To view what log files exist, type:
 
@@ -3056,11 +3054,11 @@ ls -l /var/log/cups
 
 Note on some distributions permissions are set such that you do not need to use sudo. You can view the log files with the usual tools.
 
-CUPS uses filters to convert job file formats to printable formats. Printer drivers contain descriptions for currently connected and configured printers, and are usually stored under /etc/cups/ppd/. The print data is then sent to the printer through a filter, and via a backend that helps to locate devices connected to the system.
+CUPS uses filters to convert job file formats to printable formats. Printer drivers contain descriptions for currently connected and configured printers, and are usually stored under `/etc/cups/ppd/`. The print data is then sent to the printer through a filter, and via a backend that helps to locate devices connected to the system.
 
 So, in short, when you execute a print command, the scheduler validates the command and processes the print job, creating job files according to the settings specified in the configuration files. Simultaneously, the scheduler records activities in the log files. Job files are processed with the help of the filter, printer driver, and backend, and then sent to the printer.
 
-Assuming CUPS has been installed you'll need to start and manage the CUPS daemon so that CUPS is ready for configuring a printer. Managing the CUPS daemon is simple; all management features can be done with the systemctl utility:
+Assuming CUPS has been installed you'll need to start and manage the CUPS daemon so that CUPS is ready for configuring a printer. Managing the CUPS daemon is simple; all management features can be done with the `systemctl` utility:
 
 ```bash
 sudo systemctl status cups
@@ -3068,7 +3066,7 @@ sudo systemctl enable cups
 sudo systemctl start cups
 ```
 
-Each Linux distribution has a graphical configuration application that lets you add, remove, and configure local or remote printers. If you make sure the device is currently turned on and connected to the system; if so it should show up in the printer selection menu. If the printer is not visible, you may want to troubleshoot using tools that will determine if the printer is connected. For common USB printers, for example, the lsusb utility will show a line for the printer. Some printer manufacturers also require some extra software to be installed in order to make the printer visible to CUPS, however, due to the standardization these days, this is rarely required.
+Each Linux distribution has a graphical configuration application that lets you add, remove, and configure local or remote printers. If you make sure the device is currently turned on and connected to the system; if so it should show up in the printer selection menu. If the printer is not visible, you may want to troubleshoot using tools that will determine if the printer is connected. For common USB printers, for example, the `lsusb` utility will show a line for the printer. Some printer manufacturers also require some extra software to be installed in order to make the printer visible to CUPS, however, due to the standardization these days, this is rarely required.
 
 ![Printer](images/printer.png)
 
@@ -3076,17 +3074,16 @@ Many users do not know CUPS comes with its own web server, which makes a configu
 
 This web interface allows you to:
 
-Add and remove local/remote printers
-Configure printers:
+- Add and remove local/remote printers
+- Configure printers:
+  - Local/remote printers
+  - Share a printer as a CUPS server
+- Control print jobs:
+  - Monitor jobs
+  - Show completed or pending jobs
+  - Cancel or move jobs
 
-- Local/remote printers
-- Share a printer as a CUPS server
-Control print jobs:
-- Monitor jobs
-- Show completed or pending jobs
-- Cancel or move jobs
-
-The CUPS web interface is available on your browser at: [http://localhost:631/].
+The CUPS web interface is available on your browser at [http://localhost:631/].
 
 Some pages require a username and password to perform certain actions, for example to add a printer. For most Linux distributions, you must use the root password to add, modify, or delete printers or classes.
 
@@ -3096,31 +3093,31 @@ Some pages require a username and password to perform certain actions, for examp
 
 Many graphical applications allow users to access printing features using the CTRL-P shortcut. To print a file, you first need to specify the printer (or a file name and location if you are printing to a file instead) you want to use; and then select the page setup, quality, and color options. After selecting the required options, you can submit the document for printing. The document is then submitted to CUPS. You can use your browser to access the CUPS web interface at [http://localhost:631/] to monitor the status of the printing job. Now that you have configured the printer, you can print using either the Graphical or Command Line interfaces.
 
-CUPS provides two command-line interfaces, descended from the System V and BSD flavors of UNIX. This means that you can use either lp (System V) or lpr (BSD) to print. You can use these commands to print text, PostScript, PDF, and image files.
+CUPS provides two command-line interfaces, descended from the System V and BSD flavors of UNIX. This means that you can use either `lp` (System V) or `lpr` (BSD) to print. You can use these commands to print text, PostScript, PDF, and image files.
 
 These commands are useful in cases where printing operations must be automated (from shell scripts, for instance, which contain multiple commands in one file).
 
-lp is just a command line front-end to the lpr utility that passes input to lpr. Thus, we will discuss only lp in detail. In the example shown here, the task is to print $HOME/.emacs.
+`lp` is just a command line front-end to the lpr utility that passes input to lpr. Thus, we will discuss only `lp` in detail. In the example shown here, the task is to print `$HOME/.emacs`.
 
 ![Lp](images/lprhel7.png)
 
-lp and lpr accept command line options that help you perform all operations that the GUI can accomplish. lp is typically used with a file name as an argument.
+`lp` and `lpr` accept command line options that help you perform all operations that the GUI can accomplish. `lp` is typically used with a file name as an argument.
 
-Some lp commands and other printing utilities you can use are listed in the table:
+Some `lp` commands and other printing utilities you can use are listed in the table:
 
 | Command | Description |
 |---------|-------------|
-| lp filename | Print a file |
-| lp -d printername filename | Print a file to a specific printer |
-| lp -n number filename | Print multiple copies of a file |
-| lp -o option filename | Print a file with specific options |
-| lp -q priority filename | Print a file with a specific priority |
-| program \| lp | Print a file from a program |
-| lpoptions -d printername | Set the default printer |
-| lpq -a | Show all print jobs |
-| lpadmin | Configure printer queues |
+| `lp filename` | Print a file |
+| `lp -d printername filename` | Print a file to a specific printer |
+| `lp -n number filename` | Print multiple copies of a file |
+| `lp -o option filename` | Print a file with specific options |
+| `lp -q priority filename` | Print a file with a specific priority |
+| `program \| lp` | Print a file from a program |
+| `lpoptions -d printername` | Set the default printer |
+| `lpq -a` | Show all print jobs |
+| `lpadmin` | Configure printer queues |
 
-lpoptions can be used to set printer options and defaults. Each printer has a set of tags associated with it, such as the default number of copies and authentication requirements. You can type lpoptions help to obtain a list of supported options. lpoptions can also be used to set system-wide values, such as the default printer.
+`lpoptions` can be used to set printer options and defaults. Each printer has a set of tags associated with it, such as the default number of copies and authentication requirements. You can type `lpoptions` help to obtain a list of supported options. `lpoptions` can also be used to set system-wide values, such as the default printer.
 
 You send a file to the shared printer. But when you go there to collect the printout, you discover another user has just started a 200 page job that is not time sensitive. Your file cannot be printed until this print job is complete. What do you do now?
 
@@ -3130,12 +3127,12 @@ Some of these commands are listed in the table.
 
 | Command | Usage |
 |---------|-------|
-| lpstat -p -d | Show all printers and the default printer |
-| lpstat -o | Show all print jobs |
-| lpstat -W completed -o | Show all completed print jobs |
-| lpstat -a | Show all available printers |
-| lprm jobnumber | Remove a print job |
-| lpmove jobnumber printername | Move a print job to another printer |
+| `lpstat -p -d` | Show all printers and the default printer |
+| `lpstat -o` | Show all print jobs |
+| `lpstat -W completed -o` | Show all completed print jobs |
+| `lpstat -a` | Show all available printers |
+| `lprm jobnumber` | Remove a print job |
+| `lpmove jobnumber printername` | Move a print job to another printer |
 
 ### Manipulating postscript and PDF files
 
@@ -3151,45 +3148,45 @@ Features of PostScript are:
 
 Postscript has been, for the most part, superseded by the PDF format (Portable Document Format), which produces far smaller files in a compressed format for which support has been integrated into many applications. However, one still has to deal with postscript documents, often as an intermediate format, on the way to producing final documents.
 
-enscript is a tool that is used to convert a text file to PostScript and other formats. It also supports Rich Text Format (RTF) and HyperText Markup Language (HTML). For example, you can convert a text file to two columns (-2) formatted PostScript using the command:
+`enscript` is a tool that is used to convert a text file to PostScript and other formats. It also supports Rich Text Format (RTF) and HyperText Markup Language (HTML). For example, you can convert a text file to two columns (-2) formatted PostScript using the command:
 
 ```bash
 enscript -2 -r -p output.ps input.txt
 ```
 
-This command will also rotate (-r) the output to print so the width of the paper is greater than the height (aka landscape mode) thereby reducing the number of pages required for printing.
+This command will also rotate `-r` the output to print so the width of the paper is greater than the height (aka landscape mode) thereby reducing the number of pages required for printing.
 
-The commands that can be used with enscript are listed in the table below (for a file called textfile.txt).
+The commands that can be used with `enscript` are listed in the table below (for a file called `textfile.txt`).
 
 | Command | Usage |
 |---------|-------|
-| enscript -p output.ps textfile.txt | Convert a text file to PostScript |
-| enscript -n -p output.ps textfile.txt | Convert a text file to PostScript with line numbers |
-| enscript textfile.txt | Convert a text file to PostScript with default settings |
+| `enscript -p output.ps textfile.txt` | Convert a text file to PostScript |
+| `enscript -n -p output.ps textfile.txt` | Convert a text file to PostScript with line numbers |
+| `enscript textfile.txt` | Convert a text file to PostScript with default settings |
 
 Most users today are far more accustomed to working with files in PDF format, viewing them easily either on the Internet through their browser or locally on their machine. The PostScript format is still important for various technical reasons that the general user will rarely have to deal with.
 
-From time to time, you may need to convert files from one format to the other, and there are very simple utilities for accomplishing that task. ps2pdf and pdf2ps are part of the ghostscript package installed on or available on all Linux distributions. As an alternative, there are pstopdf and pdftops which are usually part of the poppler package, which may need to be added through your package manager. Unless you are doing a lot of conversions or need some of the fancier options (which you can read about in the man pages for these utilities), it really does not matter which ones you use.
+From time to time, you may need to convert files from one format to the other, and there are very simple utilities for accomplishing that task. `ps2pdf` and `pdf2ps` are part of the ghostscript package installed on or available on all Linux distributions. As an alternative, there are `pstopdf` and pdftops which are usually part of the poppler package, which may need to be added through your package manager. Unless you are doing a lot of conversions or need some of the fancier options (which you can read about in the `man` pages for these utilities), it really does not matter which ones you use.
 
-Another possibility is to use the very powerful convert program, which is part of the ImageMagick package. Some newer distributions have replaced this with Graphics Magick, and the command to use is gm convert.
+Another possibility is to use the very powerful convert program, which is part of the ImageMagick package. Some newer distributions have replaced this with Graphics Magick, and the command to use is `gm convert`.
 
 Some usage examples:
 
 | Command | Usage |
 |---------|-------|
-| ps2pdf input.ps output.pdf | Convert a PostScript file to PDF |
-| pdf2ps input.pdf output.ps | Convert a PDF file to PostScript |
-| convert input.ps output.pdf | Convert a PostScript file to PDF |
-| convert input.pdf output.ps | Convert a PDF file to PostScript |
-| pdftops input.pdf output.ps | Convert a PDF file to PostScript |
-| pstopdf input.ps output.pdf | Convert a PostScript file to PDF |
+| `ps2pdf input.ps output.pdf` | Convert a PostScript file to PDF |
+| `pdf2ps input.pdf output.ps` | Convert a PDF file to PostScript |
+| `convert input.ps output.pdf` | Convert a PostScript file to PDF |
+| `convert input.pdf output.ps` | Convert a PDF file to PostScript |
+| `pdftops input.pdf output.ps` | Convert a PDF file to PostScript |
+| `pstopdf input.ps output.pdf` | Convert a PostScript file to PDF |
 
 Linux has many standard programs that can read PDF files, as well as many applications that can easily create them, including all available office suites, such as LibreOffice.
 
 The most common Linux PDF readers are:
 
-- evince is available on virtually all distributions and is the most widely used program.
-- okular is based on the older kpdf and is available on any distribution that provides the KDE environment.
+- `evince` is available on virtually all distributions and is the most widely used program.
+- `okular` is based on the older kpdf and is available on any distribution that provides the KDE environment.
 
 These open source PDF readers support and can read files following the PostScript standard. The proprietary Adobe Acrobat Reader, which was once widely used on Linux systems, is fortunately no longer available, as it did defective rendering and was unstable and poorly maintained. Even if you are using Windows, it is broken badly, so we advise not to use it.
 
@@ -3205,21 +3202,21 @@ At times, you may want to merge, split, or rotate PDF files; not all of these op
 
 In order to accomplish these tasks, there are several programs available:
 
-- qpdf
-- pdftk
-- ghostscript.
+- `qpdf`
+- `pdftk`
+- `ghostscript`
 
-qpdf is widely available on Linux distributions and is very full-featured. pdftk was once very popular but depended on an obsolete unmaintained package (libgcj), and a number of distributions dropped it.  However, it has now been reimplemented in Java and is available again on most distributions under the name pdftk-java. Ghostscript (often invoked using gs) is widely available and well-maintained. However, its usage is a little complex.
+`qpdf` is widely available on Linux distributions and is very full-featured. `pdftk` was once very popular but depended on an obsolete unmaintained package `libgcj`, and a number of distributions dropped it.  However, it has now been reimplemented in Java and is available again on most distributions under the name `pdftk-java`. Ghostscript (often invoked using `gs`) is widely available and well-maintained. However, its usage is a little complex.
 
-You can accomplish a wide variety of tasks using qpdf including:
+You can accomplish a wide variety of tasks using `qpdf` including:
 
 | Command | Usage |
 |---------|-------|
-| qpdf --empty --pages file1.pdf file2.pdf -- file3.pdf | Merge two PDF files into a third file |
-| qpdf --empty --pages file1.pdf 1-3 -- file2.pdf | Extract pages 1-3 from file1.pdf into file2.pdf |
-| qpdf --rotate=+90:1 file1.pdf file2.pdf | Rotate page 1 of file1.pdf by 90 degrees and save it as file2.pdf |
-| qpdf --encrypt userpass ownerpass 256 -- file1.pdf file2.pdf | Encrypt file1.pdf with user password userpass and owner password ownerpass and save it as file2.pdf |
-| qpdf --decrypt --password=userpass file1.pdf file2.pdf | Decrypt file1.pdf with password userpass and save it as file2.pdf |
+| `qpdf --empty --pages file1.pdf file2.pdf -- file3.pdf` | Merge two PDF files into a third file |
+| `qpdf --empty --pages file1.pdf 1-3 -- file2.pdf` | Extract pages 1-3 from file1.pdf into file2.pdf |
+| `qpdf --rotate=+90:1 file1.pdf file2.pdf` | Rotate page 1 of file1.pdf by 90 degrees and save it as file2.pdf |
+| `qpdf --encrypt userpass ownerpass 256 -- file1.pdf file2.pdf` | Encrypt file1.pdf with user password userpass and owner password ownerpass and save it as file2.pdf |
+| `qpdf --decrypt --password=userpass file1.pdf file2.pdf` | Decrypt file1.pdf with password userpass and save it as file2.pdf |
 
 As mentioned earlier, Marc Vinyals has developed and maintained a port to Java for pdftk which can be found on GitLab, together with instructions for installation. Some distributions, such as Ubuntu, may install this version only.
 
@@ -3227,11 +3224,11 @@ You can accomplish a wide variety of tasks using pdftk.
 
 | Command | Usage |
 |---------|-------|
-| pdftk file1.pdf file2.pdf cat output file3.pdf | Merge two PDF files into a third file |
-| pdftk file1.pdf cat 1-3 output file2.pdf | Extract pages 1-3 from file1.pdf into file2.pdf |
-| pdftk file1.pdf cat 1-endwest output file2.pdf | Rotate all pages in file1.pdf by 90 degrees and save it as file2.pdf |
+| `pdftk file1.pdf file2.pdf cat output file3.pdf` | Merge two PDF files into a third file |
+| `pdftk file1.pdf cat 1-3 output file2.pdf` | Extract pages 1-3 from file1.pdf into file2.pdf |
+| `pdftk file1.pdf cat 1-endwest output file2.pdf` | Rotate all pages in file1.pdf by 90 degrees and save it as file2.pdf |
 
-If you’re working with PDF files that contain confidential information and you want to ensure that only certain people can view the PDF file, you can apply a password to it using the user_pw option. One can do this by issuing a command such as:
+If you’re working with PDF files that contain confidential information and you want to ensure that only certain people can view the PDF file, you can apply a password to it using the `user_pw` option. One can do this by issuing a command such as:
 
 ```bash
 pdftk file1.pdf output file2.pdf user_pw PROMPT
@@ -3239,9 +3236,9 @@ pdftk file1.pdf output file2.pdf user_pw PROMPT
 
 When you run this command, you will receive a prompt asking you to enter a password. This password will be used to encrypt the PDF file.
 
-Ghostscript is widely available as an interpreter for the Postscript and PDF languages. The executable program associated with it is abbreviated to gs.  
+Ghostscript is widely available as an interpreter for the Postscript and PDF languages. The executable program associated with it is abbreviated to `gs`.  
 
-This utility can do most of the operations qpdf and pdftk can, as well as many others; see man gs for details. Use is somewhat complicated by the rather long nature of the options. For example:
+This utility can do most of the operations `qpdf` and `pdftk` can, as well as many others; see `man gs` for details. Use is somewhat complicated by the rather long nature of the options. For example:
 
 ```bash
 # Merge two PDF files into a third file
@@ -3255,9 +3252,9 @@ gs -sDEVICE=pdfwrite -dCompatibilityLevel=1.4 -dPDFSETTINGS=/ebook -dNOPAUSE -dQ
 
 You can use other tools to work with PDF files, such as:
 
-- pdfinfo - It can extract information about PDF files, especially when the files are very large or when a graphical interface is not available.
-- flpsed - It can add data to a PostScript document. This tool is specifically useful for filling in forms or adding short comments into the document.
-- pdfmod - It is a simple application that provides a graphical interface for modifying PDF documents. Using this tool, you can reorder, rotate, and remove pages; export images from a document; edit the title, subject, and author; add keywords; and combine documents using drag-and-drop action.
+- `pdfinfo` It can extract information about PDF files, especially when the files are very large or when a graphical interface is not available.
+- `flpsed` It can add data to a PostScript document. This tool is specifically useful for filling in forms or adding short comments into the document.
+- `pdfmod` It is a simple application that provides a graphical interface for modifying PDF documents. Using this tool, you can reorder, rotate, and remove pages; export images from a document; edit the title, subject, and author; add keywords; and combine documents using drag-and-drop action.
 
 For example, to collect the details of a document, you can use the following command:
 
@@ -3300,7 +3297,7 @@ Keep in mind that practices you use on multi-user business systems are more stri
 
 root is the most privileged account on a Linux/UNIX system. This account has the ability to carry out all facets of system administration, including adding accounts, changing user passwords, examining log files, installing software, etc. Utmost care must be taken when using this account. It has no security restrictions imposed upon it.
 
-When you are signed in as, or acting as root, the shell prompt displays '#' (if you are using bash and you have not customized the prompt, as we have discussed previously). This convention is intended to serve as a warning to you of the absolute power of this account.
+When you are signed in as, or acting as root, the shell prompt displays '#' (if you are using `bash` and you have not customized the prompt, as we have discussed previously). This convention is intended to serve as a warning to you of the absolute power of this account.
 
 root privileges are required to perform operations such as:
 
@@ -3328,17 +3325,17 @@ The table provides examples of operations which do not require root privileges:
 
 ### Process isolation
 
-In Linux you can use either su or sudo to temporarily grant root access to a normal user. However, these methods are actually quite different. Listed below are the differences between the two commands.
+In Linux you can use either `su` or `sudo` to temporarily grant root access to a normal user. However, these methods are actually quite different. Listed below are the differences between the two commands.
 
 | SU | SUDO |
 |----|------|
 | When elevating privilege, you need to enter the root password. Giving the root password to a normal user should never, ever be done. | When elevating privilege, you need to enter the user’s password and not the root password.|
-| Once a user elevates to the root account using su, the user can do anything that the root user can do for as long as the user wants, without being asked again for a password.| Offers more features and is considered more secure and more configurable. Exactly what the user is allowed to do can be precisely controlled and limited. By default the user will either always have to keep giving their password to do further operations with sudo, or can avoid doing so for a configurable time interval. |
+| Once a user elevates to the root account using `su`, the user can do anything that the root user can do for as long as the user wants, without being asked again for a password.| Offers more features and is considered more secure and more configurable. Exactly what the user is allowed to do can be precisely controlled and limited. By default the user will either always have to keep giving their password to do further operations with sudo, or can avoid doing so for a configurable time interval. |
 | The command has limited logging features. | The command has detailed logging features. |
 
-sudo has the ability to keep track of unsuccessful attempts at gaining root access. Users' authorization for using sudo is based on configuration information stored in the /etc/sudoers file and in the /etc/sudoers.d directory.
+`sudo` has the ability to keep track of unsuccessful attempts at gaining root access. Users' authorization for using `sudo` is based on configuration information stored in the `/etc/sudoers` file and in the `/etc/sudoers.d` directory.
 
-A message such as the following would appear in a system log file (usually /var/log/secure) when trying to execute sudo for badperson without successfully authenticating the user:
+A message such as the following would appear in a system log file (usually `/var/log/secure`) when trying to execute sudo for badperson without successfully authenticating the user:
 
 ```bash
 sudo: badperson : 1 incorrect password attempt ; TTY=pts/0 ; PWD=/home/badperson ; USER=root ; COMMAND=/bin/bash
@@ -3346,13 +3343,13 @@ sudo: badperson : 1 incorrect password attempt ; TTY=pts/0 ; PWD=/home/badperson
 
 ![Sudo](images/sudo.png)
 
-Whenever sudo is invoked, a trigger will look at /etc/sudoers and the files in /etc/sudoers.d to determine if the user has the right to use sudo and what the scope of their privilege is. Unknown user requests and requests to do operations not allowed to the user even with sudo are reported. The basic structure of entries in these files is:
+Whenever `sudo` is invoked, a trigger will look at `/etc/sudoers` and the files in `/etc/sudoers.d` to determine if the user has the right to use sudo and what the scope of their privilege is. Unknown user requests and requests to do operations not allowed to the user even with `sudo` are reported. The basic structure of entries in these files is:
 
 ```bash
 who where = (as_whom) what
 ```
 
-/etc/sudoers contains a lot of documentation in it about how to customize. Most Linux distributions now prefer you add a file in the directory /etc/sudoers.d with a name the same as the user. This file contains the individual user's sudo configuration, and one should leave the main configuration file untouched except for changes that affect all users.
+`/etc/sudoers` contains a lot of documentation in it about how to customize. Most Linux distributions now prefer you add a file in the directory `/etc/sudoers.d` with a name the same as the user. This file contains the individual user's `sudo` configuration, and one should leave the main configuration file untouched except for changes that affect all users.
 
 You should edit any of these configuration files by using visudo, which ensures that only one person is editing the file at a time, has the proper permissions, and refuses to write out the file and exit if there are syntax errors in the changes made. The editing can be accomplished by doing a command such as the following ones:
 
@@ -3363,7 +3360,7 @@ sudo visudo /etc/sudoers.d/username
 
 The actual specific editor invoked will depend on the setting of your EDITOR environment variable.
 
-By default, sudo commands and any failures are logged in /var/log/auth.log under the Debian distribution family, and in /var/log/messages and/or /var/log/secure on other systems. This is an important safeguard to allow for tracking and accountability of sudo use. A typical entry of the message contains:
+By default, sudo commands and any failures are logged in `/var/log/auth.log` under the Debian distribution family, and in `/var/log/messages` and/or `/var/log/secure` on other systems. This is an important safeguard to allow for tracking and accountability of `sudo` use. A typical entry of the message contains:
 
 - Calling username
 - Terminal info
@@ -3384,9 +3381,9 @@ More recent additional security mechanisms that limit risks even further include
 
 ![Process isolation](images/process-isolation.png)
 
-Linux limits user access to non-networking hardware devices in a manner that is extremely similar to regular file access. Applications interact by engaging the filesystem layer (which is independent of the actual device or hardware the file resides on). This layer will then open a device special file (often called a device node) under the /dev directory that corresponds to the device being accessed. Each device special file has standard owner, group and world permission fields. Security is naturally enforced just as it is when standard files are accessed.
+Linux limits user access to non-networking hardware devices in a manner that is extremely similar to regular file access. Applications interact by engaging the filesystem layer (which is independent of the actual device or hardware the file resides on). This layer will then open a device special file (often called a device node) under the `/dev` directory that corresponds to the device being accessed. Each device special file has standard owner, group and world permission fields. Security is naturally enforced just as it is when standard files are accessed.
 
-Hard disks, for example, are represented as /dev/sd*. While a root user can read and write to the disk in a raw fashion, for example, by doing something like:
+Hard disks, for example, are represented as `/dev/sd*`. While a root user can read and write to the disk in a raw fashion, for example, by doing something like:
 
 ```bash
 dd if=/dev/sda of=/dev/sdb
@@ -3406,9 +3403,9 @@ So the best practice is to take advantage of your Linux distribution's mechanism
 
 The system verifies authenticity and identity using user credentials.
 
-Originally, encrypted passwords were stored in the /etc/passwd file, which was readable by everyone. This made it rather easy for passwords to be cracked.
+Originally, encrypted passwords were stored in the `/etc/passwd` file, which was readable by everyone. This made it rather easy for passwords to be cracked.
 
-On modern systems, passwords are actually stored in an encrypted format in a secondary file named /etc/shadow. Only those with root access can read or modify this file.
+On modern systems, passwords are actually stored in an encrypted format in a secondary file named `/etc/shadow`. Only those with root access can read or modify this file.
 
 ![Password](images/passwords.png)
 
@@ -3430,7 +3427,7 @@ You can secure the boot process with a secure password to prevent someone from b
 
 For the older GRUB 1 boot method, it was relatively easy to set a password for grub. However, for the GRUB 2 version, things became more complicated. However, you have more flexibility, and can take advantage of more advanced features, such as user-specific passwords (which can be their normal login ones).
 
-Furthermore, you never edit grub.cfg directly; instead, you can modify the configuration files in /etc/grub.d and /etc/defaults/grub, and then run update-grub, or grub2-mkconfig and save the new configuration file.
+Furthermore, you never edit `grub.cfg` directly; instead, you can modify the configuration files in `/etc/grub.d` and `/etc/defaults/grub`, and then run `update-grub`, or `grub2-mkconfig` and save the new configuration file.
 
 When hardware is physically accessible, security can be compromised by:
 
